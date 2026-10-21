@@ -149,6 +149,7 @@ content:
         list: true
         fields:
           - { name: label, label: Item, type: string }
+          - { name: url, label: Link (optional), type: string }
           - { name: year, label: Year, type: string }
       - name: clients
         label: Clients & collaborators

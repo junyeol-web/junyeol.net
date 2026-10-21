@@ -287,7 +287,7 @@ function infoPage(site) {
           .map((it) =>
             typeof it === "string"
               ? `<li><span>${esc(it)}</span></li>`
-              : `<li><span>${esc(it.label)}</span><span class="yr">${esc(it.year || "")}</span></li>`
+              : `<li><span>${it.url ? `<a href="${esc(it.url)}" rel="noopener" target="_blank">${esc(it.label)} ↗</a>` : esc(it.label)}</span><span class="yr">${esc(it.year || "")}</span></li>`
           )
           .join("")}</ul></section>`
       : "";
@@ -301,8 +301,8 @@ function infoPage(site) {
   <div class="info-bio">${md(site.bio)}</div>
   <div class="info-cols">
     ${site.status ? `<section class="info-block"><h2>Currently</h2><ul><li><span>${esc(site.status)}</span></li></ul></section>` : ""}
-    ${list("Education", site.education)}
     ${list("Experience", site.experience)}
+    ${list("Education", site.education)}
     ${list("Clients &amp; Collaborators", site.clients)}
     ${list("Exhibitions, Awards, Press", site.recognition)}
     ${links.length ? `<section class="info-block"><h2>Contact</h2><ul>${links.map((l) => `<li>${l}</li>`).join("")}</ul></section>` : ""}

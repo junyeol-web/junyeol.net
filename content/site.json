@@ -1,23 +1,25 @@
 {
-  "name": "Junyeol",
-  "role": "Graphic designer and art director",
+  "name": "Junyeol Baek",
+  "role": "Graphic designer",
   "location": "New Haven, CT",
-  "status": "MFA Graphic Design, Yale School of Art, 2028",
-  "email": "junyeol.net@gmail.com",
+  "status": "",
+  "email": "junyeol.baek@icloud.com",
   "instagram": "",
   "linkedin": "",
   "cv": "",
   "accent": "#ff3b00",
-  "bio": "Junyeol is a graphic designer and art director working across identity, campaigns, editorial and type. Currently an MFA candidate in Graphic Design at the Yale School of Art.\n\nOpen to commissions, collaborations and internships.",
-  "education": [
-    { "label": "Yale School of Art, MFA Graphic Design", "year": "2026–28" }
-  ],
+  "bio": "Junyeol Baek is a graphic designer interested in the physical presence of graphics.",
   "experience": [
-    { "label": "Studio or company — Role", "year": "2025" }
+    { "label": "Graphic Designer, AABB Inc.", "url": "https://aabb.kr/en/home/", "year": "Dec 2023–" },
+    { "label": "Creative Design Intern, MUSINSA GLOBAL", "url": "https://about.musinsa.com/newsroom", "year": "May–Aug 2023" }
   ],
-  "clients": ["Client one", "Client two", "Client three"],
-  "recognition": [
-    { "label": "Exhibition, award or publication", "year": "2025" }
+  "education": [
+    { "label": "MFA Graphic Design, Yale University", "year": "Class of 2028" },
+    { "label": "BFA Visual Communication Design, Hongik University", "year": "" },
+    { "label": "Exchange Program, Communication Design, The Hong Kong Polytechnic University", "year": "" },
+    { "label": "Major in Sculpture, Seoul Art High School", "year": "" }
   ],
-  "seo_description": "Junyeol — graphic designer and art director. Identity, campaigns, editorial and type."
+  "clients": [],
+  "recognition": [],
+  "seo_description": "Junyeol Baek is a graphic designer interested in the physical presence of graphics."
 }
