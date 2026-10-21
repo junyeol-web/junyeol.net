@@ -221,8 +221,8 @@ ${og ? `<meta property="og:image" content="${og}">\n<meta name="twitter:card" co
 <body data-page="${page}">
 <nav class="menu" aria-label="Main">
   <a href="${url("")}" class="menu-name">${esc(site.name)}</a>
-  <a href="${home}#practice" data-nav="practice">${esc(L.practice)}${counts.practice ? ` <span class="n">${counts.practice}</span>` : ""}</a>
-  <a href="${home}#commissions" data-nav="commissions">${esc(L.commissions)}${counts.commissions ? ` <span class="n">${counts.commissions}</span>` : ""}</a>
+  <a href="${home}#practice" data-nav="practice">${esc(L.practice)}</a>
+  <a href="${home}#commissions" data-nav="commissions">${esc(L.commissions)}</a>
   <a href="${url("info/")}"${page === "info" ? ' aria-current="page"' : ""}>Info</a>
 </nav>
 <main>
@@ -249,7 +249,7 @@ function indexPage(site, projects) {
   const section = (key) =>
     groups[key].length
       ? `<section class="grid-section" id="${key}" data-section="${key}">
-  <h2 class="section-head"><span>${esc(L[key])}</span><span>${groups[key].length}</span></h2>
+  <h2 class="section-head"><span>${esc(L[key])}</span></h2>
   <div class="grid">
 ${groups[key].map((p, i) => tile(p, i + 1)).join("\n")}
   </div>
