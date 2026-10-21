@@ -63,8 +63,15 @@ content:
         type: text
       - name: cover
         label: Cover image
-        description: First image in the feed and the link preview image. Upload JPG or PNG — it is converted to WebP automatically.
+        description: The one image shown for this work on the landing page, and the link preview image. Upload JPG or PNG — it is converted to WebP automatically.
         type: image
+      - name: size
+        label: Size in the feed
+        description: How wide the cover appears on the landing page — s, m or l. Mixing sizes gives the page its rhythm.
+        type: select
+        default: m
+        options:
+          values: [s, m, l]
       - name: media
         label: Images and videos
         description: In order, top to bottom.

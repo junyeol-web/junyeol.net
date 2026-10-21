@@ -141,8 +141,9 @@ async function loadProjects() {
 // ───────────────────────── templates
 const sectionOf = (p) => (String(p.category || "").toLowerCase().startsWith("comm") ? "commissions" : "practice");
 const labels = (site) => ({ practice: site.label_practice || "Practice", commissions: site.label_commissions || "Commissions" });
+const ratio = (m) => (m && m.width && m.height ? (m.width / m.height).toFixed(4) : "");
 
-function layout({ site, title, description, ogImage, body, page, canonical, counts = {} }) {
+function layout({ site, title, description, ogImage, body, page, canonical }) {
   const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.role}`;
   const desc = description || site.seo_description || site.role;
   const og = ogImage ? (SITE_URL ? SITE_URL + ogImage.replace(BASE, "/") : ogImage) : "";
@@ -161,21 +162,23 @@ function layout({ site, title, description, ogImage, body, page, canonical, coun
 <meta property="og:type" content="website">
 ${canonical && SITE_URL ? `<link rel="canonical" href="${SITE_URL}${canonical}">\n<meta property="og:url" content="${SITE_URL}${canonical}">` : ""}
 ${og ? `<meta property="og:image" content="${og}">\n<meta name="twitter:card" content="summary_large_image">` : ""}
-<meta name="theme-color" content="${theme === "dark" ? "#0a0a0a" : "#f4f3ef"}">
+<meta name="theme-color" content="${theme === "dark" ? "#000000" : "#ffffff"}">
 <link rel="icon" href="${url("favicon.svg")}" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
 <link rel="stylesheet" href="${url("assets/styles.css")}?v=${BUILD_ID}">
-<style>:root{--accent:${esc(site.accent || "#ff3b00")}}</style>
+<script>document.documentElement.classList.add("js")</script>
 </head>
 <body data-page="${page}">
 <header class="site-header">
+  <nav class="nav-work">
+    <a href="${home}#practice" data-nav="practice">${esc(L.practice)}</a>
+    <a href="${home}#commissions" data-nav="commissions">${esc(L.commissions)}</a>
+  </nav>
   <a class="site-name" href="${url("")}">${esc(site.name)}</a>
-  <nav class="site-nav">
-    <a href="${home}#practice" data-nav="practice">${esc(L.practice)}${counts.practice ? `<sup>${counts.practice}</sup>` : ""}</a>
-    <a href="${home}#commissions" data-nav="commissions">${esc(L.commissions)}${counts.commissions ? `<sup>${counts.commissions}</sup>` : ""}</a>
-    <a href="${home}#info" data-nav="info">Info</a>
+  <nav class="nav-info">
+    <a href="${url("info/")}"${page === "info" ? ' aria-current="page"' : ""}>Info</a>
   </nav>
 </header>
 <main>
@@ -186,26 +189,23 @@ ${body}
 </html>`;
 }
 
-// one work in the feed: a strip of images (clipped at the edge on desktop, swipeable on phones) + a label
+// one work in the feed: its cover at the chosen size, caption underneath
 function feedItem(p, n) {
-  const seen = new Set();
-  const pics = [p.coverImg, ...p.mediaItems.map((m) => m.img)].filter((m) => m && !seen.has(m.src) && seen.add(m.src)).slice(0, 4);
-  const strip = pics
-    .map((m, i) =>
-      m.kind === "video"
-        ? `<video src="${m.src}" autoplay muted loop playsinline preload="metadata"></video>`
-        : img(m, { sizes: "(min-width: 760px) 50vw, 85vw", alt: i === 0 ? p.title : "", eager: n <= 2 && i === 0 })
-    )
-    .join("");
-  return `<article class="work" id="${esc(p.slug)}">
-  <a class="strip" href="${url(`work/${p.slug}/`)}" aria-label="${esc(p.title)}">${strip}</a>
-  <a class="label" href="${url(`work/${p.slug}/`)}">
-    <span class="l-num">${String(n).padStart(2, "0")}</span>
-    <span class="l-title">${esc(p.title)}</span>
-    <span class="l-format">${esc(p.format || p.discipline || "")}${p.client ? `<br>for ${esc(p.client)}` : ""}</span>
-    <span class="l-year">${esc(p.year || "")}</span>
+  const m = p.coverImg;
+  const size = ["s", "m", "l"].includes(String(p.size || "m").toLowerCase()) ? String(p.size || "m").toLowerCase() : "m";
+  const sizes = size === "l" ? "92vw" : size === "s" ? "(min-width: 760px) 46vw, 92vw" : "(min-width: 760px) 70vw, 92vw";
+  const media = !m
+    ? ""
+    : m.kind === "video"
+      ? `<video src="${m.src}" autoplay muted loop playsinline preload="metadata"></video>`
+      : img(m, { sizes, alt: p.title, eager: n <= 2 });
+  const sub = [p.format || p.discipline, p.client ? `for ${p.client}` : "", p.year].filter(Boolean).join(", ");
+  return `<figure class="work size-${size}" id="${esc(p.slug)}"${ratio(m) ? ` style="--r:${ratio(m)}"` : ""}>
+  <a href="${url(`work/${p.slug}/`)}">
+    <span class="frame">${media}</span>
+    <figcaption><span class="t">${esc(p.title)}</span>${sub ? `<span class="s">${esc(sub)}</span>` : ""}</figcaption>
   </a>
-</article>`;
+</figure>`;
 }
 
 function indexPage(site, projects) {
@@ -215,44 +215,43 @@ function indexPage(site, projects) {
   const section = (key) =>
     groups[key].length
       ? `<section class="feed" id="${key}" data-section="${key}">
-  <h2 class="section-title"><span>${esc(L[key])}</span><sup>${groups[key].length}</sup></h2>
+  <h2 class="section-label">${esc(L[key])}</h2>
 ${groups[key].map((p, i) => feedItem(p, i + 1)).join("\n")}
 </section>`
       : "";
-  return `<section class="intro"><p>${esc(site.bio ? String(site.bio).split("\n")[0] : site.role)}</p></section>
-${section("practice")}
+  return `${section("practice")}
 ${section("commissions")}
-${infoSection(site)}`;
+<footer class="foot">${site.email ? `<a href="mailto:${esc(site.email)}">${esc(site.email)}</a>` : ""}</footer>`;
 }
 
 function projectPage(site, p, prev, next) {
   const L = labels(site);
   const meta = [
+    [L[sectionOf(p)], ""],
     ["Year", p.year],
-    ["Section", L[sectionOf(p)]],
     ["Client", p.client],
     ["Format", p.format],
     ["Discipline", p.discipline],
     ["Role", p.role],
-  ].filter(([, v]) => v);
+  ].filter(([k, v]) => v);
   const credits = lines(p.credits);
   const media = p.mediaItems
     .map((m) => {
       const lay = ["full", "half", "inset"].includes(m.layout) ? m.layout : "full";
-      const sizes = lay === "half" ? "(min-width: 760px) 50vw, 100vw" : lay === "inset" ? "(min-width: 760px) 60vw, 100vw" : "100vw";
-      return `<figure class="m m-${lay}">${img(m.img, { sizes, alt: m.caption || p.title })}${m.caption ? `<figcaption>${esc(m.caption)}</figcaption>` : ""}</figure>`;
+      const sizes = lay === "half" ? "(min-width: 760px) 46vw, 92vw" : lay === "inset" ? "(min-width: 760px) 46vw, 92vw" : "(min-width: 760px) 70vw, 92vw";
+      return `<figure class="m m-${lay}"${ratio(m.img) ? ` style="--r:${ratio(m.img)}"` : ""}>${img(m.img, { sizes, alt: m.caption || p.title })}${m.caption ? `<figcaption>${esc(m.caption)}</figcaption>` : ""}</figure>`;
     })
     .join("\n");
 
   return `<article class="project">
   <header class="project-head">
-    <h1 class="project-title">${esc(p.title)}</h1>
-    <dl class="project-meta">
+    <h1>${esc(p.title)}</h1>
+    <dl>
       ${meta.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("\n      ")}
       ${credits.length ? `<div><dt>Credits</dt><dd>${credits.map(esc).join("<br>")}</dd></div>` : ""}
     </dl>
     <div class="project-text">
-      ${p.summary ? `<p class="project-summary">${esc(p.summary)}</p>` : ""}
+      ${p.summary ? `<p>${esc(p.summary)}</p>` : ""}
       ${md(p.description)}
     </div>
   </header>
@@ -260,41 +259,39 @@ function projectPage(site, p, prev, next) {
 ${media}
   </div>
   <nav class="project-nav">
-    ${prev ? `<a href="${url(`work/${prev.slug}/`)}"><span>Previous</span>${esc(prev.title)}</a>` : "<span></span>"}
-    ${next ? `<a href="${url(`work/${next.slug}/`)}" class="next"><span>Next</span>${esc(next.title)}</a>` : "<span></span>"}
+    ${prev ? `<a href="${url(`work/${prev.slug}/`)}">← ${esc(prev.title)}</a>` : "<span></span>"}
+    ${next ? `<a href="${url(`work/${next.slug}/`)}" class="next">${esc(next.title)} →</a>` : "<span></span>"}
   </nav>
 </article>`;
 }
 
-function infoSection(site) {
+function infoPage(site) {
   const list = (title, items) =>
     items && items.length
-      ? `<section class="info-block"><h3>${title}</h3><ul>${items
+      ? `<section class="info-block"><h2>${title}</h2><ul>${items
           .map((it) =>
             typeof it === "string"
-              ? `<li><span>${esc(it)}</span></li>`
-              : `<li><span>${it.url ? `<a href="${esc(it.url)}" rel="noopener" target="_blank">${esc(it.label)} ↗</a>` : esc(it.label)}</span><span class="yr">${esc(it.year || "")}</span></li>`
+              ? `<li>${esc(it)}</li>`
+              : `<li><span>${it.url ? `<a href="${esc(it.url)}" rel="noopener" target="_blank">${esc(it.label)}</a>` : esc(it.label)}</span>${it.year ? `<span class="yr">${esc(it.year)}</span>` : ""}</li>`
           )
           .join("")}</ul></section>`
       : "";
   const links = [
     site.email && `<a href="mailto:${esc(site.email)}">${esc(site.email)}</a>`,
-    site.instagram && `<a href="${esc(site.instagram)}" rel="me">Instagram ↗</a>`,
-    site.linkedin && `<a href="${esc(site.linkedin)}" rel="me">LinkedIn ↗</a>`,
-    site.cv && `<a href="${url(String(site.cv).replace(/^\//, ""))}">CV (PDF)</a>`,
+    site.instagram && `<a href="${esc(site.instagram)}" rel="me">Instagram</a>`,
+    site.linkedin && `<a href="${esc(site.linkedin)}" rel="me">LinkedIn</a>`,
+    site.cv && `<a href="${url(String(site.cv).replace(/^\//, ""))}">CV</a>`,
   ].filter(Boolean);
-  return `<section class="info" id="info" data-section="info">
-  <h2 class="section-title"><span>Info</span></h2>
-  ${(() => { const rest = String(site.bio || "").split(/\n\s*\n/).slice(1).join("\n\n"); return rest ? `<div class="info-bio">${md(rest)}</div>` : ""; })()}
+  return `<section class="info">
+  <div class="info-bio">${md(site.bio)}</div>
   <div class="info-cols">
-    ${site.status ? `<section class="info-block"><h3>Currently</h3><ul><li><span>${esc(site.status)}</span></li></ul></section>` : ""}
+    ${site.status ? `<section class="info-block"><h2>Currently</h2><ul><li>${esc(site.status)}</li></ul></section>` : ""}
     ${list("Experience", site.experience)}
     ${list("Education", site.education)}
-    ${list("Clients &amp; Collaborators", site.clients)}
-    ${list("Exhibitions, Awards, Press", site.recognition)}
-    ${links.length ? `<section class="info-block"><h3>Contact</h3><ul>${links.map((l) => `<li>${l}</li>`).join("")}</ul></section>` : ""}
+    ${list("Clients", site.clients)}
+    ${list("Exhibitions, awards, press", site.recognition)}
+    ${links.length ? `<section class="info-block"><h2>Contact</h2><ul>${links.map((l) => `<li>${l}</li>`).join("")}</ul></section>` : ""}
   </div>
-  <p class="colophon">© ${new Date().getFullYear()} ${esc(site.name)}</p>
 </section>`;
 }
 
@@ -314,8 +311,7 @@ async function main() {
   const siteOg = projects.find((p) => p.featured && p.coverImg?.og)?.coverImg.og || projects.find((p) => p.coverImg?.og)?.coverImg.og;
 
   await write("index.html", layout({ site, page: "index", body: indexPage(site, projects), ogImage: siteOg, canonical: "/", counts }));
-  // old /info/ links keep working
-  await write("info/index.html", `<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=${url("")}#info"><link rel="canonical" href="${url("")}#info"><title>Info</title>`);
+  await write("info/index.html", layout({ site, page: "info", title: "Info", body: infoPage(site), ogImage: siteOg, canonical: "/info/" }));
   for (let i = 0; i < projects.length; i++) {
     const p = projects[i];
     await write(
@@ -340,7 +336,7 @@ async function main() {
   const initial = esc((site.name || "J").trim()[0] || "J");
   await write(
     "favicon.svg",
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="${esc(site.accent || "#ff3b00")}"/><text x="32" y="46" font-family="Helvetica, Arial, sans-serif" font-size="40" font-weight="500" text-anchor="middle" fill="#111">${initial}</text></svg>`
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#000"/><text x="32" y="45" font-family="Helvetica, Arial, sans-serif" font-size="38" text-anchor="middle" fill="#fff">${initial}</text></svg>`
   );
   // files placed under content/static are copied as-is (CV PDF, etc.)
   const staticDir = path.join(CONTENT, "static");
@@ -355,7 +351,7 @@ async function main() {
     }
   }
   if (SITE_URL) {
-    const urls = ["/", ...projects.map((p) => `/work/${p.slug}/`)];
+    const urls = ["/", "/info/", ...projects.map((p) => `/work/${p.slug}/`)];
     await write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map((u) => `<url><loc>${SITE_URL}${u}</loc></url>`).join("")}</urlset>\n`);
   }
   await write("robots.txt", `User-agent: *\nAllow: /\n${SITE_URL ? `Sitemap: ${SITE_URL}/sitemap.xml\n` : ""}`);

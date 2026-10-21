@@ -34,5 +34,6 @@
   "featured": false,
   "order": 60,
   "draft": false,
-  "format": "Typeface, 2 weights"
+  "format": "Typeface, 2 weights",
+  "size": "s"
 }

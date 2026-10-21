@@ -34,5 +34,6 @@
   "featured": false,
   "order": 50,
   "draft": false,
-  "format": "Exhibition graphics, vinyl on wall, 6 × 3 m"
+  "format": "Exhibition graphics, vinyl on wall, 6 × 3 m",
+  "size": "l"
 }

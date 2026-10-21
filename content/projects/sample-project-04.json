@@ -34,5 +34,6 @@
   "featured": false,
   "order": 40,
   "draft": false,
-  "format": "Book, 170 × 240 mm, 192 pp."
+  "format": "Book, 170 × 240 mm, 192 pp.",
+  "size": "m"
 }

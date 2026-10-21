@@ -34,5 +34,6 @@
   "featured": true,
   "order": 10,
   "draft": false,
-  "format": "Identity, 12 applications"
+  "format": "Identity, 12 applications",
+  "size": "m"
 }

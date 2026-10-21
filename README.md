@@ -14,8 +14,9 @@ Portfolio site of Junyeol — graphic designer and art director.
 |---|---|
 | Section | `Practice`(내 작업) 또는 `Commissions`(의뢰 작업) — 랜딩에서 섹션이 나뉨 |
 | Format / specs | 피드에서 이미지 아래 표기 (예: Poster series, 594 × 841 mm, risograph) |
-| Cover image | 피드의 첫 이미지 + 링크 공유 썸네일 |
-| Images and videos | 피드에는 앞의 4장까지, 상세 페이지에는 전부. Layout: `full` · `half`(두 개 연속이면 나란히) · `inset` |
+| Cover image | 랜딩에 보이는 대표 이미지 1장 + 링크 공유 썸네일 |
+| Size in the feed | 랜딩에서 대표 이미지 폭: `s` · `m` · `l` (섞어 쓰면 리듬이 생김) |
+| Images and videos | 상세 페이지 이미지. Layout: `full` · `half`(두 개 연속이면 나란히) · `inset` |
 | Order | 작은 숫자가 위 (10, 20, 30…) |
 | Hide (draft) | 사이트에서 숨김 |
 
@@ -29,7 +30,7 @@ content/
   projects/*.json      프로젝트 1개 = 파일 1개 (파일명이 URL: /work/<파일명>/)
   media/               업로드한 원본 이미지·영상
 src/styles.css         디자인 (색·폰트는 맨 위 변수에서)
-src/main.js            스크롤 위치에 따라 상단 메뉴 표시 (그 외 JS 없음)
+src/main.js            이미지 페이드인, 현재 섹션 표시 (그 외 JS 없음)
 build.mjs              content → dist/ 정적 사이트 생성, 이미지 WebP 변환
 .pages.yml             Pages CMS 입력 화면 설정
 .github/workflows/     main에 push되면 빌드 후 GitHub Pages로 배포
