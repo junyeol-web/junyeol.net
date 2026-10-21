@@ -26,6 +26,9 @@ const PASSTHROUGH = new Set([".gif", ".svg"]);
 
 // ───────────────────────── helpers
 const link = (u = "") => (/^(https?:|mailto:|\/|#)/i.test(String(u).trim()) ? String(u).trim() : "https://" + String(u).trim().replace(/^\/+/, ""));
+// Instagram can be entered as "@name", "name" or any instagram.com URL; shown as @name
+const igHandle = (v = "") => String(v).trim().replace(/^https?:\/\//, "").replace(/^(www\.)?instagram\.com\//i, "").replace(/^@/, "").split(/[/?#]/)[0];
+const igUrl = (v = "") => `https://www.instagram.com/${igHandle(v)}/`;
 const esc = (s = "") =>
   String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const url = (p = "") => BASE + String(p).replace(/^\/+/, "");
@@ -331,7 +334,7 @@ function infoPage(site) {
       : "";
   const links = [
     site.email && `<a href="mailto:${esc(site.email)}">${esc(site.email)}</a>`,
-    site.instagram && `<a href="${esc(link(site.instagram))}" rel="me">Instagram</a>`,
+    site.instagram && `<a href="${esc(igUrl(site.instagram))}" rel="me">@${esc(igHandle(site.instagram))}</a>`,
     site.linkedin && `<a href="${esc(link(site.linkedin))}" rel="me">LinkedIn</a>`,
     site.cv && `<a href="${url(String(site.cv).replace(/^\//, ""))}">CV</a>`,
   ].filter(Boolean);

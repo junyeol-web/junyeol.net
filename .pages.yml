@@ -145,7 +145,8 @@ content:
         label: Email
         type: string
       - name: instagram
-        label: Instagram URL
+        label: Instagram
+        description: "@name, or the profile link — shown as @name"
         type: string
       - name: linkedin
         label: LinkedIn URL
