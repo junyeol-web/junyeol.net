@@ -19,6 +19,7 @@
   --bar-h: 36px;
   --cols: 4;
   --panel-w: 320px;
+  --rail-w: 132px;
 }
 
 /* concrete grey: the page and plates are close in value, like a gallery wall */
@@ -197,6 +198,44 @@ img, video { display: block; max-width: 100%; }
 .project-nav { display: flex; justify-content: space-between; gap: var(--g); padding: 80px var(--g) var(--g); }
 .project-nav .chip:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 
+/* ───────── rail: all works beside the project page */
+body[data-page="project"] main { padding-right: var(--rail-w); }
+.rail {
+  position: fixed;
+  z-index: 10;
+  top: var(--bar-h);
+  right: 0;
+  bottom: 0;
+  width: var(--rail-w);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  background: var(--bg);
+  border-left: 1px solid var(--line);
+}
+.rail::-webkit-scrollbar { display: none; }
+.rail ol { list-style: none; margin: 0; padding: 8px var(--g) 40px; display: flex; flex-direction: column; gap: 12px; }
+.rail-sec { color: var(--mute); padding-top: 6px; font-size: 11px; }
+.rail a { display: block; color: var(--mute); }
+.rail-plate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 5;
+  padding: 12%;
+  background: var(--plate);
+  outline: 1px solid transparent;
+  outline-offset: -1px;
+  transition: outline-color 0.15s ease, background 0.2s ease;
+}
+.rail-plate img { width: auto; height: auto; max-width: 100%; max-height: 100%; box-shadow: var(--shadow); }
+.rail-tag { display: flex; justify-content: space-between; gap: 4px; padding-top: 4px; font-size: 11px; line-height: 1.25; }
+.rail-tag span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rail a:hover { color: var(--ink); }
+.rail a:hover .rail-plate { background: var(--plate-hover); }
+.rail a[aria-current="page"] { color: var(--ink); }
+.rail a[aria-current="page"] .rail-plate { outline-color: var(--ink); }
+
 /* ───────── info */
 .info {
   display: flex;
@@ -235,6 +274,12 @@ img, video { display: block; max-width: 100%; }
   .m-half { width: 100%; }
   .m-inset { padding: 40px 0; }
   .m-inset .mw { width: 80%; }
+  /* rail becomes a strip you swipe, at the end of the project */
+  body[data-page="project"] main { padding-right: 0; }
+  .rail { position: static; width: auto; border-left: 0; border-top: 1px solid var(--line); overflow-x: auto; overflow-y: hidden; }
+  .rail ol { flex-direction: row; padding: 10px var(--g) 24px; gap: 8px; }
+  .rail li { flex: 0 0 76px; }
+  .rail-sec { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

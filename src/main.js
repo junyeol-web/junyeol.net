@@ -9,6 +9,15 @@
     }
   });
 
+  // project page: bring the current work into view in the rail (the rail scrolls, not the page)
+  const rail = document.querySelector(".rail");
+  const here = rail && rail.querySelector('[aria-current="page"]');
+  if (here) {
+    const li = here.parentElement;
+    if (rail.scrollHeight > rail.clientHeight) rail.scrollTop = li.offsetTop - rail.clientHeight / 2 + li.offsetHeight / 2;
+    else rail.scrollLeft = li.offsetLeft - rail.clientWidth / 2 + li.offsetWidth / 2;
+  }
+
   if (!("IntersectionObserver" in window)) {
     document.querySelectorAll("video[data-src]").forEach((v) => { v.src = v.dataset.src; v.autoplay = true; });
     return;

@@ -25,6 +25,7 @@ const VIDEO = new Set([".mp4", ".webm", ".mov"]);
 const PASSTHROUGH = new Set([".gif", ".svg"]);
 
 // ───────────────────────── helpers
+const link = (u = "") => (/^(https?:|mailto:|\/|#)/i.test(String(u).trim()) ? String(u).trim() : "https://" + String(u).trim().replace(/^\/+/, ""));
 const esc = (s = "") =>
   String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const url = (p = "") => BASE + String(p).replace(/^\/+/, "");
@@ -217,7 +218,7 @@ ${groups[key].map((p, i) => tile(p, i + 1)).join("\n")}
 ${section("commissions")}`;
 }
 
-function projectPage(site, p, prev, next) {
+function projectPage(site, p, prev, next, all = []) {
   const L = labels(site);
   const meta = [
     ["Section", L[sectionOf(p)]],
@@ -253,7 +254,27 @@ ${media}
     <a class="chip" href="${url("")}#${esc(p.slug)}">All work</a>
     ${next ? `<a class="chip" href="${url(`work/${next.slug}/`)}">${esc(next.title)} →</a>` : "<span></span>"}
   </nav>
-</article>`;
+</article>
+${rail(site, p, all)}`;
+}
+
+// every work as a small plate down the right edge (along the bottom on phones): jump between works without going back
+function rail(site, current, all) {
+  if (all.length < 2) return "";
+  const L = labels(site);
+  let last = "";
+  const items = all
+    .map((q) => {
+      const sec = sectionOf(q);
+      const head = sec !== last ? `<li class="rail-sec">${esc(L[sec])}</li>` : "";
+      last = sec;
+      const m = q.coverImg;
+      const thumb = m && m.kind === "image" && m.sources ? `<img src="${m.small}" alt="" loading="lazy" decoding="async" width="${m.width}" height="${m.height}">` : "";
+      const cur = q.slug === current.slug;
+      return `${head}<li><a href="${url(`work/${q.slug}/`)}"${cur ? ' aria-current="page"' : ""} title="${esc(q.title)}"><span class="rail-plate">${thumb}</span><span class="rail-tag"><span>${esc(q.title)}</span><span>${esc(String(q.year || "").slice(-2))}</span></span></a></li>`;
+    })
+    .join("");
+  return `<aside class="rail" aria-label="All work"><ol>${items}</ol></aside>`;
 }
 
 function infoPage(site) {
@@ -263,14 +284,14 @@ function infoPage(site) {
           .map((it) =>
             typeof it === "string"
               ? `<div class="row">${esc(it)}</div>`
-              : `<div class="row"><span>${it.url ? `<a href="${esc(it.url)}" rel="noopener" target="_blank">${esc(it.label)} ↗</a>` : esc(it.label)}</span>${it.year ? `<span class="k">${esc(it.year)}</span>` : ""}</div>`
+              : `<div class="row"><span>${it.url ? `<a href="${esc(link(it.url))}" rel="noopener" target="_blank">${esc(it.label)} ↗</a>` : esc(it.label)}</span>${it.year ? `<span class="k">${esc(it.year)}</span>` : ""}</div>`
           )
           .join("")}</section>`
       : "";
   const links = [
     site.email && `<a href="mailto:${esc(site.email)}">${esc(site.email)}</a>`,
-    site.instagram && `<a href="${esc(site.instagram)}" rel="me">Instagram ↗</a>`,
-    site.linkedin && `<a href="${esc(site.linkedin)}" rel="me">LinkedIn ↗</a>`,
+    site.instagram && `<a href="${esc(link(site.instagram))}" rel="me">Instagram ↗</a>`,
+    site.linkedin && `<a href="${esc(link(site.linkedin))}" rel="me">LinkedIn ↗</a>`,
     site.cv && `<a href="${url(String(site.cv).replace(/^\//, ""))}">CV ↗</a>`,
   ].filter(Boolean);
   return `<section class="info">
@@ -311,7 +332,7 @@ async function main() {
         title: p.title,
         description: p.summary,
         ogImage: p.coverImg?.og,
-        body: projectPage(site, p, projects[i - 1], projects[i + 1]),
+        body: projectPage(site, p, projects[i - 1], projects[i + 1], projects),
         canonical: `/work/${p.slug}/`,
         counts,
       })
