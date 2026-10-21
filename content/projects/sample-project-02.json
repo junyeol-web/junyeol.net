@@ -16,7 +16,7 @@
       "layout": "full"
     },
     {
-      "vimeo": "https://vimeo.com/76979871",
+      "vimeo": "https://vimeo.com/22439234",
       "vimeo_mode": "loop",
       "caption": "Vimeo loop (sample)",
       "layout": "full"
@@ -27,7 +27,7 @@
       "layout": "half"
     },
     {
-      "vimeo": "https://vimeo.com/76979871",
+      "vimeo": "https://vimeo.com/22439234",
       "vimeo_mode": "player",
       "caption": "Vimeo player with sound (sample)",
       "layout": "inset"
