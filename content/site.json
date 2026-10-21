@@ -2,13 +2,28 @@
   "name": "Junyeol Baek",
   "role": "Graphic designer",
   "location": "New Haven, CT",
-  "status": "",
-  "email": "junyeol.baek@icloud.com",
-  "instagram": "",
-  "linkedin": "",
-  "cv": "",
-  "accent": "#ff3b00",
   "bio": "Junyeol Baek is a graphic designer interested in the physical presence of graphics.",
+  "email": "junyeol.baek@icloud.com",
+  "instagram": "instagram.com/junyeol.baek",
+  "theme": "grey",
+  "label_practice": "Work P",
+  "label_commissions": "Work C",
+  "accent": "#ff3b00",
+  "education": [
+    {
+      "label": "MFA Graphic Design, Yale University",
+      "year": "Class of 2028"
+    },
+    {
+      "label": "BFA Visual Communication Design, Hongik University"
+    },
+    {
+      "label": "Exchange Program, Communication Design, The Hong Kong Polytechnic University"
+    },
+    {
+      "label": "Major in Sculpture, Seoul Art High School"
+    }
+  ],
   "experience": [
     {
       "label": "Graphic Designer, AABB Inc.",
@@ -21,28 +36,5 @@
       "year": "May–Aug 2023"
     }
   ],
-  "education": [
-    {
-      "label": "MFA Graphic Design, Yale University",
-      "year": "Class of 2028"
-    },
-    {
-      "label": "BFA Visual Communication Design, Hongik University",
-      "year": ""
-    },
-    {
-      "label": "Exchange Program, Communication Design, The Hong Kong Polytechnic University",
-      "year": ""
-    },
-    {
-      "label": "Major in Sculpture, Seoul Art High School",
-      "year": ""
-    }
-  ],
-  "clients": [],
-  "recognition": [],
-  "seo_description": "Junyeol Baek is a graphic designer interested in the physical presence of graphics.",
-  "theme": "grey",
-  "label_practice": "Work P",
-  "label_commissions": "Work C"
+  "seo_description": "Junyeol Baek is a graphic designer interested in the physical presence of graphics."
 }
