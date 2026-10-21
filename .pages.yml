@@ -63,11 +63,11 @@ content:
         type: text
       - name: cover
         label: Cover image
-        description: The one image shown for this work on the landing page, and the link preview image. Upload JPG or PNG — it is converted to WebP automatically.
+        description: The grid tile (cropped to 16:9 from the centre — keep the subject central) and the link preview image. An mp4 can't go here; put videos in Images and videos. Upload JPG or PNG — it is converted to WebP automatically.
         type: image
       - name: size
-        label: Size in the feed
-        description: How wide the cover appears on the landing page — s, m or l. Mixing sizes gives the page its rhythm.
+        label: Size (not used by the grid layout)
+        description: Only used by the single-column layout. Leave as is.
         type: select
         default: m
         options:
@@ -147,9 +147,9 @@ content:
       - name: theme
         label: Theme
         type: select
-        default: light
+        default: dark
         options:
-          values: [light, dark]
+          values: [dark, light]
       - name: label_practice
         label: Section name — own work
         description: e.g. Practice, Work P

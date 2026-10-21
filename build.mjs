@@ -138,18 +138,27 @@ async function loadProjects() {
   return items;
 }
 
+let COUNTS = {};
 // ───────────────────────── templates
 const sectionOf = (p) => (String(p.category || "").toLowerCase().startsWith("comm") ? "commissions" : "practice");
-const labels = (site) => ({ practice: site.label_practice || "Practice", commissions: site.label_commissions || "Commissions" });
+const labels = (site) => ({ practice: site.label_practice || "Work P", commissions: site.label_commissions || "Work C" });
 const ratio = (m) => (m && m.width && m.height ? (m.width / m.height).toFixed(4) : "");
+const chip = (text, cls = "") => (text ? `<span class="chip${cls ? " " + cls : ""}">${esc(text)}</span>` : "");
 
-function layout({ site, title, description, ogImage, body, page, canonical }) {
+function mediaTag(m, { sizes, alt = "", eager = false } = {}) {
+  if (!m) return "";
+  // videos only load and play while on screen (main.js) — this is what keeps the grid light
+  if (m.kind === "video") return `<video data-src="${m.src}" muted loop playsinline preload="none"></video>`;
+  return img(m, { sizes, alt, eager });
+}
+
+function layout({ site, title, description, ogImage, body, page, canonical, counts = COUNTS }) {
   const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.role}`;
   const desc = description || site.seo_description || site.role;
   const og = ogImage ? (SITE_URL ? SITE_URL + ogImage.replace(BASE, "/") : ogImage) : "";
   const L = labels(site);
   const home = page === "index" ? "" : url("");
-  const theme = site.theme === "dark" ? "dark" : "light";
+  const theme = site.theme === "light" ? "light" : "dark";
   return `<!doctype html>
 <html lang="en" data-theme="${theme}">
 <head>
@@ -164,23 +173,16 @@ ${canonical && SITE_URL ? `<link rel="canonical" href="${SITE_URL}${canonical}">
 ${og ? `<meta property="og:image" content="${og}">\n<meta name="twitter:card" content="summary_large_image">` : ""}
 <meta name="theme-color" content="${theme === "dark" ? "#000000" : "#ffffff"}">
 <link rel="icon" href="${url("favicon.svg")}" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
 <link rel="stylesheet" href="${url("assets/styles.css")}?v=${BUILD_ID}">
 <script>document.documentElement.classList.add("js")</script>
 </head>
 <body data-page="${page}">
-<header class="site-header">
-  <nav class="nav-work">
-    <a href="${home}#practice" data-nav="practice">${esc(L.practice)}</a>
-    <a href="${home}#commissions" data-nav="commissions">${esc(L.commissions)}</a>
-  </nav>
-  <a class="site-name" href="${url("")}">${esc(site.name)}</a>
-  <nav class="nav-info">
-    <a href="${url("info/")}"${page === "info" ? ' aria-current="page"' : ""}>Info</a>
-  </nav>
-</header>
+<nav class="menu" aria-label="Main">
+  <a href="${url("")}" class="menu-name">${esc(site.name)}</a>
+  <a href="${home}#practice" data-nav="practice">${esc(L.practice)}${counts.practice ? ` <span class="n">${counts.practice}</span>` : ""}</a>
+  <a href="${home}#commissions" data-nav="commissions">${esc(L.commissions)}${counts.commissions ? ` <span class="n">${counts.commissions}</span>` : ""}</a>
+  <a href="${url("info/")}"${page === "info" ? ' aria-current="page"' : ""}>Info</a>
+</nav>
 <main>
 ${body}
 </main>
@@ -189,78 +191,67 @@ ${body}
 </html>`;
 }
 
-// one work in the feed: its cover at the chosen size, caption underneath
-function feedItem(p, n) {
-  const m = p.coverImg;
-  const size = ["s", "m", "l"].includes(String(p.size || "m").toLowerCase()) ? String(p.size || "m").toLowerCase() : "m";
-  const sizes = size === "l" ? "92vw" : size === "s" ? "(min-width: 760px) 46vw, 92vw" : "(min-width: 760px) 70vw, 92vw";
-  const media = !m
-    ? ""
-    : m.kind === "video"
-      ? `<video src="${m.src}" autoplay muted loop playsinline preload="metadata"></video>`
-      : img(m, { sizes, alt: p.title, eager: n <= 2 });
-  const sub = [p.format || p.discipline, p.client ? `for ${p.client}` : "", p.year].filter(Boolean).join(", ");
-  return `<figure class="work size-${size}" id="${esc(p.slug)}"${ratio(m) ? ` style="--r:${ratio(m)}"` : ""}>
-  <a href="${url(`work/${p.slug}/`)}">
-    <span class="frame">${media}</span>
-    <figcaption><span class="t">${esc(p.title)}</span>${sub ? `<span class="s">${esc(sub)}</span>` : ""}</figcaption>
-  </a>
-</figure>`;
+// one tile in the grid: cover cropped to 16:9, two chips on top
+function tile(p, n) {
+  const sub = p.client || p.discipline || "";
+  return `<a class="tile" href="${url(`work/${p.slug}/`)}" id="${esc(p.slug)}">
+  <span class="tile-media">${mediaTag(p.coverImg, { sizes: "(min-width: 760px) 50vw, 100vw", alt: p.title, eager: n <= 4 })}</span>
+  <span class="chips">${chip(p.title)}${chip(sub)}</span>
+</a>`;
 }
 
 function indexPage(site, projects) {
   const L = labels(site);
   const groups = { practice: [], commissions: [] };
   projects.forEach((p) => groups[sectionOf(p)].push(p));
+  let n = 0;
   const section = (key) =>
     groups[key].length
-      ? `<section class="feed" id="${key}" data-section="${key}">
-  <h2 class="section-label">${esc(L[key])}</h2>
-${groups[key].map((p, i) => feedItem(p, i + 1)).join("\n")}
+      ? `<section class="grid-section" id="${key}" data-section="${key}" aria-label="${esc(L[key])}">
+  <div class="grid">
+${groups[key].map((p) => tile(p, ++n)).join("\n")}
+  </div>
 </section>`
       : "";
   return `${section("practice")}
-${section("commissions")}
-<footer class="foot">${site.email ? `<a href="mailto:${esc(site.email)}">${esc(site.email)}</a>` : ""}</footer>`;
+${section("commissions")}`;
 }
 
 function projectPage(site, p, prev, next) {
   const L = labels(site);
   const meta = [
-    [L[sectionOf(p)], ""],
+    ["Section", L[sectionOf(p)]],
     ["Year", p.year],
     ["Client", p.client],
     ["Format", p.format],
     ["Discipline", p.discipline],
     ["Role", p.role],
-  ].filter(([k, v]) => v);
+  ].filter(([, v]) => v);
   const credits = lines(p.credits);
   const media = p.mediaItems
     .map((m) => {
       const lay = ["full", "half", "inset"].includes(m.layout) ? m.layout : "full";
-      const sizes = lay === "half" ? "(min-width: 760px) 46vw, 92vw" : lay === "inset" ? "(min-width: 760px) 46vw, 92vw" : "(min-width: 760px) 70vw, 92vw";
-      return `<figure class="m m-${lay}"${ratio(m.img) ? ` style="--r:${ratio(m.img)}"` : ""}>${img(m.img, { sizes, alt: m.caption || p.title })}${m.caption ? `<figcaption>${esc(m.caption)}</figcaption>` : ""}</figure>`;
+      const sizes = lay === "full" ? "100vw" : "(min-width: 760px) 50vw, 100vw";
+      return `<figure class="m m-${lay}"${ratio(m.img) ? ` style="--r:${ratio(m.img)}"` : ""}><span class="mw">${mediaTag(m.img, { sizes, alt: m.caption || p.title })}${m.caption ? `<figcaption>${chip(m.caption)}</figcaption>` : ""}</span></figure>`;
     })
     .join("\n");
 
   return `<article class="project">
   <header class="project-head">
-    <h1>${esc(p.title)}</h1>
-    <dl>
-      ${meta.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("\n      ")}
-      ${credits.length ? `<div><dt>Credits</dt><dd>${credits.map(esc).join("<br>")}</dd></div>` : ""}
-    </dl>
-    <div class="project-text">
-      ${p.summary ? `<p>${esc(p.summary)}</p>` : ""}
-      ${md(p.description)}
+    <div class="panel">
+      <h1 class="row">${esc(p.title)}</h1>
+      ${meta.map(([k, v]) => `<div class="row"><span class="k">${k}</span><span>${esc(v)}</span></div>`).join("\n      ")}
+      ${credits.length ? `<div class="row"><span class="k">Credits</span><span>${credits.map(esc).join("<br>")}</span></div>` : ""}
     </div>
+    ${p.summary || p.description ? `<div class="panel text">${p.summary ? `<p>${esc(p.summary)}</p>` : ""}${md(p.description)}</div>` : ""}
   </header>
   <div class="project-media">
 ${media}
   </div>
   <nav class="project-nav">
-    ${prev ? `<a href="${url(`work/${prev.slug}/`)}">← ${esc(prev.title)}</a>` : "<span></span>"}
-    ${next ? `<a href="${url(`work/${next.slug}/`)}" class="next">${esc(next.title)} →</a>` : "<span></span>"}
+    ${prev ? `<a class="chip" href="${url(`work/${prev.slug}/`)}">← ${esc(prev.title)}</a>` : "<span></span>"}
+    <a class="chip" href="${url("")}#${esc(p.slug)}">All work</a>
+    ${next ? `<a class="chip" href="${url(`work/${next.slug}/`)}">${esc(next.title)} →</a>` : "<span></span>"}
   </nav>
 </article>`;
 }
@@ -268,30 +259,27 @@ ${media}
 function infoPage(site) {
   const list = (title, items) =>
     items && items.length
-      ? `<section class="info-block"><h2>${title}</h2><ul>${items
+      ? `<section class="panel"><h2 class="row k">${title}</h2>${items
           .map((it) =>
             typeof it === "string"
-              ? `<li>${esc(it)}</li>`
-              : `<li><span>${it.url ? `<a href="${esc(it.url)}" rel="noopener" target="_blank">${esc(it.label)}</a>` : esc(it.label)}</span>${it.year ? `<span class="yr">${esc(it.year)}</span>` : ""}</li>`
+              ? `<div class="row">${esc(it)}</div>`
+              : `<div class="row"><span>${it.url ? `<a href="${esc(it.url)}" rel="noopener" target="_blank">${esc(it.label)} ↗</a>` : esc(it.label)}</span>${it.year ? `<span class="k">${esc(it.year)}</span>` : ""}</div>`
           )
-          .join("")}</ul></section>`
+          .join("")}</section>`
       : "";
   const links = [
     site.email && `<a href="mailto:${esc(site.email)}">${esc(site.email)}</a>`,
-    site.instagram && `<a href="${esc(site.instagram)}" rel="me">Instagram</a>`,
-    site.linkedin && `<a href="${esc(site.linkedin)}" rel="me">LinkedIn</a>`,
-    site.cv && `<a href="${url(String(site.cv).replace(/^\//, ""))}">CV</a>`,
+    site.instagram && `<a href="${esc(site.instagram)}" rel="me">Instagram ↗</a>`,
+    site.linkedin && `<a href="${esc(site.linkedin)}" rel="me">LinkedIn ↗</a>`,
+    site.cv && `<a href="${url(String(site.cv).replace(/^\//, ""))}">CV ↗</a>`,
   ].filter(Boolean);
   return `<section class="info">
-  <div class="info-bio">${md(site.bio)}</div>
-  <div class="info-cols">
-    ${site.status ? `<section class="info-block"><h2>Currently</h2><ul><li>${esc(site.status)}</li></ul></section>` : ""}
-    ${list("Experience", site.experience)}
-    ${list("Education", site.education)}
-    ${list("Clients", site.clients)}
-    ${list("Exhibitions, awards, press", site.recognition)}
-    ${links.length ? `<section class="info-block"><h2>Contact</h2><ul>${links.map((l) => `<li>${l}</li>`).join("")}</ul></section>` : ""}
-  </div>
+  <div class="panel bio">${md(site.bio)}</div>
+  ${list("Experience", site.experience)}
+  ${list("Education", site.education)}
+  ${list("Clients", site.clients)}
+  ${list("Exhibitions, awards, press", site.recognition)}
+  ${links.length ? `<section class="panel"><h2 class="row k">Contact</h2>${links.map((l) => `<div class="row">${l}</div>`).join("")}</section>` : ""}
 </section>`;
 }
 
@@ -308,6 +296,7 @@ async function main() {
   // feed order: practice first, then commissions; prev/next follows the same order
   const projects = [...all.filter((p) => sectionOf(p) === "practice"), ...all.filter((p) => sectionOf(p) === "commissions")];
   const counts = { practice: projects.filter((p) => sectionOf(p) === "practice").length, commissions: projects.filter((p) => sectionOf(p) === "commissions").length };
+  COUNTS = counts;
   const siteOg = projects.find((p) => p.featured && p.coverImg?.og)?.coverImg.og || projects.find((p) => p.coverImg?.og)?.coverImg.og;
 
   await write("index.html", layout({ site, page: "index", body: indexPage(site, projects), ogImage: siteOg, canonical: "/", counts }));
@@ -336,7 +325,7 @@ async function main() {
   const initial = esc((site.name || "J").trim()[0] || "J");
   await write(
     "favicon.svg",
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#000"/><text x="32" y="45" font-family="Helvetica, Arial, sans-serif" font-size="38" text-anchor="middle" fill="#fff">${initial}</text></svg>`
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="10" fill="#8a8a8a"/><text x="32" y="43" font-family="Arial, sans-serif" font-size="26" text-anchor="middle" fill="#fff">JB</text></svg>`
   );
   // files placed under content/static are copied as-is (CV PDF, etc.)
   const staticDir = path.join(CONTENT, "static");
