@@ -159,7 +159,8 @@ img, video { display: block; max-width: 100%; }
 .tile:hover .t-t { text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
 
 /* images fade in as they arrive (only when JS is there to reveal them) */
-.js .plate img, .js .m img { opacity: 0; }
+/* the first images on a page show straight away; only lazy ones further down fade in */
+.js .plate img[loading="lazy"], .js .m img[loading="lazy"] { opacity: 0; }
 .js .plate img.ok, .js .m img.ok { opacity: 1; }
 .js .m img { transition: opacity 0.5s ease; }
 

@@ -231,10 +231,10 @@ function projectPage(site, p, prev, next, all = []) {
   ].filter(([, v]) => v);
   const credits = lines(p.credits);
   const media = p.mediaItems
-    .map((m) => {
+    .map((m, i) => {
       const lay = ["full", "half", "inset"].includes(m.layout) ? m.layout : "full";
       const sizes = lay === "full" ? "100vw" : "(min-width: 760px) 50vw, 100vw";
-      return `<figure class="m m-${lay}"${ratio(m.img) ? ` style="--r:${ratio(m.img)}"` : ""}><span class="mw">${mediaTag(m.img, { sizes, alt: m.caption || p.title })}${m.caption ? `<figcaption>${chip(m.caption)}</figcaption>` : ""}</span></figure>`;
+      return `<figure class="m m-${lay}"${ratio(m.img) ? ` style="--r:${ratio(m.img)}"` : ""}><span class="mw">${mediaTag(m.img, { sizes, alt: m.caption || p.title, eager: i < 2 })}${m.caption ? `<figcaption>${chip(m.caption)}</figcaption>` : ""}</span></figure>`;
     })
     .join("\n");
 

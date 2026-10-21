@@ -1,57 +1,169 @@
-// Small and quiet: fade images in, play videos only while on screen, mark the current section in the menu.
+// Small and quiet: fade images in, play videos only while on screen, mark the current section,
+// and move between works on the project page without a page reload.
 (() => {
-  const reveal = (img) => img.classList.add("ok");
-  document.querySelectorAll(".plate img, .m img").forEach((img) => {
-    if (img.complete && img.naturalWidth) reveal(img);
-    else {
-      img.addEventListener("load", () => reveal(img), { once: true });
-      img.addEventListener("error", () => reveal(img), { once: true });
-    }
-  });
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const io = "IntersectionObserver" in window;
 
-  // name in the tab bar: on the landing page, glide back to the top instead of reloading
+  // ── images fade in as they arrive
+  const reveal = (img) => img.classList.add("ok");
+  const watchImages = (root) =>
+    root.querySelectorAll(".plate img, .m img").forEach((img) => {
+      if (img.complete && img.naturalWidth) reveal(img);
+      else {
+        img.addEventListener("load", () => reveal(img), { once: true });
+        img.addEventListener("error", () => reveal(img), { once: true });
+      }
+    });
+
+  // ── videos: load on approach, play when visible, pause when not
+  const vio = io
+    ? new IntersectionObserver(
+        (entries) =>
+          entries.forEach(({ target: v, isIntersecting }) => {
+            if (isIntersecting) {
+              if (!v.src) v.src = v.dataset.src;
+              v.play().catch(() => {});
+            } else v.pause();
+          }),
+        { rootMargin: "200px 0px" }
+      )
+    : null;
+  const watchVideos = (root) =>
+    root.querySelectorAll("video[data-src]").forEach((v) => {
+      if (vio) vio.observe(v);
+      else { v.src = v.dataset.src; v.autoplay = true; }
+    });
+
+  watchImages(document);
+  watchVideos(document);
+
+  // ── name in the tab bar: on the landing page, glide back to the top instead of reloading
   const name = document.querySelector(".menu-name");
   if (name && document.body.dataset.page === "index") {
     name.addEventListener("click", (e) => {
       e.preventDefault();
-      window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
       if (location.hash) history.replaceState(null, "", location.pathname + location.search);
     });
   }
 
-  // project page: bring the current work into view in the rail (the rail scrolls, not the page)
+  // ── menu: current section on the landing page
+  if (io) {
+    const links = document.querySelectorAll("[data-nav]");
+    const set = (key) => links.forEach((a) => a.classList.toggle("is-current", a.dataset.nav === key));
+    const sio = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && set(e.target.dataset.section)),
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    document.querySelectorAll("[data-section]").forEach((s) => sio.observe(s));
+  }
+
+  // ── project page: the rail
   const rail = document.querySelector(".rail");
-  const here = rail && rail.querySelector('[aria-current="page"]');
-  if (here) {
+  if (!rail) return;
+
+  const centerCurrent = (smooth) => {
+    const here = rail.querySelector('[aria-current="page"]');
+    if (!here) return;
     const li = here.parentElement;
-    if (rail.scrollHeight > rail.clientHeight) rail.scrollTop = li.offsetTop - rail.clientHeight / 2 + li.offsetHeight / 2;
-    else rail.scrollLeft = li.offsetLeft - rail.clientWidth / 2 + li.offsetWidth / 2;
-  }
+    const vertical = rail.scrollHeight > rail.clientHeight;
+    const opts = vertical
+      ? { top: li.offsetTop - rail.clientHeight / 2 + li.offsetHeight / 2 }
+      : { left: li.offsetLeft - rail.clientWidth / 2 + li.offsetWidth / 2 };
+    rail.scrollTo({ ...opts, behavior: smooth && !reduced ? "smooth" : "auto" });
+  };
+  centerCurrent(false);
 
-  if (!("IntersectionObserver" in window)) {
-    document.querySelectorAll("video[data-src]").forEach((v) => { v.src = v.dataset.src; v.autoplay = true; });
-    return;
-  }
+  // Move between works in place: fetch the next page, wait until its first images are decoded,
+  // then swap the article inside a view transition. The rail and tab bar never leave the screen.
+  const pages = new Map();
+  const load = (href) => {
+    if (!pages.has(href)) {
+      pages.set(
+        href,
+        fetch(href, { credentials: "same-origin" })
+          .then((r) => (r.ok ? r.text() : Promise.reject(r.status)))
+          .then((html) => new DOMParser().parseFromString(html, "text/html"))
+          .catch((err) => { pages.delete(href); throw err; })
+      );
+    }
+    return pages.get(href);
+  };
 
-  // videos: load on approach, play when visible, pause when not
-  const vio = new IntersectionObserver(
-    (entries) =>
-      entries.forEach(({ target: v, isIntersecting }) => {
-        if (isIntersecting) {
-          if (!v.src) v.src = v.dataset.src;
-          v.play().catch(() => {});
-        } else v.pause();
-      }),
-    { rootMargin: "200px 0px" }
-  );
-  document.querySelectorAll("video[data-src]").forEach((v) => vio.observe(v));
+  // decode the images the visitor will see first, so nothing pops in after the swap
+  const ready = (article) => {
+    const imgs = [...article.querySelectorAll(".project-media img")].slice(0, 2);
+    const jobs = imgs.map((src) => {
+      const img = new Image();
+      if (src.sizes) img.sizes = src.sizes;
+      if (src.srcset) img.srcset = src.srcset;
+      img.src = src.getAttribute("src");
+      return img.decode().catch(() => {});
+    });
+    const timeout = new Promise((r) => setTimeout(r, 900));
+    return Promise.race([Promise.all(jobs), timeout]);
+  };
 
-  // menu: current section
-  const links = document.querySelectorAll("[data-nav]");
-  const set = (key) => links.forEach((a) => a.classList.toggle("is-current", a.dataset.nav === key));
-  const sio = new IntersectionObserver(
-    (entries) => entries.forEach((e) => e.isIntersecting && set(e.target.dataset.section)),
-    { rootMargin: "-45% 0px -50% 0px" }
-  );
-  document.querySelectorAll("[data-section]").forEach((s) => sio.observe(s));
+  let busy = false;
+  const go = async (href, push) => {
+    if (busy) return;
+    busy = true;
+    try {
+      const doc = await load(href);
+      const next = doc.querySelector("article.project");
+      const current = document.querySelector("article.project");
+      if (!next || !current) throw new Error("not a project page");
+      await ready(next);
+
+      const swap = () => {
+        const fresh = document.importNode(next, true);
+        current.replaceWith(fresh);
+        document.title = doc.title;
+        const path = new URL(href, location.href).pathname;
+        rail.querySelectorAll("a").forEach((a) => {
+          if (new URL(a.href).pathname === path) a.setAttribute("aria-current", "page");
+          else a.removeAttribute("aria-current");
+        });
+        fresh.querySelectorAll(".project-media img").forEach((img, i) => { if (i < 2) reveal(img); });
+        watchImages(fresh);
+        watchVideos(fresh);
+        bindNav(fresh);
+        window.scrollTo({ top: 0, behavior: "instant" });
+      };
+
+      if (push) history.pushState({ project: true }, "", href);
+      if (document.startViewTransition && !reduced) await document.startViewTransition(swap).finished.catch(() => {});
+      else swap();
+      centerCurrent(true);
+    } catch {
+      location.href = href; // anything unexpected: just navigate normally
+    } finally {
+      busy = false;
+    }
+  };
+
+  const isWork = (a) => a && a.origin === location.origin && /\/work\/[^/]+\/?$/.test(a.pathname);
+  const intercept = (e) => {
+    const a = e.currentTarget;
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    if (a.pathname === location.pathname) return;
+    go(a.href, true);
+  };
+  const warm = (e) => load(e.currentTarget.href).catch(() => {});
+  const bindNav = (root) =>
+    root.querySelectorAll("a").forEach((a) => {
+      if (!isWork(a)) return;
+      a.addEventListener("click", intercept);
+      a.addEventListener("pointerenter", warm, { once: true });
+      a.addEventListener("touchstart", warm, { once: true, passive: true });
+    });
+
+  bindNav(rail);
+  bindNav(document.querySelector("article.project") || document);
+  history.replaceState({ project: true }, "", location.href);
+  addEventListener("popstate", (e) => {
+    if (e.state && e.state.project && /\/work\//.test(location.pathname)) go(location.href, false);
+    else location.reload();
+  });
 })();
