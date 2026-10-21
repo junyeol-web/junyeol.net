@@ -2,7 +2,7 @@
   "title": "Sample Project 02",
   "summary": "Campaign / Art direction — placeholder. Replace with a one-line idea of the project.",
   "year": 2026,
-  "category": "Self-initiated",
+  "category": "Practice",
   "discipline": "Campaign / Art direction",
   "client": "",
   "role": "Art direction, design",
@@ -33,5 +33,6 @@
   ],
   "featured": true,
   "order": 20,
-  "draft": false
+  "draft": false,
+  "format": "Campaign, photography 24 images"
 }

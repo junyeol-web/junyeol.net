@@ -2,7 +2,7 @@
   "title": "Sample Project 06",
   "summary": "Type design — placeholder. Replace with a one-line idea of the project.",
   "year": 2024,
-  "category": "Self-initiated",
+  "category": "Practice",
   "discipline": "Type design",
   "client": "",
   "role": "Art direction, design",
@@ -33,5 +33,6 @@
   ],
   "featured": false,
   "order": 60,
-  "draft": false
+  "draft": false,
+  "format": "Typeface, 2 weights"
 }

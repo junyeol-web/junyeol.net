@@ -2,7 +2,7 @@
   "title": "Sample Project 03",
   "summary": "Poster series — placeholder. Replace with a one-line idea of the project.",
   "year": 2025,
-  "category": "Yale School of Art",
+  "category": "Practice",
   "discipline": "Poster series",
   "client": "",
   "role": "Art direction, design",
@@ -33,5 +33,6 @@
   ],
   "featured": true,
   "order": 30,
-  "draft": false
+  "draft": false,
+  "format": "Poster series, 594 × 841 mm, risograph"
 }

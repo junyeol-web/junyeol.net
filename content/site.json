@@ -10,16 +10,39 @@
   "accent": "#ff3b00",
   "bio": "Junyeol Baek is a graphic designer interested in the physical presence of graphics.",
   "experience": [
-    { "label": "Graphic Designer, AABB Inc.", "url": "https://aabb.kr/en/home/", "year": "Dec 2023–" },
-    { "label": "Creative Design Intern, MUSINSA GLOBAL", "url": "https://about.musinsa.com/newsroom", "year": "May–Aug 2023" }
+    {
+      "label": "Graphic Designer, AABB Inc.",
+      "url": "https://aabb.kr/en/home/",
+      "year": "Dec 2023–"
+    },
+    {
+      "label": "Creative Design Intern, MUSINSA GLOBAL",
+      "url": "https://about.musinsa.com/newsroom",
+      "year": "May–Aug 2023"
+    }
   ],
   "education": [
-    { "label": "MFA Graphic Design, Yale University", "year": "Class of 2028" },
-    { "label": "BFA Visual Communication Design, Hongik University", "year": "" },
-    { "label": "Exchange Program, Communication Design, The Hong Kong Polytechnic University", "year": "" },
-    { "label": "Major in Sculpture, Seoul Art High School", "year": "" }
+    {
+      "label": "MFA Graphic Design, Yale University",
+      "year": "Class of 2028"
+    },
+    {
+      "label": "BFA Visual Communication Design, Hongik University",
+      "year": ""
+    },
+    {
+      "label": "Exchange Program, Communication Design, The Hong Kong Polytechnic University",
+      "year": ""
+    },
+    {
+      "label": "Major in Sculpture, Seoul Art High School",
+      "year": ""
+    }
   ],
   "clients": [],
   "recognition": [],
-  "seo_description": "Junyeol Baek is a graphic designer interested in the physical presence of graphics."
+  "seo_description": "Junyeol Baek is a graphic designer interested in the physical presence of graphics.",
+  "theme": "light",
+  "label_practice": "Practice",
+  "label_commissions": "Commissions"
 }

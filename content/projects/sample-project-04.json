@@ -2,7 +2,7 @@
   "title": "Sample Project 04",
   "summary": "Editorial — placeholder. Replace with a one-line idea of the project.",
   "year": 2025,
-  "category": "Commissioned",
+  "category": "Commissions",
   "discipline": "Editorial",
   "client": "Client name",
   "role": "Art direction, design",
@@ -33,5 +33,6 @@
   ],
   "featured": false,
   "order": 40,
-  "draft": false
+  "draft": false,
+  "format": "Book, 170 × 240 mm, 192 pp."
 }

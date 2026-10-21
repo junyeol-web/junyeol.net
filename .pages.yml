@@ -13,7 +13,7 @@ content:
     format: json
     filename: "{primary}.json"
     view:
-      fields: [title, year, category, featured, draft]
+      fields: [title, category, year, draft]
       primary: title
       sort: [order, year, title]
       default:
@@ -32,11 +32,16 @@ content:
         label: Year
         type: number
       - name: category
-        label: Context
-        description: Used for the filters on the index.
+        label: Section
+        description: Practice = your own work, Commissions = client work.
         type: select
+        default: Practice
         options:
-          values: [Commissioned, Self-initiated, Yale School of Art, Collaboration]
+          values: [Practice, Commissions]
+      - name: format
+        label: Format / specs
+        description: Shown under the images in the feed, e.g. "Poster series, 594 × 841 mm, risograph"
+        type: string
       - name: discipline
         label: Discipline
         description: e.g. Identity system, Campaign / Art direction, Editorial, Type design
@@ -58,7 +63,7 @@ content:
         type: text
       - name: cover
         label: Cover image
-        description: Shown on hover in the index and as the link preview image. Upload JPG or PNG — it is converted to WebP automatically.
+        description: First image in the feed and the link preview image. Upload JPG or PNG — it is converted to WebP automatically.
         type: image
       - name: media
         label: Images and videos
@@ -86,7 +91,7 @@ content:
               values: [full, half, inset]
       - name: featured
         label: Selected work
-        description: Marks the project with a dot on the index.
+        description: Its cover is used as the site's link-preview image.
         type: boolean
       - name: order
         label: Order
@@ -132,6 +137,20 @@ content:
         type: file
         options:
           extensions: [pdf]
+      - name: theme
+        label: Theme
+        type: select
+        default: light
+        options:
+          values: [light, dark]
+      - name: label_practice
+        label: Section name — own work
+        description: e.g. Practice, Work P
+        type: string
+      - name: label_commissions
+        label: Section name — client work
+        description: e.g. Commissions, Work C
+        type: string
       - name: accent
         label: Accent color
         description: Hex, e.g. #ff3b00

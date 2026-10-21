@@ -2,7 +2,7 @@
   "title": "Sample Project 01",
   "summary": "Identity system — placeholder. Replace with a one-line idea of the project.",
   "year": 2026,
-  "category": "Commissioned",
+  "category": "Commissions",
   "discipline": "Identity system",
   "client": "Client name",
   "role": "Art direction, design",
@@ -33,5 +33,6 @@
   ],
   "featured": true,
   "order": 10,
-  "draft": false
+  "draft": false,
+  "format": "Identity, 12 applications"
 }

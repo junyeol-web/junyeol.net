@@ -12,13 +12,14 @@ Portfolio site of Junyeol — graphic designer and art director.
 ### 프로젝트 필드 요약
 | 필드 | 용도 |
 |---|---|
-| One-line idea | 제목 아래 문장 + 링크 미리보기 설명 |
-| Context | 인덱스 필터 (Commissioned / Self-initiated / Yale School of Art / Collaboration) |
-| Cover image | 인덱스 hover 미리보기 + 링크 공유 썸네일 |
-| Images and videos | 위에서 아래 순서. Layout: `full` 전체폭 · `half` 절반(두 개 연속이면 나란히) · `inset` 가운데 좁게 |
-| Selected work | 인덱스에 ● 표시 |
-| Order | 작은 숫자가 위 (10, 20, 30… 으로 두면 중간 삽입이 쉬움) |
+| Section | `Practice`(내 작업) 또는 `Commissions`(의뢰 작업) — 랜딩에서 섹션이 나뉨 |
+| Format / specs | 피드에서 이미지 아래 표기 (예: Poster series, 594 × 841 mm, risograph) |
+| Cover image | 피드의 첫 이미지 + 링크 공유 썸네일 |
+| Images and videos | 피드에는 앞의 4장까지, 상세 페이지에는 전부. Layout: `full` · `half`(두 개 연속이면 나란히) · `inset` |
+| Order | 작은 숫자가 위 (10, 20, 30…) |
 | Hide (draft) | 사이트에서 숨김 |
+
+**Information & settings**에서 테마(`light`/`dark`)와 섹션 이름(Practice/Commissions ↔ Work P/Work C 등)을 바꿀 수 있음.
 
 ## 구조
 
@@ -28,7 +29,7 @@ content/
   projects/*.json      프로젝트 1개 = 파일 1개 (파일명이 URL: /work/<파일명>/)
   media/               업로드한 원본 이미지·영상
 src/styles.css         디자인 (색·폰트는 맨 위 변수에서)
-src/main.js            인덱스 hover 미리보기, 필터, List/Images 전환
+src/main.js            스크롤 위치에 따라 상단 메뉴 표시 (그 외 JS 없음)
 build.mjs              content → dist/ 정적 사이트 생성, 이미지 WebP 변환
 .pages.yml             Pages CMS 입력 화면 설정
 .github/workflows/     main에 push되면 빌드 후 GitHub Pages로 배포
