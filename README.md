@@ -19,7 +19,7 @@ Portfolio site of Junyeol — graphic designer and art director.
 | Order | 작은 숫자가 위 (10, 20, 30…) |
 | Hide (draft) | 사이트에서 숨김 |
 
-**Information & settings**에서 테마(`light`/`dark`)와 섹션 이름(Practice/Commissions ↔ Work P/Work C 등)을 바꿀 수 있음.
+**Information & settings**에서 테마(`white` · `grey` · `black` · `richblack`)와 섹션 이름(Practice/Commissions ↔ Work P/Work C 등)을 바꿀 수 있음.
 
 ## 구조
 

@@ -147,9 +147,9 @@ content:
       - name: theme
         label: Theme
         type: select
-        default: light
+        default: white
         options:
-          values: [light, dark]
+          values: [white, grey, black, richblack]
       - name: label_practice
         label: Section name — own work
         description: e.g. Practice, Work P

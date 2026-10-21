@@ -1,16 +1,18 @@
 /* junyeol.net
    Works are set on plates like objects on a table — never cropped — with a tag underneath.
-   One tab bar on top, at every size. Theme ("light" | "dark") is set in content/site.json. */
+   One tab bar on top, at every size.
+   Theme is set in content/site.json: "white" | "grey" | "black" | "richblack". All neutral, no tint. */
 
-:root {
-  --bg: #efeee9;          /* paper */
-  --plate: #e3e1da;       /* the surface a work sits on */
-  --plate-hover: #dad8d0;
-  --ink: #141413;
-  --mute: #8b8a84;
-  --line: #d3d1c9;
-  --shadow: 0 1px 1px rgba(20, 20, 15, 0.06), 0 10px 28px -8px rgba(20, 20, 15, 0.22);
-  --shadow-lift: 0 2px 2px rgba(20, 20, 15, 0.06), 0 18px 36px -10px rgba(20, 20, 15, 0.3);
+:root,
+[data-theme="white"] {
+  --bg: #ffffff;
+  --plate: #f1f1f1;       /* the surface a work sits on */
+  --plate-hover: #e9e9e9;
+  --ink: #0a0a0a;
+  --mute: #8e8e8e;
+  --line: #e3e3e3;
+  --shadow: 0 1px 1px rgba(0, 0, 0, 0.05), 0 10px 28px -8px rgba(0, 0, 0, 0.2);
+  --shadow-lift: 0 2px 2px rgba(0, 0, 0, 0.05), 0 18px 36px -10px rgba(0, 0, 0, 0.28);
   --sans: "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --fs: 13px;
   --g: 10px;              /* gutter */
@@ -19,15 +21,39 @@
   --panel-w: 320px;
 }
 
-[data-theme="dark"] {
-  --bg: #0e0e0d;
-  --plate: #1a1a18;
-  --plate-hover: #222220;
-  --ink: #ecebe6;
-  --mute: #7a7973;
-  --line: #2a2a27;
-  --shadow: 0 10px 28px -8px rgba(0, 0, 0, 0.6);
-  --shadow-lift: 0 18px 36px -10px rgba(0, 0, 0, 0.75);
+/* concrete grey: the page and plates are close in value, like a gallery wall */
+[data-theme="grey"] {
+  --bg: #cfcfcf;
+  --plate: #c3c3c3;
+  --plate-hover: #bababa;
+  --ink: #0a0a0a;
+  --mute: #6c6c6c;
+  --line: #b7b7b7;
+  --shadow: 0 1px 1px rgba(0, 0, 0, 0.08), 0 12px 30px -8px rgba(0, 0, 0, 0.32);
+  --shadow-lift: 0 2px 2px rgba(0, 0, 0, 0.08), 0 20px 40px -10px rgba(0, 0, 0, 0.42);
+}
+
+[data-theme="black"] {
+  --bg: #000000;
+  --plate: #121212;
+  --plate-hover: #1a1a1a;
+  --ink: #f2f2f2;
+  --mute: #747474;
+  --line: #242424;
+  --shadow: 0 10px 28px -8px rgba(0, 0, 0, 0.9);
+  --shadow-lift: 0 18px 36px -10px rgba(0, 0, 0, 1);
+}
+
+/* rich black: a deep, slightly cool black (like C60 M40 Y40 K100 on press), plates a step lighter */
+[data-theme="richblack"] {
+  --bg: #0b0c0e;
+  --plate: #16181b;
+  --plate-hover: #1d2024;
+  --ink: #e9eaec;
+  --mute: #6f7379;
+  --line: #24272b;
+  --shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.85);
+  --shadow-lift: 0 20px 40px -10px rgba(0, 0, 0, 0.95);
 }
 
 *,
