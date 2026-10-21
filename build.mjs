@@ -158,7 +158,7 @@ function layout({ site, title, description, ogImage, body, page, canonical, coun
   const og = ogImage ? (SITE_URL ? SITE_URL + ogImage.replace(BASE, "/") : ogImage) : "";
   const L = labels(site);
   const home = page === "index" ? "" : url("");
-  const theme = site.theme === "light" ? "light" : "dark";
+  const theme = site.theme === "dark" ? "dark" : "light";
   return `<!doctype html>
 <html lang="en" data-theme="${theme}">
 <head>
@@ -171,9 +171,9 @@ function layout({ site, title, description, ogImage, body, page, canonical, coun
 <meta property="og:type" content="website">
 ${canonical && SITE_URL ? `<link rel="canonical" href="${SITE_URL}${canonical}">\n<meta property="og:url" content="${SITE_URL}${canonical}">` : ""}
 ${og ? `<meta property="og:image" content="${og}">\n<meta name="twitter:card" content="summary_large_image">` : ""}
-<meta name="theme-color" content="${theme === "dark" ? "#000000" : "#ffffff"}">
+<meta name="theme-color" content="${theme === "dark" ? "#0e0e0d" : "#efeee9"}">
 <link rel="icon" href="${url("favicon.svg")}" type="image/svg+xml">
-<link rel="stylesheet" href="${url("assets/styles.css")}?v=${BUILD_ID}">
+<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&display=swap">\n<link rel="stylesheet" href="${url("assets/styles.css")}?v=${BUILD_ID}">
 <script>document.documentElement.classList.add("js")</script>
 </head>
 <body data-page="${page}">
@@ -191,12 +191,12 @@ ${body}
 </html>`;
 }
 
-// one tile in the grid: cover cropped to 16:9, two chips on top
+// one tile in the grid: the work set on a plate (never cropped), a tag underneath
 function tile(p, n) {
   const sub = p.client || p.discipline || "";
   return `<a class="tile" href="${url(`work/${p.slug}/`)}" id="${esc(p.slug)}">
-  <span class="tile-media">${mediaTag(p.coverImg, { sizes: "(min-width: 760px) 50vw, 100vw", alt: p.title, eager: n <= 4 })}</span>
-  <span class="chips">${chip(p.title)}${chip(sub)}</span>
+  <span class="plate">${mediaTag(p.coverImg, { sizes: "(min-width: 1100px) 30vw, (min-width: 760px) 45vw, 45vw", alt: p.title, eager: n <= 6 })}</span>
+  <span class="tag"><span class="t-n">${String(n).padStart(2, "0")}</span><span class="t-t">${esc(p.title)}</span><span class="t-s">${esc(sub)}</span><span class="t-y">${esc(p.year || "")}</span></span>
 </a>`;
 }
 
@@ -204,12 +204,12 @@ function indexPage(site, projects) {
   const L = labels(site);
   const groups = { practice: [], commissions: [] };
   projects.forEach((p) => groups[sectionOf(p)].push(p));
-  let n = 0;
   const section = (key) =>
     groups[key].length
-      ? `<section class="grid-section" id="${key}" data-section="${key}" aria-label="${esc(L[key])}">
+      ? `<section class="grid-section" id="${key}" data-section="${key}">
+  <h2 class="section-head"><span>${esc(L[key])}</span><span>${groups[key].length}</span></h2>
   <div class="grid">
-${groups[key].map((p) => tile(p, ++n)).join("\n")}
+${groups[key].map((p, i) => tile(p, i + 1)).join("\n")}
   </div>
 </section>`
       : "";
@@ -325,7 +325,7 @@ async function main() {
   const initial = esc((site.name || "J").trim()[0] || "J");
   await write(
     "favicon.svg",
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="10" fill="#8a8a8a"/><text x="32" y="43" font-family="Arial, sans-serif" font-size="26" text-anchor="middle" fill="#fff">JB</text></svg>`
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#efeee9"/><rect x="12" y="10" width="40" height="44" fill="#d9d7d0"/><text x="32" y="40" font-family="Helvetica, Arial, sans-serif" font-size="18" text-anchor="middle" fill="#111">JB</text></svg>`
   );
   // files placed under content/static are copied as-is (CV PDF, etc.)
   const staticDir = path.join(CONTENT, "static");

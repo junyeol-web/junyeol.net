@@ -14,7 +14,7 @@ Portfolio site of Junyeol — graphic designer and art director.
 |---|---|
 | Section | `Practice`(Work P, 내 작업) 또는 `Commissions`(Work C, 의뢰 작업) |
 | Format / specs | 상세 페이지에 표기 (예: Poster series, 594 × 841 mm, risograph) |
-| Cover image | 랜딩 그리드 타일(가운데 기준 16:9로 잘림) + 링크 공유 썸네일 |
+| Cover image | 랜딩 그리드에 받침판 위에 통째로(자르지 않고) 놓이는 대표 이미지 + 링크 공유 썸네일 |
 | Images and videos | 상세 페이지 이미지. Layout: `full` · `half`(두 개 연속이면 나란히) · `inset` |
 | Order | 작은 숫자가 위 (10, 20, 30…) |
 | Hide (draft) | 사이트에서 숨김 |

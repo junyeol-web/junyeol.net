@@ -1,7 +1,7 @@
 // Small and quiet: fade images in, play videos only while on screen, mark the current section in the menu.
 (() => {
   const reveal = (img) => img.classList.add("ok");
-  document.querySelectorAll(".tile-media img, .m img").forEach((img) => {
+  document.querySelectorAll(".plate img, .m img").forEach((img) => {
     if (img.complete && img.naturalWidth) reveal(img);
     else {
       img.addEventListener("load", () => reveal(img), { once: true });
