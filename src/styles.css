@@ -77,6 +77,15 @@ a { color: inherit; text-decoration: none; }
 img, video { display: block; max-width: 100%; }
 :focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
 
+/* ───────── page transitions: pages cross-fade, the tab bar and rail stay put (browsers without support just navigate) */
+@view-transition { navigation: auto; }
+.menu { view-transition-name: menu; }
+.rail { view-transition-name: rail; }
+::view-transition-old(root) { animation: 0.22s ease both vt-out; }
+::view-transition-new(root) { animation: 0.38s cubic-bezier(0.2, 0.7, 0.2, 1) both vt-in; }
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(10px); } }
+
 /* ───────── tab bar */
 .menu {
   position: sticky;
@@ -284,5 +293,6 @@ body[data-page="project"] main { padding-right: var(--rail-w); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
   * { transition: none !important; }
 }

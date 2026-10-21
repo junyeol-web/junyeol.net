@@ -176,6 +176,7 @@ ${og ? `<meta property="og:image" content="${og}">\n<meta name="twitter:card" co
 <link rel="icon" href="${url("favicon.svg")}" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&display=swap">\n<link rel="stylesheet" href="${url("assets/styles.css")}?v=${BUILD_ID}">
 <script>document.documentElement.classList.add("js")</script>
+<script type="speculationrules">{"prefetch":[{"where":{"href_matches":"${BASE}*"},"eagerness":"moderate"}]}</script>
 </head>
 <body data-page="${page}">
 <nav class="menu" aria-label="Main">
@@ -284,15 +285,15 @@ function infoPage(site) {
           .map((it) =>
             typeof it === "string"
               ? `<div class="row">${esc(it)}</div>`
-              : `<div class="row"><span>${it.url ? `<a href="${esc(link(it.url))}" rel="noopener" target="_blank">${esc(it.label)} ↗</a>` : esc(it.label)}</span>${it.year ? `<span class="k">${esc(it.year)}</span>` : ""}</div>`
+              : `<div class="row"><span>${it.url ? `<a href="${esc(link(it.url))}" rel="noopener" target="_blank">${esc(it.label)}</a>` : esc(it.label)}</span>${it.year ? `<span class="k">${esc(it.year)}</span>` : ""}</div>`
           )
           .join("")}</section>`
       : "";
   const links = [
     site.email && `<a href="mailto:${esc(site.email)}">${esc(site.email)}</a>`,
-    site.instagram && `<a href="${esc(link(site.instagram))}" rel="me">Instagram ↗</a>`,
-    site.linkedin && `<a href="${esc(link(site.linkedin))}" rel="me">LinkedIn ↗</a>`,
-    site.cv && `<a href="${url(String(site.cv).replace(/^\//, ""))}">CV ↗</a>`,
+    site.instagram && `<a href="${esc(link(site.instagram))}" rel="me">Instagram</a>`,
+    site.linkedin && `<a href="${esc(link(site.linkedin))}" rel="me">LinkedIn</a>`,
+    site.cv && `<a href="${url(String(site.cv).replace(/^\//, ""))}">CV</a>`,
   ].filter(Boolean);
   return `<section class="info">
   <div class="panel bio">${md(site.bio)}</div>

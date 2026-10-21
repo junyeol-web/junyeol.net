@@ -9,6 +9,16 @@
     }
   });
 
+  // name in the tab bar: on the landing page, glide back to the top instead of reloading
+  const name = document.querySelector(".menu-name");
+  if (name && document.body.dataset.page === "index") {
+    name.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+    });
+  }
+
   // project page: bring the current work into view in the rail (the rail scrolls, not the page)
   const rail = document.querySelector(".rail");
   const here = rail && rail.querySelector('[aria-current="page"]');
