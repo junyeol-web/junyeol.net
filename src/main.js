@@ -28,11 +28,25 @@
         { rootMargin: "200px 0px" }
       )
     : null;
-  const watchVideos = (root) =>
+  // Vimeo players: attach the iframe only when it gets near the screen, fade it in once loaded
+  const startFrame = (f) => {
+    if (f.src) return;
+    f.addEventListener("load", () => setTimeout(() => f.classList.add("ok"), 250), { once: true });
+    f.src = f.dataset.src;
+  };
+  const fio = io
+    ? new IntersectionObserver(
+        (entries) => entries.forEach(({ target, isIntersecting }) => { if (isIntersecting) { startFrame(target); fio.unobserve(target); } }),
+        { rootMargin: "400px 0px" }
+      )
+    : null;
+  const watchVideos = (root) => {
     root.querySelectorAll("video[data-src]").forEach((v) => {
       if (vio) vio.observe(v);
       else { v.src = v.dataset.src; v.autoplay = true; }
     });
+    root.querySelectorAll(".vimeo iframe[data-src]").forEach((f) => (fio ? fio.observe(f) : startFrame(f)));
+  };
 
   watchImages(document);
   watchVideos(document);

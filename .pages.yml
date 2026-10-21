@@ -81,9 +81,20 @@ content:
           - name: image
             label: Image
             type: image
+          - name: vimeo
+            label: Vimeo link (optional)
+            description: Paste the video's Vimeo address, e.g. https://vimeo.com/123456789 (unlisted links with a code at the end work too). Shown instead of the image.
+            type: string
+          - name: vimeo_mode
+            label: Vimeo playback
+            description: loop = plays silently on repeat like a moving image; player = normal player with sound and controls.
+            type: select
+            default: loop
+            options:
+              values: [loop, player]
           - name: video
-            label: Video (optional, mp4)
-            description: If set, plays instead of the image (muted, looping).
+            label: Video file (optional, short mp4 only)
+            description: For very short clips. Longer videos belong on Vimeo.
             type: file
             options:
               extensions: [mp4, webm]

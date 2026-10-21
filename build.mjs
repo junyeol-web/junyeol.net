@@ -116,6 +116,46 @@ function img(m, { sizes = "100vw", alt = "", cls = "", eager = false } = {}) {
   return `<img class="${cls}" src="${m.src}" srcset="${srcset}" sizes="${sizes}" width="${m.width}" height="${m.height}" alt="${esc(alt)}" loading="${eager ? "eager" : "lazy"}" decoding="async">`;
 }
 
+// ───────────────────────── vimeo
+// Accepts vimeo.com/123456789, vimeo.com/123456789/abcdef (unlisted), player.vimeo.com/video/123?h=abc, or just the number.
+// Size and thumbnail come from Vimeo's oEmbed at build time (cached); if that fails we fall back to 16:9.
+const VIMEO_CACHE = path.join(ROOT, ".cache", "vimeo.json");
+let vimeoCache = null;
+async function vimeoInfo(ref) {
+  const raw = String(ref || "").trim();
+  if (!raw) return null;
+  const m = raw.match(/(?:video\/|vimeo\.com\/(?:.*\/)?)?(\d{6,})(?:[/?#]|$)(?:(?:.*?[?&]h=)?([0-9a-f]{6,}))?/i);
+  if (!m) { console.warn(`  ! not a Vimeo link: ${raw}`); return null; }
+  const id = m[1];
+  const hash = m[2] || (raw.match(/[?&]h=([0-9a-f]+)/i) || [])[1] || "";
+  if (!vimeoCache) vimeoCache = existsSync(VIMEO_CACHE) ? JSON.parse(await fs.readFile(VIMEO_CACHE, "utf8")) : {};
+  const key = id + (hash ? ":" + hash : "");
+  if (!vimeoCache[key]) {
+    try {
+      const page = `https://vimeo.com/${id}${hash ? "/" + hash : ""}`;
+      const r = await fetch(`https://vimeo.com/api/oembed.json?url=${encodeURIComponent(page)}`, { signal: AbortSignal.timeout(8000) });
+      if (!r.ok) throw new Error(r.status);
+      const j = await r.json();
+      vimeoCache[key] = { width: j.width, height: j.height, thumb: j.thumbnail_url_with_play_button ? j.thumbnail_url : j.thumbnail_url || "", title: j.title || "" };
+      await fs.mkdir(path.dirname(VIMEO_CACHE), { recursive: true });
+      await fs.writeFile(VIMEO_CACHE, JSON.stringify(vimeoCache, null, 1));
+    } catch (e) {
+      console.warn(`  ! Vimeo ${id}: couldn't read size (${e.message || e}), using 16:9`);
+      return { kind: "vimeo", id, hash, width: 16, height: 9, thumb: "" };
+    }
+  }
+  return { kind: "vimeo", id, hash, ...vimeoCache[key] };
+}
+
+function vimeoTag(v, { loop = true, title = "" } = {}) {
+  const q = new URLSearchParams({ dnt: "1", title: "0", byline: "0", portrait: "0" });
+  if (v.hash) q.set("h", v.hash);
+  if (loop) { q.set("background", "1"); q.set("autoplay", "1"); q.set("loop", "1"); q.set("muted", "1"); }
+  const src = `https://player.vimeo.com/video/${v.id}?${q}`;
+  // the iframe loads only when it comes near the screen (main.js); the thumbnail holds the place until then
+  return `<span class="vimeo${loop ? " is-loop" : ""}"${v.thumb ? ` style="background-image:url('${esc(v.thumb)}')"` : ""}><iframe data-src="${esc(src)}" title="${esc(title || v.title || "Video")}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></span>`;
+}
+
 // ───────────────────────── content
 async function loadProjects() {
   const dir = path.join(CONTENT, "projects");
@@ -132,7 +172,7 @@ async function loadProjects() {
     p.coverImg = await processMedia(p.cover || p.media?.[0]?.image);
     p.mediaItems = [];
     for (const m of p.media || []) {
-      const processed = await processMedia(m.video || m.image);
+      const processed = m.vimeo ? await vimeoInfo(m.vimeo) : await processMedia(m.video || m.image);
       if (processed) p.mediaItems.push({ ...m, img: processed });
     }
   }
@@ -234,7 +274,7 @@ function projectPage(site, p, prev, next, all = []) {
     .map((m, i) => {
       const lay = ["full", "half", "inset"].includes(m.layout) ? m.layout : "full";
       const sizes = lay === "full" ? "100vw" : "(min-width: 760px) 50vw, 100vw";
-      return `<figure class="m m-${lay}"${ratio(m.img) ? ` style="--r:${ratio(m.img)}"` : ""}><span class="mw">${mediaTag(m.img, { sizes, alt: m.caption || p.title, eager: i < 2 })}${m.caption ? `<figcaption>${chip(m.caption)}</figcaption>` : ""}</span></figure>`;
+      return `<figure class="m m-${lay}"${ratio(m.img) ? ` style="--r:${ratio(m.img)}"` : ""}><span class="mw">${m.img.kind === "vimeo" ? vimeoTag(m.img, { loop: m.vimeo_mode !== "player", title: m.caption || p.title }) : mediaTag(m.img, { sizes, alt: m.caption || p.title, eager: i < 2 })}${m.caption ? `<figcaption>${chip(m.caption)}</figcaption>` : ""}</span></figure>`;
     })
     .join("\n");
 

@@ -16,9 +16,21 @@
       "layout": "full"
     },
     {
+      "vimeo": "https://vimeo.com/76979871",
+      "vimeo_mode": "loop",
+      "caption": "Vimeo loop (sample)",
+      "layout": "full"
+    },
+    {
       "image": "/media/samples/p02-2.jpg",
       "caption": "",
       "layout": "half"
+    },
+    {
+      "vimeo": "https://vimeo.com/76979871",
+      "vimeo_mode": "player",
+      "caption": "Vimeo player with sound (sample)",
+      "layout": "inset"
     },
     {
       "image": "/media/samples/p02-3.jpg",
