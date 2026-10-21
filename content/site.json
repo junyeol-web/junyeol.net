@@ -1,0 +1,23 @@
+{
+  "name": "Junyeol",
+  "role": "Graphic designer and art director",
+  "location": "New Haven, CT",
+  "status": "MFA Graphic Design, Yale School of Art, 2028",
+  "email": "junyeol.net@gmail.com",
+  "instagram": "",
+  "linkedin": "",
+  "cv": "",
+  "accent": "#ff3b00",
+  "bio": "Junyeol is a graphic designer and art director working across identity, campaigns, editorial and type. Currently an MFA candidate in Graphic Design at the Yale School of Art.\n\nOpen to commissions, collaborations and internships.",
+  "education": [
+    { "label": "Yale School of Art, MFA Graphic Design", "year": "2026–28" }
+  ],
+  "experience": [
+    { "label": "Studio or company — Role", "year": "2025" }
+  ],
+  "clients": ["Client one", "Client two", "Client three"],
+  "recognition": [
+    { "label": "Exhibition, award or publication", "year": "2025" }
+  ],
+  "seo_description": "Junyeol — graphic designer and art director. Identity, campaigns, editorial and type."
+}

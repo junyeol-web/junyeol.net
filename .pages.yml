@@ -1,0 +1,166 @@
+# Pages CMS — edit this site at https://app.pagescms.org (sign in with GitHub).
+# Every save is a commit to this repo; GitHub Actions rebuilds and deploys the site.
+
+media:
+  input: content/media
+  output: /media
+
+content:
+  - name: projects
+    label: Projects
+    type: collection
+    path: content/projects
+    format: json
+    filename: "{primary}.json"
+    view:
+      fields: [title, year, category, featured, draft]
+      primary: title
+      sort: [order, year, title]
+      default:
+        sort: order
+        order: asc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: summary
+        label: One-line idea
+        description: Shown under the title and in link previews. One sentence.
+        type: string
+      - name: year
+        label: Year
+        type: number
+      - name: category
+        label: Context
+        description: Used for the filters on the index.
+        type: select
+        options:
+          values: [Commissioned, Self-initiated, Yale School of Art, Collaboration]
+      - name: discipline
+        label: Discipline
+        description: e.g. Identity system, Campaign / Art direction, Editorial, Type design
+        type: string
+      - name: client
+        label: Client
+        type: string
+      - name: role
+        label: Your role
+        description: e.g. Art direction, design
+        type: string
+      - name: credits
+        label: Credits
+        description: One per line, e.g. "Photography by Name"
+        type: text
+      - name: description
+        label: Description
+        description: Short paragraphs. Markdown links work, e.g. [text](https://…)
+        type: text
+      - name: cover
+        label: Cover image
+        description: Shown on hover in the index and as the link preview image. Upload JPG or PNG — it is converted to WebP automatically.
+        type: image
+      - name: media
+        label: Images and videos
+        description: In order, top to bottom.
+        type: object
+        list: true
+        fields:
+          - name: image
+            label: Image
+            type: image
+          - name: video
+            label: Video (optional, mp4)
+            description: If set, plays instead of the image (muted, looping).
+            type: file
+            options:
+              extensions: [mp4, webm]
+          - name: caption
+            label: Caption
+            type: string
+          - name: layout
+            label: Layout
+            type: select
+            default: full
+            options:
+              values: [full, half, inset]
+      - name: featured
+        label: Selected work
+        description: Marks the project with a dot on the index.
+        type: boolean
+      - name: order
+        label: Order
+        description: Lower numbers come first (10, 20, 30… leaves room to insert).
+        type: number
+      - name: draft
+        label: Hide (draft)
+        type: boolean
+
+  - name: site
+    label: Information & settings
+    type: file
+    path: content/site.json
+    format: json
+    fields:
+      - name: name
+        label: Name
+        type: string
+      - name: role
+        label: Role line
+        type: string
+      - name: location
+        label: Location
+        type: string
+      - name: status
+        label: Currently
+        type: string
+      - name: bio
+        label: Bio
+        description: First paragraph is large; the next ones are gray.
+        type: text
+      - name: email
+        label: Email
+        type: string
+      - name: instagram
+        label: Instagram URL
+        type: string
+      - name: linkedin
+        label: LinkedIn URL
+        type: string
+      - name: cv
+        label: CV (PDF)
+        type: file
+        options:
+          extensions: [pdf]
+      - name: accent
+        label: Accent color
+        description: Hex, e.g. #ff3b00
+        type: string
+      - name: education
+        label: Education
+        type: object
+        list: true
+        fields:
+          - { name: label, label: Item, type: string }
+          - { name: year, label: Year, type: string }
+      - name: experience
+        label: Experience
+        type: object
+        list: true
+        fields:
+          - { name: label, label: Item, type: string }
+          - { name: year, label: Year, type: string }
+      - name: clients
+        label: Clients & collaborators
+        type: string
+        list: true
+      - name: recognition
+        label: Exhibitions, awards, press
+        type: object
+        list: true
+        fields:
+          - { name: label, label: Item, type: string }
+          - { name: year, label: Year, type: string }
+      - name: seo_description
+        label: Search / link-preview description
+        type: string

@@ -1,0 +1,14 @@
+{
+  "name": "junyeol.net",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs && npx --yes serve dist"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "marked": "^18.0.0",
+    "sharp": "^0.35.0"
+  }
+}

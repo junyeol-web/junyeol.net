@@ -1,0 +1,37 @@
+{
+  "title": "Sample Project 01",
+  "summary": "Identity system — placeholder. Replace with a one-line idea of the project.",
+  "year": 2026,
+  "category": "Commissioned",
+  "discipline": "Identity system",
+  "client": "Client name",
+  "role": "Art direction, design",
+  "credits": "Photography by Name\nMotion by Name",
+  "description": "Two or three short paragraphs: the brief, the idea, what you made.\n\nKeep it tight — reviewers read the first line, then look at images.",
+  "cover": "/media/samples/p01-1.jpg",
+  "media": [
+    {
+      "image": "/media/samples/p01-1.jpg",
+      "caption": "Caption for image 1",
+      "layout": "full"
+    },
+    {
+      "image": "/media/samples/p01-2.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/samples/p01-3.jpg",
+      "caption": "Caption for image 3",
+      "layout": "half"
+    },
+    {
+      "image": "/media/samples/p01-4.jpg",
+      "caption": "Caption for image 4",
+      "layout": "inset"
+    }
+  ],
+  "featured": true,
+  "order": 10,
+  "draft": false
+}
