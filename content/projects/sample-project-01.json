@@ -1,14 +1,12 @@
 {
-  "title": "Sample Project 01",
+  "title": "Entering Exiting",
   "summary": "Identity system — placeholder. Replace with a one-line idea of the project.",
   "year": 2026,
-  "category": "Commissions",
-  "discipline": "Identity system",
-  "client": "Client name",
-  "role": "Art direction, design",
-  "credits": "Photography by Name\nMotion by Name",
+  "category": "Practice",
+  "format": "Single Channel Video, 1 minute",
   "description": "Two or three short paragraphs: the brief, the idea, what you made.\n\nKeep it tight — reviewers read the first line, then look at images.",
   "cover": "/media/samples/p01-1.jpg",
+  "size": "m",
   "media": [
     {
       "image": "/media/samples/p01-1.jpg",
@@ -17,7 +15,6 @@
     },
     {
       "image": "/media/samples/p01-2.jpg",
-      "caption": "",
       "layout": "half"
     },
     {
@@ -33,7 +30,5 @@
   ],
   "featured": true,
   "order": 10,
-  "draft": false,
-  "format": "Identity, 12 applications",
-  "size": "m"
+  "draft": false
 }
