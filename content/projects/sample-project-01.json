@@ -24,7 +24,7 @@
     }
   ],
   "featured": true,
-  "order": 10,
+  "order": 6,
   "draft": false,
-  "hero": true
+  "hero": false
 }
