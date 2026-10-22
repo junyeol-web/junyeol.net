@@ -439,7 +439,7 @@ async function main() {
   const initial = esc((site.name || "J").trim()[0] || "J");
   await write(
     "favicon.svg",
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#000"/><text x="32" y="43" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="30" font-weight="500" letter-spacing="-1" text-anchor="middle" fill="#fff">JB</text></svg>`
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#000"/><text x="32" y="47" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="40" font-weight="500" letter-spacing="-2" text-anchor="middle" fill="#fff">JB</text></svg>`
   );
   // files placed under content/static are copied as-is (CV PDF, etc.)
   const staticDir = path.join(CONTENT, "static");
