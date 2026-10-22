@@ -117,17 +117,6 @@
     });
   }
 
-  // ── menu: current section on the landing page
-  if (io) {
-    const links = document.querySelectorAll("[data-nav]");
-    const set = (key) => links.forEach((a) => a.classList.toggle("is-current", a.dataset.nav === key));
-    const sio = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && set(e.target.dataset.section)),
-      { rootMargin: "-45% 0px -50% 0px" }
-    );
-    document.querySelectorAll("[data-section]").forEach((s) => sio.observe(s));
-  }
-
   // ── project page: the rail
   const rail = document.querySelector(".rail");
   if (!rail) return;

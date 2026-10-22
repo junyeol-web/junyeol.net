@@ -109,11 +109,9 @@ img, video { display: block; max-width: 100%; }
 .menu a + a { border-left: 1px solid var(--line); }
 .menu .menu-name { flex-grow: 2; font-weight: 500; }
 .menu .n { color: var(--mute); }
-@media (hover: hover) { .menu a:hover { background: var(--plate); } }
-.menu a.is-current,
-.menu a[aria-current="page"] { background: var(--ink); color: var(--bg); }
-.menu a.is-current .n,
-.menu a[aria-current="page"] .n { color: inherit; opacity: 0.6; }
+/* the fill appears only under the pointer — nothing is highlighted on arrival */
+@media (hover: hover) { .menu a:hover { background: var(--ink); color: var(--bg); } }
+.menu a:active { background: var(--ink); color: var(--bg); }
 
 /* ───────── grid */
 .grid-section { padding: 0 var(--g); }
