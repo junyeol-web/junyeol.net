@@ -22,7 +22,7 @@ const SITE_URL = (process.env.SITE_URL || "").replace(/\/+$/, "");
 
 const WIDTHS = [640, 1280, 2000];
 const VIDEO = new Set([".mp4", ".webm", ".mov"]);
-const PASSTHROUGH = new Set([".gif", ".svg"]);
+const PASSTHROUGH = new Set([".svg"]); // GIFs are converted: animated ones become animated WebP
 
 // ───────────────────────── helpers
 const link = (u = "") => (/^(https?:|mailto:|\/|#)/i.test(String(u).trim()) ? String(u).trim() : "https://" + String(u).trim().replace(/^\/+/, ""));
@@ -66,11 +66,14 @@ async function processMedia(ref) {
   } else {
     const buf = await fs.readFile(input);
     const hash = crypto.createHash("sha1").update(buf).digest("hex").slice(0, 10);
-    const meta = await sharp(buf).rotate().metadata();
+    // animated GIF → animated WebP (every frame kept, far smaller, full colour)
+    const anim = ext === ".gif" && ((await sharp(buf, { animated: true }).metadata()).pages || 1) > 1;
+    const img = () => (anim ? sharp(buf, { animated: true }) : sharp(buf).rotate());
+    const meta = await img().metadata();
     // EXIF-rotated images swap width/height
-    const swap = meta.orientation && meta.orientation >= 5;
+    const swap = !anim && meta.orientation && meta.orientation >= 5;
     const W = swap ? meta.height : meta.width;
-    const H = swap ? meta.width : meta.height;
+    const H = anim ? meta.pageHeight : swap ? meta.width : meta.height;
     const widths = WIDTHS.filter((w) => w < W).concat(W > WIDTHS.at(-1) ? [] : [W]);
     const finalWidths = [...new Set(widths.length ? widths : [W])].sort((a, b) => a - b);
     const sources = [];
@@ -79,7 +82,7 @@ async function processMedia(ref) {
       const cached = path.join(CACHE, name);
       if (!existsSync(cached)) {
         await fs.mkdir(path.dirname(cached), { recursive: true });
-        await sharp(buf).rotate().resize({ width: w, withoutEnlargement: true }).webp({ quality: 78, effort: 5 }).toFile(cached);
+        await img().resize({ width: w, withoutEnlargement: true }).webp({ quality: anim ? 80 : 78, effort: 5, ...(anim ? { loop: meta.loop ?? 0, delay: meta.delay } : {}) }).toFile(cached);
       }
       const out = path.join(DIST, "media", name);
       await fs.mkdir(path.dirname(out), { recursive: true });
