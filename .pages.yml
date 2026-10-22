@@ -55,7 +55,7 @@ content:
         type: string
       - name: credits
         label: Credits
-        description: One per line, e.g. "Photography by Name"
+        description: 'One per line. To link a name, write [Name](https://their-site.com) — e.g. Photography: [Dohyun Park](https://instagram.com/…)' 
         type: text
       - name: description
         label: Description

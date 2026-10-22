@@ -29,6 +29,9 @@ const link = (u = "") => (/^(https?:|mailto:|\/|#)/i.test(String(u).trim()) ? St
 // Instagram can be entered as "@name", "name" or any instagram.com URL; shown as @name
 const igHandle = (v = "") => String(v).trim().replace(/^https?:\/\//, "").replace(/^(www\.)?instagram\.com\//i, "").replace(/^@/, "").split(/[/?#]/)[0];
 const igUrl = (v = "") => `https://www.instagram.com/${igHandle(v)}/`;
+// credits and similar short lines: plain text, with [Name](https://…) turned into a link
+const linkify = (line = "") =>
+  esc(line).replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, text, href) => `<a href="${esc(link(href.replace(/&amp;/g, "&")))}" target="_blank" rel="noopener">${text}</a>`);
 const esc = (s = "") =>
   String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const url = (p = "") => BASE + String(p).replace(/^\/+/, "");
@@ -330,7 +333,7 @@ function projectPage(site, p, prev, next, all = []) {
     <div class="panel">
       <h1 class="row">${esc(p.title)}</h1>
       ${meta.map(([k, v]) => `<div class="row"><span class="k">${k}</span><span>${esc(v)}</span></div>`).join("\n      ")}
-      ${credits.length ? `<div class="row"><span class="k">Credits</span><span>${credits.map(esc).join("<br>")}</span></div>` : ""}
+      ${credits.length ? `<div class="row"><span class="k">Credits</span><span>${credits.map(linkify).join("<br>")}</span></div>` : ""}
     </div>
     ${p.summary || p.description ? `<div class="panel text">${p.summary ? `<p>${esc(p.summary)}</p>` : ""}${md(p.description)}</div>` : ""}
   </header>
