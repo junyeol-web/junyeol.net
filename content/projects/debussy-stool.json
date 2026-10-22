@@ -1,0 +1,39 @@
+{
+  "title": "Debussy Stool",
+  "summary": "A stool inspired by Claude Debussy's “Reflets dans l'eau” (Reflections in the Water).",
+  "year": 2019,
+  "category": "Practice",
+  "discipline": "Object Design",
+  "client": "",
+  "studio": "",
+  "role": "",
+  "format": "",
+  "credits": "",
+  "description": "",
+  "cover": "/media/debussy-stool/debussy-01-stool.jpg",
+  "media": [
+    {
+      "image": "/media/debussy-stool/debussy-01-stool.jpg",
+      "caption": "",
+      "layout": "inset"
+    },
+    {
+      "image": "/media/debussy-stool/debussy-02-lake.jpg",
+      "caption": "",
+      "layout": "full"
+    },
+    {
+      "image": "/media/debussy-stool/debussy-03-two-sides.jpg",
+      "caption": "",
+      "layout": "full"
+    },
+    {
+      "image": "/media/debussy-stool/debussy-04-in-use.jpg",
+      "caption": "",
+      "layout": "full"
+    }
+  ],
+  "featured": true,
+  "order": 30,
+  "draft": false
+}
