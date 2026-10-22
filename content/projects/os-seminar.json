@@ -1,78 +1,85 @@
 {
   "title": "OS Seminar",
-  "summary": "Posters for OS Seminar, AABB's talk series with artists and designers at its studio in Mapo-gu, Seoul.",
+  "summary": "Posters for OS Seminar, AABB's talk series with artists and designers",
   "year": "2024–2026",
   "category": "Commissions",
-  "discipline": "Poster Design",
-  "client": "",
-  "studio": "AABB",
-  "role": "Design",
   "format": "Poster series",
+  "studio": "AABB",
+  "role": "Graphic Design",
   "credits": "Organized by [AABB](https://www.instagram.com/aabb.kr/)\nPoster Design: Junyeol Baek",
-  "description": "",
   "cover": "/media/os-seminar/os-09-formless-twins.jpg",
+  "cover_vimeo_start": 0,
+  "cover_vimeo_end": 6,
+  "size": "m",
   "media": [
     {
       "image": "/media/os-seminar/os-02a-dahye-jeong.jpg",
+      "vimeo_mode": "loop",
       "caption": "OS Seminar #2 Dahye Jeong, 30 April 2024",
       "layout": "half"
     },
     {
       "image": "/media/os-seminar/os-02b-dahye-jeong.jpg",
+      "vimeo_mode": "loop",
       "caption": "OS Seminar #2 Dahye Jeong, 30 April 2024",
       "layout": "half"
     },
     {
-      "image": "/media/os-seminar/os-04a-yfactorial.jpg",
-      "caption": "OS Seminar #4 yfactorial (Chaewon Kang, Seunghyun Lee), 25 June 2024",
-      "layout": "half"
-    },
-    {
       "image": "/media/os-seminar/os-04b-yfactorial.jpg",
+      "vimeo_mode": "loop",
       "caption": "OS Seminar #4 yfactorial, 25 June 2024",
       "layout": "half"
     },
     {
       "image": "/media/os-seminar/os-05-hezin-o.jpg",
+      "vimeo_mode": "loop",
       "caption": "OS Seminar #5 Hezin O, 16 July 2024",
       "layout": "half"
     },
     {
       "image": "/media/os-seminar/os-06-min-hee-lee.jpg",
+      "vimeo_mode": "loop",
       "caption": "OS Seminar #6 Min Hee Lee, 9 August 2024",
       "layout": "half"
     },
     {
       "image": "/media/os-seminar/os-07-kiwoong-choi.jpg",
+      "vimeo_mode": "loop",
       "caption": "OS Seminar #7 Kiwoong Choi, 30 September 2024",
       "layout": "half"
     },
     {
       "image": "/media/os-seminar/os-09-formless-twins.jpg",
+      "vimeo_mode": "loop",
       "caption": "OS Seminar #9 formless twins (Sangah Shin & Jaejin Ee), 2 December 2024",
       "layout": "half"
     },
     {
       "image": "/media/os-seminar/os-11-kiljong-park.jpg",
+      "vimeo_mode": "loop",
       "caption": "OS Seminar #11 Kiljong Park, 15 April 2025",
       "layout": "half"
     },
     {
       "image": "/media/os-seminar/os-13-studio-atlant.jpg",
+      "vimeo_mode": "loop",
       "caption": "OS Seminar #13 Studio Atlant, “Familiar Features”, 25 September 2025",
       "layout": "half"
     },
     {
       "image": "/media/os-seminar/os-15-saul-kim.jpg",
+      "vimeo_mode": "loop",
       "caption": "OS Seminar #15 Saul Kim, 8 April 2026",
       "layout": "half"
     },
     {
       "image": "/media/os-seminar/os-17-studio-fwb.jpg",
+      "vimeo_mode": "loop",
       "caption": "OS Seminar #17 Studio FWB, “Becoming Friends with Dokyun and Gukhan”, 10 June 2026",
       "layout": "half"
     }
   ],
+  "hero": false,
   "featured": true,
   "order": 12,
   "draft": false
