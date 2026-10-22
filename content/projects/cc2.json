@@ -6,15 +6,33 @@
   "discipline": "Publication",
   "client": "AABB",
   "role": "Design",
-  "format": "",
-  "credits": "Authors: Hyunjin Kim, Kiljong Park, Gunjung Lee, Particlefield, Kiwoong Choi, formless twins\nPublished by AABB\nPublisher: Jaewon Seok\nDesign: Junyeol Baek\nEditing: Sorim Lee\nPhotography: Dohyun Park",
+  "credits": "Authors: Hyunjin Kim, Kiljong Park, Gunjung Lee, Particlefield, Kiwoong Choi, formless twins\nPublished by AABB\nPublisher: Jaewon Seok\nDesign: Junyeol Baek\nEditing: Sorim Lee\nPhotography: [Dohyun Park](https://www.instagram.com/dhyvnpark/)",
   "description": "CC is a publishing project by AABB that documents the activities of contemporary visual artists onto the medium of a book. This issue, CC2, introduces the work of Hyunjin Kim, Kiljong Park, Gunjung Lee, Particlefield, Kiwoong Choi and formless twins.",
   "cover": "/media/cc2/cc2-01-sticker.jpg",
+  "cover_vimeo_start": 0,
+  "cover_vimeo_end": 6,
+  "size": "m",
   "media": [
-    { "image": "/media/cc2/cc2-01-sticker.jpg", "caption": "", "layout": "full" },
-    { "image": "/media/cc2/cc2-02-spread.jpg", "caption": "", "layout": "full" },
-    { "image": "/media/cc2/cc2-03-shelf.jpg", "caption": "", "layout": "half" },
-    { "image": "/media/cc2/cc2-04-stack.jpg", "caption": "", "layout": "half" }
+    {
+      "image": "/media/cc2/cc2-01-sticker.jpg",
+      "vimeo_mode": "loop",
+      "layout": "full"
+    },
+    {
+      "image": "/media/cc2/cc2-02-spread.jpg",
+      "vimeo_mode": "loop",
+      "layout": "full"
+    },
+    {
+      "image": "/media/cc2/cc2-03-shelf.jpg",
+      "vimeo_mode": "loop",
+      "layout": "half"
+    },
+    {
+      "image": "/media/cc2/cc2-04-stack.jpg",
+      "vimeo_mode": "loop",
+      "layout": "half"
+    }
   ],
   "featured": true,
   "order": 10,
