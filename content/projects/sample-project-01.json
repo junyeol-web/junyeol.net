@@ -5,6 +5,9 @@
   "category": "Practice",
   "format": "Single Channel Video",
   "description": "Two or three short paragraphs: the brief, the idea, what you made.\nKeep it tight — reviewers read the first line, then look at images.",
+  "cover_vimeo": "https://vimeo.com/1238196266",
+  "cover_vimeo_start": 0,
+  "cover_vimeo_end": 6,
   "size": "m",
   "media": [
     {
