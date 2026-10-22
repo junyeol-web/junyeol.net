@@ -48,6 +48,46 @@
     root.querySelectorAll(".vimeo iframe[data-src]").forEach((f) => (fio ? fio.observe(f) : startFrame(f)));
   };
 
+  // ── Vimeo cover clips on the grid: load near the screen, loop only the chosen seconds, pause off screen
+  const VIMEO = "https://player.vimeo.com";
+  const clips = new Map(); // contentWindow -> { frame, start, end, plate }
+  const tell = (frame, method, value) => frame.contentWindow && frame.contentWindow.postMessage(JSON.stringify(value === undefined ? { method } : { method, value }), VIMEO);
+  addEventListener("message", (e) => {
+    if (e.origin !== VIMEO) return;
+    const clip = clips.get(e.source);
+    if (!clip) return;
+    let msg;
+    try { msg = typeof e.data === "string" ? JSON.parse(e.data) : e.data; } catch { return; }
+    if (msg.event === "ready") {
+      ["timeupdate", "playing", "play"].forEach((ev) => tell(clip.frame, "addEventListener", ev));
+      if (clip.start) tell(clip.frame, "setCurrentTime", clip.start);
+      if (clip.visible) tell(clip.frame, "play");
+    } else if (msg.event === "timeupdate" && msg.data) {
+      if (msg.data.seconds >= clip.end || msg.data.seconds < clip.start - 0.5) tell(clip.frame, "setCurrentTime", clip.start);
+    } else if (msg.event === "playing" || msg.event === "play") {
+      clip.plate.classList.add("is-playing");
+    }
+  });
+  const cio = io
+    ? new IntersectionObserver(
+        (entries) =>
+          entries.forEach(({ target: f, isIntersecting }) => {
+            const clip = [...clips.values()].find((c) => c.frame === f);
+            if (isIntersecting && !f.src) {
+              f.src = f.dataset.src;
+              clips.set(f.contentWindow, { frame: f, start: +f.dataset.start || 0, end: +f.dataset.end || 6, plate: f.closest(".plate"), visible: true });
+            } else if (clip) {
+              clip.visible = isIntersecting;
+              tell(f, isIntersecting ? "play" : "pause");
+            }
+          }),
+        { rootMargin: "150px 0px" }
+      )
+    : null;
+  document.querySelectorAll(".cover-vid iframe[data-src]").forEach((f) => {
+    if (cio) cio.observe(f);
+  });
+
   watchImages(document);
   watchVideos(document);
 

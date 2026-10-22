@@ -173,6 +173,14 @@ async function loadProjects() {
   items.sort((a, b) => (a.order ?? 999) - (b.order ?? 999) || (b.year ?? 0) - (a.year ?? 0) || a.title.localeCompare(b.title));
   for (const p of items) {
     p.coverImg = await processMedia(p.cover || p.media?.[0]?.image);
+    if (p.cover_vimeo) {
+      const v = await vimeoInfo(p.cover_vimeo);
+      if (v) {
+        const start = Math.max(0, Number(p.cover_vimeo_start) || 0);
+        const end = Number(p.cover_vimeo_end) > start ? Number(p.cover_vimeo_end) : start + 6;
+        p.coverVimeo = { ...v, start, end };
+      }
+    }
     p.mediaItems = [];
     for (const m of p.media || []) {
       const processed = m.vimeo ? await vimeoInfo(m.vimeo) : await processMedia(m.video || m.image);
@@ -237,10 +245,23 @@ ${body}
 }
 
 // one tile in the grid: the work set on a plate (never cropped), a tag underneath
+// the cover image stays as the poster; with a Vimeo cover, a silent clip (start–end seconds) plays on top of it
+function coverPoster(p, n) {
+  if (p.coverImg) return mediaTag(p.coverImg, { sizes: "(min-width: 1100px) 30vw, (min-width: 760px) 45vw, 45vw", alt: p.title, eager: n <= 6 });
+  if (p.coverVimeo && p.coverVimeo.thumb) return `<img src="${esc(p.coverVimeo.thumb)}" alt="${esc(p.title)}" width="${p.coverVimeo.width}" height="${p.coverVimeo.height}" loading="${n <= 6 ? "eager" : "lazy"}" decoding="async">`;
+  return "";
+}
+function coverVimeoTag(v) {
+  const q = new URLSearchParams({ background: "1", autoplay: "1", loop: "1", muted: "1", dnt: "1", api: "1" });
+  if (v.hash) q.set("h", v.hash);
+  const src = `https://player.vimeo.com/video/${v.id}?${q}${v.start ? `#t=${v.start}s` : ""}`;
+  return `<span class="cover-vid" style="--vr:${(v.width / v.height).toFixed(4)}"><span class="cv-box"><iframe data-src="${esc(src)}" data-start="${v.start}" data-end="${v.end}" title="" tabindex="-1" aria-hidden="true" allow="autoplay"></iframe></span></span>`;
+}
+
 function tile(p, n) {
   const sub = p.client || p.discipline || "";
   return `<a class="tile" href="${url(`work/${p.slug}/`)}" id="${esc(p.slug)}">
-  <span class="plate">${mediaTag(p.coverImg, { sizes: "(min-width: 1100px) 30vw, (min-width: 760px) 45vw, 45vw", alt: p.title, eager: n <= 6 })}</span>
+  <span class="plate${p.coverVimeo ? " has-vid" : ""}">${coverPoster(p, n)}${p.coverVimeo ? coverVimeoTag(p.coverVimeo) : ""}</span>
   <span class="tag"><span class="t-n">${String(n).padStart(2, "0")}</span><span class="t-t">${esc(p.title)}</span><span class="t-s">${esc(sub)}</span><span class="t-y">${esc(p.year || "")}</span></span>
 </a>`;
 }

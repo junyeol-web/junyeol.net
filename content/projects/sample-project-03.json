@@ -35,5 +35,8 @@
   "order": 30,
   "draft": false,
   "format": "Poster series, 594 × 841 mm, risograph",
-  "size": "s"
+  "size": "s",
+  "cover_vimeo": "https://vimeo.com/22439234",
+  "cover_vimeo_start": 0,
+  "cover_vimeo_end": 6
 }

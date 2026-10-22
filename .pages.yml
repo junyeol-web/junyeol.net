@@ -65,6 +65,19 @@ content:
         label: Cover image
         description: Shown whole (never cropped) on a plate in the grid, and used as the link preview image. An mp4 can't go here; put videos in Images and videos. Upload JPG or PNG — it is converted to WebP automatically.
         type: image
+      - name: cover_vimeo
+        label: Cover video (Vimeo, optional)
+        description: A Vimeo link. A short silent clip of it loops on the grid tile, on top of the cover image (which still shows while it loads and in link previews).
+        type: string
+      - name: cover_vimeo_start
+        label: Cover video — from (seconds)
+        type: number
+        default: 0
+      - name: cover_vimeo_end
+        label: Cover video — to (seconds)
+        description: The clip loops between these two points. Default 0 to 6.
+        type: number
+        default: 6
       - name: size
         label: Size (not used by the grid layout)
         description: Only used by the single-column layout. Leave as is.
