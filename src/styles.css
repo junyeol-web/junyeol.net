@@ -175,7 +175,7 @@ img, video { display: block; max-width: 100%; }
   padding-top: 7px;
 }
 .t-s, .t-y { color: var(--mute); }
-.t-s { grid-column: 1; grid-row: 2; }
+.t-s { grid-column: 1 / -1; grid-row: 2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } /* one line, so every picture ends on the same line */
 .t-y { grid-column: 2; grid-row: 1; }
 .tile:hover .t-t { text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
 
@@ -186,7 +186,10 @@ img, video { display: block; max-width: 100%; }
 .js .m img { transition: opacity 0.5s ease; }
 
 /* ───────── no plates (default): works stand on an invisible shelf — same grid, bottoms aligned, no boxes */
-[data-plates="off"] .plate { background: transparent; padding: 0; align-items: flex-end; }
+[data-plates="off"] .plate { background: transparent; padding: 0; display: block; aspect-ratio: auto !important; }
+/* every picture runs the full width of its column, so its edges meet the title on the left and the year on the right */
+[data-plates="off"] .plate > img { width: 100%; max-width: none; max-height: none; }
+[data-plates="off"] .grid { align-items: end; }
 [data-plates="off"] .plate img, [data-plates="off"] .plate video, [data-plates="off"] .cv-box { box-shadow: none; }
 [data-plates="off"] .cover-vid { inset: 0; place-items: end center; }
 [data-plates="off"] .tile:hover .plate { background: transparent; }

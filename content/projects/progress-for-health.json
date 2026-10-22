@@ -14,7 +14,7 @@
   "media": [
     {
       "vimeo": "https://vimeo.com/1144473829",
-      "vimeo_mode": "player",
+      "vimeo_mode": "loop",
       "caption": "",
       "layout": "full"
     },
