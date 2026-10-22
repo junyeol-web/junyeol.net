@@ -330,7 +330,7 @@ function projectPage(site, p, prev, next, all = []) {
       ${meta.map(([k, v]) => `<div class="row"><span class="k">${k}</span><span>${esc(v)}</span></div>`).join("\n      ")}
       ${credits.length ? `<div class="row"><span class="k">Credits</span><span>${credits.map(linkify).join("<br>")}</span></div>` : ""}
     </div>
-    ${p.summary || p.description ? `<div class="panel text">${p.summary ? `<p>${esc(p.summary)}</p>` : ""}${md(p.description)}</div>` : ""}
+    ${p.summary || p.description ? `<div class="panel text">${p.summary ? `<p>${linkify(p.summary)}</p>` : ""}${md(p.description)}</div>` : ""}
   </header>
   <div class="project-media">
 ${media}
@@ -421,7 +421,7 @@ async function main() {
         site,
         page: "project",
         title: p.title,
-        description: p.summary,
+        description: String(p.summary || "").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1"),
         ogImage: p.coverImg?.og,
         body: projectPage(site, p, projects[i - 1], projects[i + 1], projects),
         canonical: `/work/${p.slug}/`,

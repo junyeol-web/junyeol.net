@@ -1,0 +1,39 @@
+{
+  "title": "Birthday Run",
+  "summary": "A T-shirt that is both the poster and the gift for a birthday run my friends and I planned for [@feel_jaru](https://www.instagram.com/feel_jaru/).",
+  "year": 2024,
+  "category": "Practice",
+  "discipline": "Graphic Design",
+  "client": "",
+  "studio": "",
+  "role": "",
+  "format": "Screen-printed T-shirt and packaging",
+  "credits": "",
+  "description": "The route ran from Banpo Hangang Park to Noksapyeong Station. The run was cancelled due to rain.",
+  "cover": "/media/birthday-run/birthday-run-01-tshirt.gif",
+  "media": [
+    {
+      "image": "/media/birthday-run/birthday-run-01-tshirt.gif",
+      "caption": "",
+      "layout": "inset"
+    },
+    {
+      "image": "/media/birthday-run/birthday-run-02-worn.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/birthday-run/birthday-run-03-printing.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/birthday-run/birthday-run-04-bag.gif",
+      "caption": "",
+      "layout": "inset"
+    }
+  ],
+  "featured": true,
+  "order": 25,
+  "draft": false
+}
