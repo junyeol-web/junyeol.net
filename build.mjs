@@ -81,11 +81,13 @@ async function processMedia(ref) {
     const finalWidths = [...new Set(widths.length ? widths : [W])].sort((a, b) => a - b);
     const sources = [];
     for (const w of finalWidths) {
-      const name = `${stem}-${hash}-${w}.webp`;
+      // big sizes can afford slightly stronger compression: on a large screen grain hides it, and it halves the weight
+      const q = anim ? 80 : w <= 700 ? 80 : w <= 1400 ? 76 : 68;
+      const name = `${stem}-${hash}-${w}q${q}.webp`;
       const cached = path.join(CACHE, name);
       if (!existsSync(cached)) {
         await fs.mkdir(path.dirname(cached), { recursive: true });
-        await img().resize({ width: w, withoutEnlargement: true }).webp({ quality: anim ? 80 : 78, effort: 5, ...(anim ? { loop: meta.loop ?? 0, delay: meta.delay } : {}) }).toFile(cached);
+        await img().resize({ width: w, withoutEnlargement: true }).webp({ quality: q, effort: 5, ...(anim ? { loop: meta.loop ?? 0, delay: meta.delay } : {}) }).toFile(cached);
       }
       const out = path.join(DIST, "media", name);
       await fs.mkdir(path.dirname(out), { recursive: true });
