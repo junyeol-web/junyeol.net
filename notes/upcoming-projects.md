@@ -1,30 +1,11 @@
-# 앞으로 추가할 작업 (Upcoming projects)
+# Upcoming projects
 
-사이트에는 나오지 않는 메모 파일이에요. 이미지가 준비되면 이 정보로 프로젝트를 만듭니다.
+Not published on the site. Credits to use when the images are ready (English only).
 All three are AABB studio work → Work C (Commissions), Studio: AABB.
 
 ---
 
-## 1. Samsung at Milan Design Week 2026 / 밀라노디자인위크2026 삼성관
-
-**KR**
-
-타이틀 & 키비주얼 스터디
-AABB @aabb.inc
-석재원 @jaewonseok.kr
-김슬 @apple.carrot.ginger
-백준열 @junyeol.baek
-이소림 @soriimlee
-이해린 @2hel1
-
-사진
-MSW
-Ipche @ip_che
-
-의뢰처
-제일기획 @cheilworldwide_official
-
-**EN**
+## 1. Samsung at Milan Design Week 2026
 
 Title and Key Visual Study
 AABB @aabb.inc
@@ -43,33 +24,7 @@ Cheil Worldwide @cheilworldwide_official
 
 ---
 
-## 2. Rawrow Identity / 로우로우 아이덴티티
-
-**KR**
-
-아이덴티티 리뉴얼
-AABB @aabb.inc
-석재원 @jaewonseok.kr
-김슬 @apple.carrot.ginger
-백준열 @junyeol.baek
-이소림 @soriimlee
-이해린 @2hel1
-
-협업
-폰트 기술 지원. 강인구 @kigtype
-
-의뢰처
-로우로우 @raworw
-
-(업무 분야별 상세 표기)
-디자인. AABB @aabb.inc
-디자인 디렉터. 석재원 @jaewonseok.kr
-디자인 팀. 김슬 @apple.carrot.ginger, 백준열 @junyeol.baek, 이소림 @soriimlee, 이해린 @2hel1
-레터마크 컨셉. 이해린 @2hel1
-심볼마크 컨셉. 백준열 @junyeol.baek
-애플리케이션 & 가이드라인 디자인. 백준열 @junyeol.baek
-
-**EN**
+## 2. Rawrow Identity
 
 Identity Renewal
 AABB @aabb.inc
@@ -95,32 +50,7 @@ Applications & Guidelines Design. Junyeol Baek @junyeol.baek
 
 ---
 
-## 3. Hamtaiho Hall Signage / 함태호홀 사이니지
-
-**KR**
-
-사이니지 디자인
-AABB @aabb.inc
-석재원 @jaewonseok.kr
-김슬 @apple.carrot.ginger
-이소림 @soriimlee
-백준열 @junyeol.baek
-이해린 @2hel1
-
-협력
-안내판 제작 및 시공. 아이원애드
-기록 사진. 박도현 @dhyvnpark
-
-의뢰처
-오뚜기 함태호홀
-
-(업무 분야별 상세 표기)
-디자인. AABB @aabb.inc
-디자인 디렉터. 석재원 @jaewonseok.kr
-사이니지 디자인. 김슬 @apple.carrot.ginger, 이소림 @soriimlee, 백준열 @junyeol.baek
-3D 모델링. 이해린 @2hel1
-
-**EN**
+## 3. Hamtaiho Hall Signage
 
 Signage Design
 AABB @aabb.inc
