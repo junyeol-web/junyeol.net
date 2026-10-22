@@ -159,7 +159,8 @@ img, video { display: block; max-width: 100%; }
 }
 .cv-box iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .plate.is-playing .cv-box { opacity: 1; }
-.plate.is-playing > img { opacity: 0 !important; transition: opacity 0.6s ease; }
+.plate.has-vid > img { opacity: 0 !important; transition: opacity 0.6s ease; } /* video covers: nothing until the clip plays */
+.plate.has-vid.show-poster:not(.is-playing) > img { opacity: 1 !important; } /* …unless the clip can't play */
 .tile:hover .cv-box { transform: translateY(-3px); box-shadow: var(--shadow-lift); }
 .tile:hover .plate img, .tile:hover .plate video { transform: translateY(-3px); box-shadow: var(--shadow-lift); }
 
@@ -179,6 +180,18 @@ img, video { display: block; max-width: 100%; }
 .js .plate img[loading="lazy"], .js .m img[loading="lazy"] { opacity: 0; }
 .js .plate img.ok, .js .m img.ok { opacity: 1; }
 .js .m img { transition: opacity 0.5s ease; }
+
+/* ───────── no plates (default): works stand on an invisible shelf — same grid, bottoms aligned, no boxes */
+[data-plates="off"] .plate { background: transparent; padding: 0; align-items: flex-end; }
+[data-plates="off"] .plate img, [data-plates="off"] .plate video, [data-plates="off"] .cv-box { box-shadow: none; }
+[data-plates="off"] .cover-vid { inset: 0; place-items: end center; }
+[data-plates="off"] .tile:hover .plate { background: transparent; }
+[data-plates="off"] .tile:hover .plate img, [data-plates="off"] .tile:hover .cv-box { transform: none; box-shadow: none; opacity: 0.82; }
+[data-plates="off"] .rail-plate { background: transparent; padding: 0; align-items: flex-end; outline: 0; }
+[data-plates="off"] .rail-plate img { box-shadow: none; opacity: 0.45; transition: opacity 0.2s ease; }
+[data-plates="off"] .rail a:hover .rail-plate { background: transparent; }
+[data-plates="off"] .rail a:hover .rail-plate img,
+[data-plates="off"] .rail a[aria-current="page"] .rail-plate img { opacity: 1; }
 
 /* ───────── shared: panels and small labels */
 .panel { background: var(--plate); }

@@ -158,8 +158,8 @@ function vimeoTag(v, { loop = true, title = "" } = {}) {
   if (v.hash) q.set("h", v.hash);
   if (loop) { q.set("background", "1"); q.set("autoplay", "1"); q.set("loop", "1"); q.set("muted", "1"); }
   const src = `https://player.vimeo.com/video/${v.id}?${q}`;
-  // the iframe loads only when it comes near the screen (main.js); the thumbnail holds the place until then
-  return `<span class="vimeo${loop ? " is-loop" : ""}"${v.thumb ? ` style="background-image:url('${esc(v.thumb)}')"` : ""}><iframe data-src="${esc(src)}" title="${esc(title || v.title || "Video")}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></span>`;
+  // the iframe loads only when it comes near the screen (main.js) and fades in once loaded — no thumbnail flash
+  return `<span class="vimeo${loop ? " is-loop" : ""}"><iframe data-src="${esc(src)}" title="${esc(title || v.title || "Video")}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></span>`;
 }
 
 // ───────────────────────── content
@@ -215,7 +215,7 @@ function layout({ site, title, description, ogImage, body, page, canonical, coun
   const home = page === "index" ? "" : url("");
   const theme = { light: "white", dark: "black" }[site.theme] || (["white", "grey", "black", "richblack"].includes(site.theme) ? site.theme : "white");
   return `<!doctype html>
-<html lang="en" data-theme="${theme}">
+<html lang="en" data-theme="${theme}" data-plates="${site.plates ? "on" : "off"}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">

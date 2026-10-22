@@ -175,6 +175,10 @@ content:
         default: white
         options:
           values: [white, grey, black, richblack]
+      - name: plates
+        label: Plates behind works
+        description: Off = works stand on their own, bottoms aligned. On = each work sits on a grey plate with a soft shadow.
+        type: boolean
       - name: label_practice
         label: Section name — own work
         description: e.g. Practice, Work P

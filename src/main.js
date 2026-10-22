@@ -96,6 +96,13 @@
       )
     : null;
   document.querySelectorAll(".cover-vid iframe[data-src]").forEach((f) => cio && cio.observe(f));
+  // if a clip hasn't started a few seconds after loading (blocked, offline, free Vimeo plan), show the cover image instead
+  document.querySelectorAll(".plate.has-vid").forEach((plate) => {
+    const f = plate.querySelector("iframe");
+    const arm = () => setTimeout(() => plate.classList.add("show-poster"), 5000);
+    if (!io) plate.classList.add("show-poster");
+    else f.addEventListener("load", arm, { once: true });
+  });
 
   watchImages(document);
   watchVideos(document);
