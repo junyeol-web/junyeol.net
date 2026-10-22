@@ -177,12 +177,13 @@ img, video { display: block; max-width: 100%; }
 .t-s, .t-y { color: var(--mute); }
 .t-s { grid-column: 1 / -1; grid-row: 2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } /* one line, so every picture ends on the same line */
 .t-y { grid-column: 2; grid-row: 1; }
-.tile:hover .t-t { text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+.tag { transition: opacity 0.35s ease, filter 0.35s ease; }
+/* hover: the caption dissolves instead of being underlined */
+@media (hover: hover) { .tile:hover .tag { opacity: 0.25; filter: blur(3px); } }
 
 /* images fade in as they arrive (only when JS is there to reveal them) */
 /* the first images on a page show straight away; only lazy ones further down fade in */
-.js .plate img[loading="lazy"], .js .m img[loading="lazy"] { opacity: 0; }
-.js .plate img.ok, .js .m img.ok { opacity: 1; }
+/* images are never hidden while waiting to load — a slow or skipped load event must not leave a gap */
 .js .m img { transition: opacity 0.5s ease; }
 
 /* ───────── no plates (default): works stand on an invisible shelf — same grid, bottoms aligned, no boxes */
