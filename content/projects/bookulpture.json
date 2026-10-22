@@ -3,22 +3,54 @@
   "summary": "A book that is also a sculpture — asking where graphic design ends and sculpture begins.",
   "year": 2024,
   "category": "Practice",
-  "discipline": "Site-specific graphic design, book design, editorial design, sculpture",
-  "format": "",
-  "client": "",
-  "role": "",
-  "credits": "",
+  "discipline": "Publication, Installation",
+  "credits": "Thanks to Jaewon Seok",
   "description": "Graphic design, once confined to flat surfaces, now spreads across screens and into three-dimensional space. Bookulpture combines the two into a single form: its pages are read as a book and assembled as a sculpture.",
   "cover": "/media/bookulpture/bookulpture-01-exhibition.jpg",
+  "cover_vimeo_start": 0,
+  "cover_vimeo_end": 6,
+  "size": "m",
   "media": [
-    { "image": "/media/bookulpture/bookulpture-01-exhibition.jpg", "caption": "", "layout": "full" },
-    { "image": "/media/bookulpture/bookulpture-02-book.gif", "caption": "", "layout": "full" },
-    { "image": "/media/bookulpture/bookulpture-03-tower-top.jpg", "caption": "", "layout": "half" },
-    { "image": "/media/bookulpture/bookulpture-04-tower.jpg", "caption": "", "layout": "half" },
-    { "image": "/media/bookulpture/bookulpture-05-book.gif", "caption": "", "layout": "full" },
-    { "image": "/media/bookulpture/bookulpture-06-pieces.jpg", "caption": "", "layout": "half" },
-    { "image": "/media/bookulpture/bookulpture-07-pieces.jpg", "caption": "", "layout": "half" },
-    { "image": "/media/bookulpture/bookulpture-08-colophon.jpg", "caption": "", "layout": "inset" }
+    {
+      "image": "/media/bookulpture/bookulpture-01-exhibition.jpg",
+      "vimeo_mode": "loop",
+      "layout": "full"
+    },
+    {
+      "image": "/media/bookulpture/bookulpture-02-book.gif",
+      "vimeo_mode": "loop",
+      "layout": "full"
+    },
+    {
+      "image": "/media/bookulpture/bookulpture-03-tower-top.jpg",
+      "vimeo_mode": "loop",
+      "layout": "half"
+    },
+    {
+      "image": "/media/bookulpture/bookulpture-04-tower.jpg",
+      "vimeo_mode": "loop",
+      "layout": "half"
+    },
+    {
+      "image": "/media/bookulpture/bookulpture-05-book.gif",
+      "vimeo_mode": "loop",
+      "layout": "full"
+    },
+    {
+      "image": "/media/bookulpture/bookulpture-06-pieces.jpg",
+      "vimeo_mode": "loop",
+      "layout": "half"
+    },
+    {
+      "image": "/media/bookulpture/bookulpture-07-pieces.jpg",
+      "vimeo_mode": "loop",
+      "layout": "half"
+    },
+    {
+      "image": "/media/bookulpture/bookulpture-08-colophon.jpg",
+      "vimeo_mode": "loop",
+      "layout": "inset"
+    }
   ],
   "featured": true,
   "order": 5,
