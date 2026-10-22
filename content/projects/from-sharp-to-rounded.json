@@ -1,0 +1,73 @@
+{
+  "title": "From Sharp to Rounded",
+  "summary": "Visual identity for From Sharp to Rounded, sculptor Hyejin Noh's solo exhibition in a car repair shop in Geumcheon-gu, Seoul.",
+  "year": 2024,
+  "category": "Commissions",
+  "discipline": "Visual Identity Design",
+  "client": "",
+  "studio": "",
+  "role": "",
+  "credits": "Artist: Hyejin Noh\nOrganized by KASSENTAH\nSupported by INTERSECTION\nGraphic Design: Junyeol Baek",
+  "description": "",
+  "cover": "/media/from-sharp-to-rounded/fstr-01-poster-steel.png",
+  "media": [
+    {
+      "image": "/media/from-sharp-to-rounded/fstr-01-poster-steel.png",
+      "caption": "",
+      "layout": "full"
+    },
+    {
+      "image": "/media/from-sharp-to-rounded/fstr-02-storefront.jpg",
+      "caption": "",
+      "layout": "full"
+    },
+    {
+      "image": "/media/from-sharp-to-rounded/fstr-03-poster.jpg",
+      "caption": "",
+      "layout": "full"
+    },
+    {
+      "image": "/media/from-sharp-to-rounded/fstr-04-leaflet.gif",
+      "caption": "",
+      "layout": "inset"
+    },
+    {
+      "image": "/media/from-sharp-to-rounded/fstr-05-exhibition.jpg",
+      "caption": "",
+      "layout": "full"
+    },
+    {
+      "image": "/media/from-sharp-to-rounded/fstr-06-sculpture.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/from-sharp-to-rounded/fstr-07-poster-street.png",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/from-sharp-to-rounded/fstr-08-window.jpg",
+      "caption": "",
+      "layout": "full"
+    },
+    {
+      "image": "/media/from-sharp-to-rounded/fstr-09-visitor-phone.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/from-sharp-to-rounded/fstr-10-visitors.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/from-sharp-to-rounded/fstr-11-opening.jpg",
+      "caption": "",
+      "layout": "inset"
+    }
+  ],
+  "featured": true,
+  "order": 15,
+  "draft": false
+}

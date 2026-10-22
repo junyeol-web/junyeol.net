@@ -99,7 +99,7 @@ async function processMedia(ref) {
     const ogCached = path.join(CACHE, ogName);
     if (!existsSync(ogCached)) {
       await fs.mkdir(path.dirname(ogCached), { recursive: true });
-      await sharp(buf).rotate().resize({ width: 1200, height: 630, fit: "cover" }).jpeg({ quality: 82 }).toFile(ogCached);
+      await sharp(buf).rotate().resize({ width: 1200, height: 630, fit: "contain", background: "#ffffff" }).flatten({ background: "#ffffff" }).jpeg({ quality: 82 }).toFile(ogCached);
     }
     await fs.mkdir(path.dirname(path.join(DIST, "media", ogName)), { recursive: true });
     await fs.copyFile(ogCached, path.join(DIST, "media", ogName));
