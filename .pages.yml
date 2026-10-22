@@ -30,7 +30,8 @@ content:
         type: string
       - name: year
         label: Year
-        type: number
+        description: A year, or a range like 2024–2026
+        type: string
       - name: category
         label: Section
         description: Practice = your own work, Commissions = client work.

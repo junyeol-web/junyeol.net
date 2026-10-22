@@ -232,7 +232,7 @@ img, video { display: block; max-width: 100%; }
 .project-head .text a, .project-head .panel a { text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
 .project-head .panel a:hover { color: var(--mute); }
 
-.project-media { display: flex; flex-wrap: wrap; justify-content: center; margin-top: 48px; }
+.project-media { display: flex; flex-wrap: wrap; justify-content: center; row-gap: var(--g); margin-top: 48px; }
 .m { margin: 0; display: flex; justify-content: center; align-items: flex-start; }
 .m-full { width: 100%; }
 .m-half { width: 50%; }

@@ -196,7 +196,7 @@ async function loadProjects() {
     const slug = f.replace(/\.json$/, "").toLowerCase().replace(/[^a-z0-9-]+/g, "-");
     items.push({ ...data, slug });
   }
-  items.sort((a, b) => (a.order ?? 999) - (b.order ?? 999) || (b.year ?? 0) - (a.year ?? 0) || a.title.localeCompare(b.title));
+  items.sort((a, b) => (a.order ?? 999) - (b.order ?? 999) || (parseInt(b.year) || 0) - (parseInt(a.year) || 0) || a.title.localeCompare(b.title));
   for (const p of items) {
     p.coverImg = await processMedia(p.cover || p.media?.[0]?.image);
     if (p.cover_vimeo) {
