@@ -263,7 +263,7 @@ ${og ? `<meta property="og:image" content="${og}">\n<meta name="twitter:card" co
 <nav class="menu" aria-label="Main">
   <a href="${url("")}" class="menu-name">${esc(site.name)}</a>
   <a href="${url("practice/")}"${page === "practice" ? ' aria-current="page"' : ""}>${esc(L.practice)}</a>
-  <a href="${url("commissions/")}"${page === "commissions" ? ' aria-current="page"' : ""}>${esc(L.commissions)}</a>
+  <a href="${url("work/")}"${page === "commissions" ? ' aria-current="page"' : ""}>${esc(L.commissions)}</a>
   <a href="${url("info/")}"${page === "info" ? ' aria-current="page"' : ""}>Info</a>
 </nav>
 <main>
@@ -410,10 +410,13 @@ async function main() {
 
   await write("index.html", layout({ site, page: "index", body: indexPage(site, projects), ogImage: siteOg, canonical: "/", counts }));
   const L = labels(site);
+  // section pages: /practice/ and /work/ (client work). Old /commissions/ links forward to /work/.
+  const PATHS = { practice: "practice", commissions: "work" };
   for (const key of ["practice", "commissions"]) {
     const list = projects.filter((p) => sectionOf(p) === key);
-    await write(`${key}/index.html`, layout({ site, page: key, title: L[key], body: indexPage(site, list), ogImage: siteOg, canonical: `/${key}/` }));
+    await write(`${PATHS[key]}/index.html`, layout({ site, page: key, title: L[key], body: indexPage(site, list), ogImage: siteOg, canonical: `/${PATHS[key]}/` }));
   }
+  await write("commissions/index.html", `<!doctype html><meta charset="utf-8"><title>Work</title><link rel="canonical" href="${url("work/")}"><meta http-equiv="refresh" content="0; url=${url("work/")}">`);
   await write("info/index.html", layout({ site, page: "info", title: "Info", body: infoPage(site), ogImage: siteOg, canonical: "/info/" }));
   for (let i = 0; i < projects.length; i++) {
     const p = projects[i];
@@ -454,7 +457,7 @@ async function main() {
     }
   }
   if (SITE_URL) {
-    const urls = ["/", "/practice/", "/commissions/", "/info/", ...projects.map((p) => `/work/${p.slug}/`)];
+    const urls = ["/", "/practice/", "/work/", "/info/", ...projects.map((p) => `/work/${p.slug}/`)];
     await write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map((u) => `<url><loc>${SITE_URL}${u}</loc></url>`).join("")}</urlset>\n`);
   }
   await write("robots.txt", `User-agent: *\nAllow: /\n${SITE_URL ? `Sitemap: ${SITE_URL}/sitemap.xml\n` : ""}`);
