@@ -265,7 +265,7 @@ function tile(p, n) {
   const sub = p.client || p.discipline || "";
   return `<a class="tile" href="${url(`work/${p.slug}/`)}" id="${esc(p.slug)}">
   <span class="plate${p.coverVimeo ? " has-vid" : ""}">${coverPoster(p, n)}${p.coverVimeo ? coverVimeoTag(p.coverVimeo) : ""}</span>
-  <span class="tag"><span class="t-n">${String(n).padStart(2, "0")}</span><span class="t-t">${esc(p.title)}</span><span class="t-s">${esc(sub)}</span><span class="t-y">${esc(p.year || "")}</span></span>
+  <span class="tag"><span class="t-t">${esc(p.title)}</span><span class="t-s">${esc(sub)}</span><span class="t-y">${esc(p.year || "")}</span></span>
 </a>`;
 }
 

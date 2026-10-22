@@ -166,13 +166,13 @@ img, video { display: block; max-width: 100%; }
 
 .tag {
   display: grid;
-  grid-template-columns: 2.2em minmax(0, 1fr) auto;
-  column-gap: 6px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 12px;
   padding-top: 7px;
 }
-.t-n, .t-s, .t-y { color: var(--mute); }
-.t-s { grid-column: 2; grid-row: 2; }
-.t-y { grid-column: 3; grid-row: 1; }
+.t-s, .t-y { color: var(--mute); }
+.t-s { grid-column: 1; grid-row: 2; }
+.t-y { grid-column: 2; grid-row: 1; }
 .tile:hover .t-t { text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
 
 /* images fade in as they arrive (only when JS is there to reveal them) */
@@ -314,7 +314,6 @@ body[data-page="project"] main { padding-right: var(--rail-w); }
   .plate { padding: 9%; }
   .cover-vid { inset: 9%; }
   .tag { grid-template-columns: minmax(0, 1fr) auto; font-size: 12px; }
-  .t-n { display: none; }
   .t-t { grid-column: 1; }
   .t-s { grid-column: 1; }
   .t-y { grid-column: 2; }
