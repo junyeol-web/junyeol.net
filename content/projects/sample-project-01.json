@@ -21,17 +21,6 @@
       "vimeo_mode": "loop",
       "caption": "Brockett Map New Haven, 1641",
       "layout": "half"
-    },
-    {
-      "vimeo_mode": "loop",
-      "caption": "Caption for image 3",
-      "layout": "half"
-    },
-    {
-      "image": "/media/samples/p01-4.jpg",
-      "vimeo_mode": "loop",
-      "caption": "Caption for image 4",
-      "layout": "inset"
     }
   ],
   "featured": true,
