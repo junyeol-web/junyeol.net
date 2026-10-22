@@ -10,20 +10,25 @@
   "media": [
     {
       "image": "/media/samples/p01-1.jpg",
+      "vimeo": "https://vimeo.com/1238196266?share=copy&fl=sv&fe=ci",
+      "vimeo_mode": "loop",
       "caption": "Caption for image 1",
       "layout": "full"
     },
     {
       "image": "/media/samples/p01-2.jpg",
+      "vimeo_mode": "loop",
       "layout": "half"
     },
     {
       "image": "/media/samples/p01-3.jpg",
+      "vimeo_mode": "loop",
       "caption": "Caption for image 3",
       "layout": "half"
     },
     {
       "image": "/media/samples/p01-4.jpg",
+      "vimeo_mode": "loop",
       "caption": "Caption for image 4",
       "layout": "inset"
     }
