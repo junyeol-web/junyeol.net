@@ -1,0 +1,64 @@
+{
+  "title": "BAEK 백",
+  "summary": "Three dice that roll the Romanizations of the Korean surname 백 — each throw lands on one of six spellings, weighted by how often they are actually used.",
+  "year": 2026,
+  "category": "Practice",
+  "discipline": "Object, Type Design",
+  "client": "",
+  "studio": "",
+  "role": "",
+  "format": "Three hand-carved wooden dice",
+  "credits": "Workshop with Sulki & Min, Yale School of Art",
+  "description": "The letters are drawn with pips, the marks dice have carried across cultures since antiquity, and carved into wood by hand.",
+  "cover": "/media/baek/baek-01-pak-row.jpg",
+  "media": [
+    {
+      "image": "/media/baek/baek-01-pak-row.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/baek/baek-02-pak.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/baek/baek-03-paek.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/baek/baek-04-baek-row.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/baek/baek-05-bak.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/baek/baek-06-bak-row.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/baek/baek-07-stencils.jpg",
+      "caption": "",
+      "layout": "inset"
+    },
+    {
+      "image": "/media/baek/baek-08-scan.jpg",
+      "caption": "",
+      "layout": "full"
+    },
+    {
+      "image": "/media/baek/baek-09-romanizations.png",
+      "caption": "",
+      "layout": "inset"
+    }
+  ],
+  "featured": true,
+  "order": 8,
+  "draft": false
+}
