@@ -5,7 +5,7 @@ All three are AABB studio work → Work C (Commissions), Studio: AABB.
 
 ---
 
-## 1. Samsung at Milan Design Week 2026
+## 1. Samsung at Milan Design Week 2026 — ADDED (content/projects/samsung-milan-2026.json)
 
 Title and Key Visual Study
 AABB @aabb.inc
