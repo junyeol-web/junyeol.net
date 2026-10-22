@@ -288,7 +288,7 @@ function coverVimeoTag(v) {
 
 function tile(p, n) {
   const sub = p.discipline || p.client || "";
-  return `<a class="tile" href="${url(`work/${p.slug}/`)}" id="${esc(p.slug)}">
+  return `<a class="tile${p.hero ? " tile-hero" : ""}" href="${url(`work/${p.slug}/`)}" id="${esc(p.slug)}">
   <span class="plate${p.coverVimeo ? " has-vid" : ""}">${coverPoster(p, n)}${p.coverVimeo ? coverVimeoTag(p.coverVimeo) : ""}</span>
   <span class="tag"><span class="t-t">${esc(p.title)}</span><span class="t-s">${esc(sub)}</span><span class="t-y">${esc(p.year || "")}</span></span>
 </a>`;

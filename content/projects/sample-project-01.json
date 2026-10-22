@@ -25,5 +25,6 @@
   ],
   "featured": true,
   "order": 10,
-  "draft": false
+  "draft": false,
+  "hero": true
 }

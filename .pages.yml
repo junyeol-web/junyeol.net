@@ -124,6 +124,10 @@ content:
             default: full
             options:
               values: [full, half, inset]
+      - name: hero
+        label: Centre of the landing page
+        description: Shown wide in the middle of the first row. Use for one work at a time.
+        type: boolean
       - name: featured
         label: Selected work
         description: Its cover is used as the site's link-preview image.

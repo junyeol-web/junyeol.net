@@ -124,7 +124,10 @@ img, video { display: block; max-width: 100%; }
   color: var(--mute);
 }
 .grid-section:first-child .section-head { padding-top: 14px; }
-.grid { display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); gap: 28px var(--g); }
+.grid { display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); gap: 28px var(--g); grid-auto-flow: row dense; }
+/* hero: one work set wide in the centre of the first row; the others fill in around it */
+.tile-hero { grid-column: 2 / span 2; grid-row: 1; }
+.tile-hero .plate { aspect-ratio: 8 / 5; }
 
 .tile { display: block; }
 .plate {
@@ -168,6 +171,7 @@ img, video { display: block; max-width: 100%; }
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   column-gap: 12px;
+  min-height: calc(2 * 1.35em + 7px); /* two lines, so pictures line up even when a work has no subtitle */
   padding-top: 7px;
 }
 .t-s, .t-y { color: var(--mute); }
@@ -302,8 +306,8 @@ body[data-page="project"] main { padding-right: var(--rail-w); }
 .notfound a { text-decoration: underline; }
 
 /* ───────── tablet */
-@media (max-width: 1280px) { :root { --cols: 3; } }
-@media (max-width: 900px) { :root { --cols: 2; } }
+@media (max-width: 1280px) { :root { --cols: 3; } .tile-hero { grid-column: 1 / -1; } .tile-hero .plate { aspect-ratio: 12 / 5; } }
+@media (max-width: 900px) { :root { --cols: 2; } .tile-hero .plate { aspect-ratio: 8 / 5; } }
 
 /* ───────── phone */
 @media (max-width: 760px) {
