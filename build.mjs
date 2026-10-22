@@ -18,7 +18,7 @@ const MEDIA_IN = path.join(CONTENT, "media");
 const DIST = path.join(ROOT, "dist");
 const CACHE = path.join(ROOT, ".cache", "img");
 const BASE = ("/" + (process.env.BASE || "/").replace(/^\/+|\/+$/g, "") + "/").replace("//", "/");
-const SITE_URL = (process.env.SITE_URL || "").replace(/\/+$/, "");
+const SITE_URL = (process.env.SITE_URL || "").replace(/\/+$/, "").replace(/^http:\/\//, "https://"); // always link the https address
 
 const WIDTHS = [640, 1280, 2000];
 const VIDEO = new Set([".mp4", ".webm", ".mov"]);
