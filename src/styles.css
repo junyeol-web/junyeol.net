@@ -70,6 +70,8 @@ body {
   font: 400 var(--fs) / 1.35 var(--sans);
   font-feature-settings: "tnum", "ss01";
   -webkit-font-smoothing: antialiased;
+  word-break: keep-all; /* Korean names and words never split mid-word */
+  overflow-wrap: anywhere;
 }
 
 h1, h2, p { margin: 0; font: inherit; }

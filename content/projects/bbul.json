@@ -1,0 +1,73 @@
+{
+  "title": "BBUL",
+  "summary": "Identity for BBUL, a relay drawing project by 16 artists.",
+  "year": 2025,
+  "category": "Practice",
+  "discipline": "Identity, Event",
+  "format": "",
+  "client": "",
+  "role": "",
+  "credits": "Artists: GuNa 구나, Camelostrich 연경석, Cho Leesop 조이솝, Chae Soojin 채수진, Choi Heewon 최희원, Han Goeun 한고은, Hong Yejin 홍예진, Jeong Duldol 정들돌, Jiiho 지이호, Kim Dohyeon 김두현, Kim Jane Kyuwon 김규원, Kim Haerri 김혜리, Lee Yujin 이유진, Lee Yewon 이예원, Na Junheum 나준흠, Noh Hyejin 노혜진\nGraphic Design: Junyeol Baek 백준열\nObject Design: Hyejin Noh 노혜진\nSpace Design: Philjae Kim 김필재\nPhotography: [Dohyun Park 박도현](https://www.instagram.com/dhyvnpark/)",
+  "description": "BBUL (뿔, 'horn') is a relay drawing project conducted by 16 artists. Over one weekend the artists took turns drawing in the space, one each hour; the following weekend the drawings were shown together.",
+  "cover": "/media/bbul/bbul-01-poster-wall.jpg",
+  "media": [
+    {
+      "image": "/media/bbul/bbul-01-poster-wall.jpg",
+      "caption": "",
+      "layout": "full"
+    },
+    {
+      "image": "/media/bbul/bbul-02-posters.jpg",
+      "caption": "",
+      "layout": "full"
+    },
+    {
+      "image": "/media/bbul/bbul-03-invitation-set.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/bbul/bbul-04-invitation-object.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/bbul/bbul-05-invitation.jpg",
+      "caption": "",
+      "layout": "inset"
+    },
+    {
+      "image": "/media/bbul/bbul-06-exhibition.jpg",
+      "caption": "",
+      "layout": "full"
+    },
+    {
+      "image": "/media/bbul/bbul-07-drawing.jpg",
+      "caption": "",
+      "layout": "full"
+    },
+    {
+      "image": "/media/bbul/bbul-08-exhibition-wall.jpg",
+      "caption": "",
+      "layout": "full"
+    },
+    {
+      "image": "/media/bbul/bbul-09-sign-hallway.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/bbul/bbul-10-sign-grey.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/bbul/bbul-11-sign-door.jpg",
+      "caption": "",
+      "layout": "inset"
+    }
+  ],
+  "featured": true,
+  "order": 7,
+  "draft": false
+}
