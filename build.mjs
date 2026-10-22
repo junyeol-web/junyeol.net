@@ -139,7 +139,7 @@ async function vimeoInfo(ref) {
   if (!vimeoCache[key]) {
     try {
       const page = `https://vimeo.com/${id}${hash ? "/" + hash : ""}`;
-      const r = await fetch(`https://vimeo.com/api/oembed.json?url=${encodeURIComponent(page)}`, { signal: AbortSignal.timeout(8000) });
+      const r = await fetch(`https://vimeo.com/api/oembed.json?width=1600&url=${encodeURIComponent(page)}`, { signal: AbortSignal.timeout(8000) });
       if (!r.ok) throw new Error(r.status);
       const j = await r.json();
       vimeoCache[key] = { width: j.width, height: j.height, thumb: j.thumbnail_url_with_play_button ? j.thumbnail_url : j.thumbnail_url || "", title: j.title || "" };
@@ -151,6 +151,24 @@ async function vimeoInfo(ref) {
     }
   }
   return { kind: "vimeo", id, hash, ...vimeoCache[key] };
+}
+
+async function vimeoPoster(v) {
+  const rel = `.vimeo/${v.id}.jpg`; // content/media/.vimeo is build-only (git-ignored)
+  const file = path.join(MEDIA_IN, rel);
+  if (!existsSync(file)) {
+    try {
+      const big = String(v.thumb).replace(/_\d+x\d+/, "_1600");
+      const r = await fetch(big, { signal: AbortSignal.timeout(10000) });
+      if (!r.ok) throw new Error(r.status);
+      await fs.mkdir(path.dirname(file), { recursive: true });
+      await fs.writeFile(file, Buffer.from(await r.arrayBuffer()));
+    } catch (e) {
+      console.warn(`  ! Vimeo ${v.id}: couldn't fetch the frame for a cover (${e.message || e})`);
+      return null;
+    }
+  }
+  return processMedia("/media/" + rel);
 }
 
 function vimeoTag(v, { loop = true, title = "" } = {}) {
@@ -182,6 +200,8 @@ async function loadProjects() {
         const start = Math.max(0, Number(p.cover_vimeo_start) || 0);
         const end = Number(p.cover_vimeo_end) > start ? Number(p.cover_vimeo_end) : start + 6;
         p.coverVimeo = { ...v, start, end };
+        // no cover image? use the video's own frame (downloaded once, then treated like any upload → WebP)
+        if (!p.coverImg && v.thumb) p.coverImg = await vimeoPoster(v);
       }
     }
     p.mediaItems = [];
