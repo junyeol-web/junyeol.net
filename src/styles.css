@@ -114,7 +114,7 @@ img, video { display: block; max-width: 100%; }
 .menu a:active { background: var(--ink); color: var(--bg); }
 
 /* ───────── grid */
-.grid-section { padding: 0 var(--g); }
+.grid-section { padding: var(--g) var(--g) 40px; }
 .section-head {
   display: flex;
   justify-content: space-between;
