@@ -11,14 +11,13 @@
   "size": "m",
   "media": [
     {
-      "image": "/media/samples/p01-1.jpg",
       "vimeo": "https://vimeo.com/1238196266?share=copy&fl=sv&fe=ci",
       "vimeo_mode": "loop",
       "caption": "Caption for image 1",
       "layout": "full"
     },
     {
-      "image": "/media/samples/p01-2.jpg",
+      "image": "/media/Brockett Map New Haven_1641.jpg",
       "vimeo_mode": "loop",
       "layout": "half"
     },
