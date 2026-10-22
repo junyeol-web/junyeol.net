@@ -3,21 +3,46 @@
   "summary": "The first issue of AABB's publishing project CC, bringing together OS Seminar 1–6.",
   "year": 2024,
   "category": "Commissions",
-  "discipline": "Publication",
-  "client": "AABB",
+  "discipline": "Publication Design",
+  "client": "",
   "role": "Design",
   "credits": "Authors: Goeun Park & Goeun Park, Dahye Jeong, Seogwon Hwang, y!, Hezin O, Min Hee Lee\nPublished by [AABB](https://www.instagram.com/aabb.kr/)\nDesign: Junyeol Baek",
   "description": "CC is a publishing project by AABB that documents the activities of contemporary visual artists onto the medium of a book. The first issue, CC1, collects OS Seminar 1–6, with Goeun Park & Goeun Park, Dahye Jeong, Seogwon Hwang, y!, Hezin O and Min Hee Lee.",
   "cover": "/media/cc1/cc1-01-cover.jpg",
   "media": [
-    { "image": "/media/cc1/cc1-01-cover.jpg", "caption": "", "layout": "full" },
-    { "image": "/media/cc1/cc1-02-spine.jpg", "caption": "", "layout": "full" },
-    { "image": "/media/cc1/cc1-03-coordinates.jpg", "caption": "", "layout": "half" },
-    { "image": "/media/cc1/cc1-04-os-spread.jpg", "caption": "", "layout": "half" },
-    { "image": "/media/cc1/cc1-05-names.jpg", "caption": "", "layout": "half" },
-    { "image": "/media/cc1/cc1-06-issue-page.jpg", "caption": "", "layout": "half" }
+    {
+      "image": "/media/cc1/cc1-01-cover.jpg",
+      "caption": "",
+      "layout": "full"
+    },
+    {
+      "image": "/media/cc1/cc1-02-spine.jpg",
+      "caption": "",
+      "layout": "full"
+    },
+    {
+      "image": "/media/cc1/cc1-03-coordinates.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/cc1/cc1-04-os-spread.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/cc1/cc1-05-names.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/cc1/cc1-06-issue-page.jpg",
+      "caption": "",
+      "layout": "half"
+    }
   ],
   "featured": true,
   "order": 20,
-  "draft": false
+  "draft": false,
+  "studio": "AABB"
 }

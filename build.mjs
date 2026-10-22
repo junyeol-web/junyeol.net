@@ -287,7 +287,7 @@ function coverVimeoTag(v) {
 }
 
 function tile(p, n) {
-  const sub = p.client || p.discipline || "";
+  const sub = p.discipline || p.client || "";
   return `<a class="tile" href="${url(`work/${p.slug}/`)}" id="${esc(p.slug)}">
   <span class="plate${p.coverVimeo ? " has-vid" : ""}">${coverPoster(p, n)}${p.coverVimeo ? coverVimeoTag(p.coverVimeo) : ""}</span>
   <span class="tag"><span class="t-t">${esc(p.title)}</span><span class="t-s">${esc(sub)}</span><span class="t-y">${esc(p.year || "")}</span></span>
@@ -309,6 +309,7 @@ function projectPage(site, p, prev, next, all = []) {
     ["Section", L[sectionOf(p)]],
     ["Year", p.year],
     ["Client", p.client],
+    ["Studio", p.studio],
     ["Format", p.format],
     ["Discipline", p.discipline],
     ["Role", p.role],

@@ -49,6 +49,10 @@ content:
       - name: client
         label: Client
         type: string
+      - name: studio
+        label: Studio
+        description: Where you made it, if not on your own (e.g. AABB)
+        type: string
       - name: role
         label: Your role
         description: e.g. Art direction, design
