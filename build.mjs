@@ -253,6 +253,8 @@ ${canonical && SITE_URL ? `<link rel="canonical" href="${SITE_URL}${canonical}">
 ${og ? `<meta property="og:image" content="${og}">\n<meta name="twitter:card" content="summary_large_image">` : ""}
 <meta name="theme-color" content="${{ white: "#ffffff", grey: "#cfcfcf", black: "#000000", richblack: "#0b0c0e" }[theme]}">
 <link rel="icon" href="${url("favicon.svg")}" type="image/svg+xml">
+<link rel="icon" href="${url("favicon-32.png")}" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="${url("apple-touch-icon.png")}">
 <link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&display=swap">\n<link rel="stylesheet" href="${url("assets/styles.css")}?v=${BUILD_ID}">
 <script>document.documentElement.classList.add("js")</script>
 <script type="speculationrules">{"prefetch":[{"where":{"href_matches":"${BASE}*"},"eagerness":"moderate"}]}</script>
@@ -437,7 +439,7 @@ async function main() {
   const initial = esc((site.name || "J").trim()[0] || "J");
   await write(
     "favicon.svg",
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#0b0c0e"/><rect x="14" y="10" width="36" height="44" fill="#f1f1f1"/><text x="32" y="39" font-family="Helvetica, Arial, sans-serif" font-size="16" text-anchor="middle" fill="#0a0a0a">JB</text></svg>`
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#000"/><text x="32" y="43" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="30" font-weight="500" letter-spacing="-1" text-anchor="middle" fill="#fff">JB</text></svg>`
   );
   // files placed under content/static are copied as-is (CV PDF, etc.)
   const staticDir = path.join(CONTENT, "static");
