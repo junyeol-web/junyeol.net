@@ -221,11 +221,13 @@ content:
         type: string
         list: true
       - name: recognition
-        label: Exhibitions, awards, press
+        label: Awards
+        description: "Title, Awarding body — e.g. Fulbright Scholar, U.S. Department of State"
         type: object
         list: true
         fields:
           - { name: label, label: Item, type: string }
+          - { name: url, label: Link (optional), type: string }
           - { name: year, label: Year, type: string }
       - name: seo_description
         label: Search / link-preview description
