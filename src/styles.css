@@ -88,32 +88,44 @@ img, video { display: block; max-width: 100%; }
 @keyframes vt-out { to { opacity: 0; } }
 @keyframes vt-in { from { opacity: 0; transform: translateY(10px); } }
 
+/* ───────── the grid
+   Everything sits on one 12-column grid with a gutter of --g and the same outer margin.
+   Desktop: the tab bar and the landing tiles are 4 × 3 columns, so every tab starts where a column of work starts.
+   Project page: text and images use columns 1–9, the rail of all works columns 10–12 (under "Info").
+   Below 1000px: 2 tile columns; the tab bar becomes 6 parts (name = 3, each tab = 1), which lines up the same way. */
+
 /* ───────── tab bar */
 .menu {
   position: sticky;
   top: 0;
   z-index: 20;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--g);
+  padding: 0 var(--g);
   height: var(--bar-h);
   background: var(--bg);
   border-bottom: 1px solid var(--line);
 }
 .menu a {
-  flex: 1 1 0;
+  position: relative;
+  isolation: isolate;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 0 var(--g);
   white-space: nowrap;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition: color 0.15s ease;
 }
-.menu a + a { border-left: 1px solid var(--line); }
-.menu .menu-name { flex-grow: 2; font-weight: 500; }
+/* dividers sit in the middle of the gutter, so the text keeps the column edge */
+.menu a + a::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(var(--g) / -2); width: 1px; background: var(--line); }
+/* hover fill covers the whole cell, gutter halves included */
+.menu a::after { content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: calc(var(--g) / -2); right: calc(var(--g) / -2); background: var(--ink); opacity: 0; transition: opacity 0.15s ease; }
+.menu a:first-child::after { left: calc(var(--g) * -1); }
+.menu a:last-child::after { right: calc(var(--g) * -1); }
+.menu .menu-name { font-weight: 500; }
 .menu .n { color: var(--mute); }
-/* the fill appears only under the pointer — nothing is highlighted on arrival */
-@media (hover: hover) { .menu a:hover { background: var(--ink); color: var(--bg); } }
-.menu a:active { background: var(--ink); color: var(--bg); }
+@media (hover: hover) { .menu a:hover { color: var(--bg); } .menu a:hover::after { opacity: 1; } }
+.menu a:active { color: var(--bg); }
+.menu a:active::after { opacity: 1; }
 
 /* ───────── grid */
 .grid-section { padding: var(--g) var(--g) 40px; }
@@ -124,7 +136,7 @@ img, video { display: block; max-width: 100%; }
   color: var(--mute);
 }
 .grid-section:first-child .section-head { padding-top: 14px; }
-.grid { display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); gap: 28px var(--g); grid-auto-flow: row dense; }
+.grid { display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); gap: 28px var(--g); grid-auto-flow: row dense; } /* same columns as the tab bar */
 /* hero: one work set wide in the centre of the first row; the others fill in around it */
 .tile-hero { grid-column: 2 / span 2; grid-row: 1; }
 .tile-hero .plate { aspect-ratio: 8 / 5; }
@@ -217,35 +229,42 @@ img, video { display: block; max-width: 100%; }
   text-overflow: ellipsis;
 }
 
-/* ───────── project */
-.project-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: var(--g);
-  padding: var(--g);
+/* ───────── project: columns 1–9 for the work, 10–12 for the rail */
+body[data-page="project"] main {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--g);
+  padding: 0 var(--g);
+  align-items: start;
 }
-.project-head .panel { width: var(--panel-w); }
+.project {
+  grid-column: 1 / 10;
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  column-gap: var(--g);
+}
+.project-head { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; column-gap: var(--g); align-items: start; padding-top: var(--g); }
+.project-head .panel:first-child { grid-column: 1 / 4; }   /* under the name */
+.project-head .text { grid-column: 4 / 10; }               /* under Work P and Work C */
 .project-head h1 { font-weight: 500; }
-.project-head .text { width: min(560px, 100%); padding: 6px var(--g) 8px; font-size: 14px; line-height: 1.4; }
+.project-head .text { padding: 6px var(--g) 8px; font-size: 14px; line-height: 1.4; }
+.project-head .text p { max-width: 62ch; }
 .project-head .text p + p { margin-top: 0.7em; }
 .project-head .text a, .project-head .panel a { text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
 .project-head .panel a:hover { color: var(--mute); }
 
-.project-media { display: flex; flex-wrap: wrap; justify-content: center; row-gap: var(--g); margin-top: 48px; }
-.m { margin: 0; display: flex; justify-content: center; align-items: flex-start; }
-.m-full { width: 100%; }
-.m-half { width: 50%; }
-.m-inset { width: 100%; padding: 60px 0; }
-/* the image's own box: never taller than the screen, labels sit on it */
-.mw { position: relative; display: block; width: min(100%, calc((100vh - var(--bar-h)) * var(--r, 1.5))); }
-.m-inset .mw { width: min(50%, calc(80vh * var(--r, 1.5))); }
+.project-media { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; column-gap: var(--g); row-gap: var(--g); margin-top: 48px; }
+.m { margin: 0; }
+.m-full { grid-column: 1 / -1; }
+.m-inset { grid-column: 3 / span 5; margin: 40px 0; }       /* the middle five of nine */
+.pair { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--g); align-items: start; }
+.mw { position: relative; display: block; width: 100%; }
 .m img, .m video { width: 100%; height: auto; background: var(--plate); }
 .m figcaption { position: absolute; left: var(--g); bottom: var(--g); right: var(--g); }
 .m figcaption { transition: opacity 0.4s ease, filter 0.4s ease; }
 /* pointing at an image clears its caption out of the way */
 @media (hover: hover) { .mw:hover figcaption { opacity: 0; filter: blur(4px); } }
-/* Vimeo: holds its real proportions, shows the thumbnail until the player arrives */
+/* Vimeo: holds its real proportions until the player arrives */
 .vimeo { position: relative; display: block; aspect-ratio: var(--r, 1.7778); background: var(--plate) center / cover no-repeat; }
 .vimeo iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; opacity: 0; transition: opacity 0.6s ease; }
 .vimeo iframe.ok { opacity: 1; }
@@ -253,27 +272,23 @@ img, video { display: block; max-width: 100%; }
 /* a full player keeps its controls clear: caption goes underneath */
 .m:has(.vimeo:not(.is-loop)) figcaption { position: static; padding-top: 6px; }
 
-.project-nav { display: flex; justify-content: space-between; gap: var(--g); padding: 80px var(--g) var(--g); }
+.project-nav { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: var(--g); padding: 80px 0 var(--g); }
 .project-nav .chip:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 
-/* ───────── rail: all works beside the project page */
-body[data-page="project"] main { padding-right: var(--rail-w); }
+/* ───────── rail: every work, three to a row, in columns 10–12 */
 .rail {
-  position: fixed;
-  z-index: 10;
+  grid-column: 10 / 13;
+  position: sticky;
   top: var(--bar-h);
-  right: 0;
-  bottom: 0;
-  width: var(--rail-w);
+  max-height: calc(100vh - var(--bar-h));
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: none;
   background: var(--bg);
-  border-left: 1px solid var(--line);
 }
 .rail::-webkit-scrollbar { display: none; }
-.rail ol { list-style: none; margin: 0; padding: 8px var(--g) 40px; display: flex; flex-direction: column; gap: 12px; }
-.rail-sec { color: var(--mute); padding-top: 6px; font-size: 11px; }
+.rail ol { list-style: none; margin: 0; padding: var(--g) 0 40px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px var(--g); align-items: end; }
+.rail-sec { display: none; }
 .rail a { display: block; color: var(--mute); }
 .rail-plate {
   display: flex;
@@ -287,22 +302,18 @@ body[data-page="project"] main { padding-right: var(--rail-w); }
   transition: outline-color 0.15s ease, background 0.2s ease;
 }
 .rail-plate img { width: auto; height: auto; max-width: 100%; max-height: 100%; box-shadow: var(--shadow); }
+[data-plates="off"] .rail-plate img { width: 100%; max-height: none; }
 .rail-tag { display: flex; justify-content: space-between; gap: 4px; padding-top: 4px; font-size: 11px; line-height: 1.25; }
 .rail-tag span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rail-tag span:last-child { flex: none; white-space: nowrap; }
 .rail a:hover { color: var(--ink); }
 .rail a:hover .rail-plate { background: var(--plate-hover); }
 .rail a[aria-current="page"] { color: var(--ink); }
 .rail a[aria-current="page"] .rail-plate { outline-color: var(--ink); }
 
-/* ───────── info */
-.info {
-  display: flex;
-  flex-direction: column;
-  gap: var(--g);
-  width: min(620px, calc(100% - 2 * var(--g)));
-  padding: var(--g) 0;
-  margin-left: var(--g);
-}
+/* ───────── info: columns 1–6 (under the name and Work P) */
+body[data-page="info"] main { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); padding: 0 var(--g); }
+.info { grid-column: 1 / 7; display: flex; flex-direction: column; gap: var(--g); padding: var(--g) 0; }
 .info .bio { padding: 6px var(--g) 8px; font-size: 14px; line-height: 1.4; }
 .info .bio p + p { margin-top: 0.7em; }
 .info .row a { text-decoration: underline; text-underline-offset: 2px; text-decoration-color: var(--mute); }
@@ -312,32 +323,37 @@ body[data-page="project"] main { padding-right: var(--rail-w); }
 .notfound { padding: 30vh var(--g); }
 .notfound a { text-decoration: underline; }
 
-/* ───────── tablet */
-@media (max-width: 1280px) { :root { --cols: 3; } .tile-hero { grid-column: 1 / -1; } .tile-hero .plate { aspect-ratio: 12 / 5; } }
-@media (max-width: 900px) { :root { --cols: 2; } .tile-hero .plate { aspect-ratio: 8 / 5; } }
+/* ───────── below 1000px: two columns of work; the bar splits 3 + 1 + 1 + 1 of six */
+@media (max-width: 999px) {
+  :root { --cols: 2; }
+  .tile-hero { grid-column: 1 / -1; }
+  .tile-hero .plate { aspect-ratio: 8 / 5; }
+  .menu { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .menu .menu-name { grid-column: span 3; }
+  .menu .n { display: none; }
+  body[data-page="project"] main, body[data-page="info"] main { display: block; }
+  .project { display: block; }
+  .project-head { display: flex; flex-direction: column; gap: var(--g); }
+  .project-head .panel:first-child, .project-head .text { width: 100%; }
+  .project-media { display: flex; flex-direction: column; }
+  .m-inset { margin: 24px 0; }
+  .pair { grid-template-columns: 1fr; row-gap: var(--g); }
+  .project-nav { padding-top: 56px; }
+  /* rail becomes a strip you swipe, at the end of the project */
+  .rail { position: static; max-height: none; overflow-x: auto; overflow-y: hidden; border-top: 1px solid var(--line); margin-top: var(--g); }
+  .rail ol { display: flex; padding: 10px 0 24px; gap: var(--g); }
+  .rail li { flex: 0 0 76px; }
+  .info { padding-top: var(--g); }
+}
 
 /* ───────── phone */
 @media (max-width: 760px) {
-  :root { --g: 8px; --bar-h: 40px; --panel-w: 100%; }
-  .menu a { justify-content: center; padding: 0 6px; }
-  .menu .menu-name { justify-content: flex-start; padding-left: var(--g); }
-  .menu .n { display: none; }
-  .grid { gap: 20px 6px; }
+  :root { --g: 8px; --bar-h: 40px; }
+  .grid { gap: 20px var(--g); }
   .plate { padding: 9%; }
   .cover-vid { inset: 9%; }
-  .tag { grid-template-columns: minmax(0, 1fr) auto; font-size: 12px; }
-  .t-t { grid-column: 1; }
-  .t-s { grid-column: 1; }
-  .t-y { grid-column: 2; }
-  .m-half { width: 100%; }
-  .m-inset { padding: 40px 0; }
-  .m-inset .mw { width: 80%; }
-  /* rail becomes a strip you swipe, at the end of the project */
-  body[data-page="project"] main { padding-right: 0; }
-  .rail { position: static; width: auto; border-left: 0; border-top: 1px solid var(--line); overflow-x: auto; overflow-y: hidden; }
-  .rail ol { flex-direction: row; padding: 10px var(--g) 24px; gap: 8px; }
-  .rail li { flex: 0 0 76px; }
-  .rail-sec { display: none; }
+  .tag { font-size: 12px; }
+  .menu { font-size: 12px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

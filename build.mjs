@@ -317,13 +317,24 @@ function projectPage(site, p, prev, next, all = []) {
     ["Role", p.role],
   ].filter(([, v]) => v);
   const credits = lines(p.credits);
-  const media = p.mediaItems
-    .map((m, i) => {
-      const lay = ["full", "half", "inset"].includes(m.layout) ? m.layout : "full";
-      const sizes = lay === "full" ? "100vw" : "(min-width: 760px) 50vw, 100vw";
-      return `<figure class="m m-${lay}"${ratio(m.img) ? ` style="--r:${ratio(m.img)}"` : ""}><span class="mw">${m.img.kind === "vimeo" ? vimeoTag(m.img, { loop: m.vimeo_mode !== "player", title: m.caption || p.title }) : mediaTag(m.img, { sizes, alt: m.caption || p.title, eager: i < 2 })}${m.caption ? `<figcaption>${chip(m.caption)}</figcaption>` : ""}</span></figure>`;
-    })
-    .join("\n");
+  // layouts snap to the page grid: wide = the whole content span, narrow = the middle five columns,
+  // two consecutive halves = a pair sharing the span. A portrait image set to full is shown narrow.
+  const fig = (m, i, lay) => {
+    const r = m.img.width && m.img.height ? m.img.width / m.img.height : 1.5;
+    const cls = lay === "full" && r < 1 ? "inset" : lay;
+    const sizes = cls === "full" ? "(min-width: 1000px) 75vw, 100vw" : "(min-width: 1000px) 38vw, 100vw";
+    return `<figure class="m m-${cls}"${ratio(m.img) ? ` style="--r:${ratio(m.img)}"` : ""}><span class="mw">${m.img.kind === "vimeo" ? vimeoTag(m.img, { loop: m.vimeo_mode !== "player", title: m.caption || p.title }) : mediaTag(m.img, { sizes, alt: m.caption || p.title, eager: i < 2 })}${m.caption ? `<figcaption>${chip(m.caption)}</figcaption>` : ""}</span></figure>`;
+  };
+  const items = p.mediaItems;
+  const out = [];
+  for (let i = 0; i < items.length; i++) {
+    const lay = ["full", "half", "inset"].includes(items[i].layout) ? items[i].layout : "full";
+    if (lay === "half" && items[i + 1] && items[i + 1].layout === "half") {
+      out.push(`<div class="pair">${fig(items[i], i, "half")}${fig(items[i + 1], i + 1, "half")}</div>`);
+      i++;
+    } else out.push(fig(items[i], i, lay === "half" ? "inset" : lay));
+  }
+  const media = out.join("\n");
 
   return `<article class="project">
   <header class="project-head">
