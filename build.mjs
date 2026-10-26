@@ -263,12 +263,14 @@ ${og ? `<meta property="og:image" content="${og}">\n<meta name="twitter:card" co
 <script>document.documentElement.classList.add("js")</script>
 <script type="speculationrules">{"prefetch":[{"where":{"href_matches":"${BASE}*"},"eagerness":"moderate"}]}</script>
 </head>
-<body data-page="${page}">
+<body data-page="${page === "info" ? "index" : page}"${page === "info" ? ' class="about-open"' : ""}>
 <nav class="menu" aria-label="Main">
-  <a href="${url("")}" class="menu-name">${esc(site.name)}</a>
-  <a href="${url("")}" class="menu-work"${page === "index" ? ' aria-current="page"' : ""}>Work</a>
-  <a href="${url("info/")}"${page === "info" ? ' aria-current="page"' : ""}>Info</a>
+  <a href="${url("info/")}" class="menu-name" aria-controls="about" aria-expanded="${page === "info"}"><span class="nm">${esc(site.name)}</span><span class="cl" aria-hidden="true">Close</span></a>
+  <a href="${url("")}" class="menu-work">Work</a>
 </nav>
+<div class="about${page === "info" ? " is-open" : ""}" id="about" role="dialog" aria-label="Info"${page === "info" ? "" : " inert"}>
+${infoPage(site)}
+</div>
 <main>
 ${body}
 </main>
@@ -424,7 +426,8 @@ async function main() {
   // Work is the landing page; the old section addresses forward to it
   for (const old of ["work", "practice", "commissions"])
     await write(`${old}/index.html`, `<!doctype html><meta charset="utf-8"><title>Work</title><link rel="canonical" href="${url("")}"><meta http-equiv="refresh" content="0; url=${url("")}">`);
-  await write("info/index.html", layout({ site, page: "info", title: "Info", body: infoPage(site), ogImage: siteOg, canonical: "/info/" }));
+  // /info/ is the Work page with the Info layer already open (the name in the bar opens it from anywhere)
+  await write("info/index.html", layout({ site, page: "info", title: "Info", body: indexPage(site, projects), ogImage: siteOg, canonical: "/info/" }));
   for (let i = 0; i < projects.length; i++) {
     const p = projects[i];
     await write(

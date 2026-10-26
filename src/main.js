@@ -146,13 +146,29 @@
   }
 
   // ── name in the tab bar: on the landing page, glide back to the top instead of reloading
+  // ── Info: the name in the bar opens it as a layer over the blurred page, from anywhere; the name turns into Close
   const name = document.querySelector(".menu-name");
-  if (name && document.body.dataset.page === "index") {
+  const about = document.getElementById("about");
+  const setAbout = (open) => {
+    if (!about) return;
+    about.classList.toggle("is-open", open);
+    about.inert = !open;
+    document.body.classList.toggle("about-open", open);
+    name.setAttribute("aria-expanded", open);
+    if (open) about.scrollTop = 0;
+    // leaving /info/ itself: the address goes back to the Work page underneath
+    if (!open && /\/info\/$/.test(location.pathname)) history.replaceState(null, "", location.pathname.replace(/info\/$/, ""));
+  };
+  if (name && about) {
     name.addEventListener("click", (e) => {
       e.preventDefault();
-      window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
-      if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+      setAbout(!about.classList.contains("is-open"));
     });
+    document.addEventListener("keydown", (e) => e.key === "Escape" && about.classList.contains("is-open") && setAbout(false));
+    // a click on the blurred page around the text closes it too
+    about.addEventListener("click", (e) => !e.target.closest(".panel") && setAbout(false));
+    // Work in the bar always closes it
+    document.querySelector(".menu-work")?.addEventListener("click", () => setAbout(false), true);
   }
 
   // ── project page: the rail
