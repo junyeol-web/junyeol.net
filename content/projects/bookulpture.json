@@ -2,7 +2,10 @@
   "title": "Bookulpture",
   "summary": "A book that is also a sculpture — asking where graphic design ends and sculpture begins.",
   "year": 2024,
-  "category": "Practice",
+  "keywords": [
+    "Artwork",
+    "Publication"
+  ],
   "discipline": "Publication, Installation",
   "credits": "Thanks to Jaewon Seok",
   "description": "Graphic design, once confined to flat surfaces, now spreads across screens and into three-dimensional space. Bookulpture combines the two into a single form: its pages are read as a book and assembled as a sculpture.",

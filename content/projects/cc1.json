@@ -2,7 +2,9 @@
   "title": "CC1",
   "summary": "The first issue of AABB's publishing project CC, bringing together OS Seminar 1–6.",
   "year": 2024,
-  "category": "Commissions",
+  "keywords": [
+    "Publication"
+  ],
   "discipline": "Publication Design",
   "client": "",
   "role": "Design",

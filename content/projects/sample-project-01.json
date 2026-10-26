@@ -2,7 +2,9 @@
   "title": "News From New Haven, October 2026",
   "summary": "New Haven began in 1638 as a grid of nine squares; this header for the October 2026 issue of News From New Haven builds every letter on the same 3 × 3 grid.",
   "year": 2026,
-  "category": "Practice",
+  "keywords": [
+    "Motion"
+  ],
   "format": "Single Channel Video",
   "description": "",
   "cover_vimeo": "https://vimeo.com/1238196266",

@@ -13,7 +13,7 @@ content:
     format: json
     filename: "{primary}.json"
     view:
-      fields: [title, category, year, draft]
+      fields: [title, keywords, year, draft]
       primary: title
       sort: [order, year, title]
       default:
@@ -32,13 +32,13 @@ content:
         label: Year
         description: A year, or a range like 2024–2026
         type: string
-      - name: category
-        label: Section
-        description: Practice = your own work, Commissions = client work.
+      - name: keywords
+        label: Keywords
+        description: The filters on the Work page. Pick one or more. (To add a new keyword, add it to the list in .pages.yml.)
         type: select
-        default: Practice
         options:
-          values: [Practice, Commissions]
+          multiple: true
+          values: [Artwork, Identity, Publication, Poster, Motion]
       - name: format
         label: Format / specs
         description: Shown under the images in the feed, e.g. "Poster series, 594 × 841 mm, risograph"
@@ -188,14 +188,6 @@ content:
         label: Plates behind works
         description: Off = works stand on their own, bottoms aligned. On = each work sits on a grey plate with a soft shadow.
         type: boolean
-      - name: label_practice
-        label: Section name — own work
-        description: e.g. Practice, Work P
-        type: string
-      - name: label_commissions
-        label: Section name — client work
-        description: e.g. Commissions, Work C
-        type: string
       - name: accent
         label: Accent color
         description: Hex, e.g. #ff3b00

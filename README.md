@@ -12,14 +12,14 @@ Portfolio site of Junyeol — graphic designer and art director.
 ### 프로젝트 필드 요약
 | 필드 | 용도 |
 |---|---|
-| Section | `Practice`(Work P, 내 작업) 또는 `Commissions`(Work C, 의뢰 작업) |
+| Keywords | Work 페이지 필터 (Artwork · Identity · Publication · Poster · Motion, 여러 개 선택 가능) |
 | Format / specs | 상세 페이지에 표기 (예: Poster series, 594 × 841 mm, risograph) |
 | Cover image | 랜딩 그리드에 받침판 위에 통째로(자르지 않고) 놓이는 대표 이미지 + 링크 공유 썸네일 |
 | Images and videos | 상세 페이지 이미지. Layout: `full` · `half`(두 개 연속이면 나란히) · `inset` |
 | Order | 작은 숫자가 위 (10, 20, 30…) |
 | Hide (draft) | 사이트에서 숨김 |
 
-**Information & settings**에서 테마(`white` · `grey` · `black` · `richblack`)와 섹션 이름(Practice/Commissions ↔ Work P/Work C 등)을 바꿀 수 있음.
+**Information & settings**에서 테마(`white` · `grey` · `black` · `richblack`)를 바꿀 수 있음.
 
 ## 구조
 

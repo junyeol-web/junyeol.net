@@ -2,7 +2,9 @@
   "title": "CC2",
   "summary": "A book that documents the practices of six contemporary visual artists, for AABB's publishing project CC.",
   "year": 2025,
-  "category": "Commissions",
+  "keywords": [
+    "Publication"
+  ],
   "discipline": "Publication Design",
   "client": "",
   "role": "Design",

@@ -107,6 +107,44 @@
   watchImages(document);
   watchVideos(document);
 
+  // ── keyword filter on the Work page: ?k=artwork shows only those works (the address can be shared)
+  const filter = document.querySelector(".filter");
+  const grid = document.querySelector(".grid");
+  const setFilter = (k, animate) => {
+    if (!filter || !grid) return;
+    const apply = () => {
+      grid.querySelectorAll(".tile").forEach((t) => (t.hidden = !!k && !t.dataset.k.split(" ").includes(k)));
+      filter.classList.toggle("is-on", !!k);
+      filter.querySelectorAll("a").forEach((a) => a.classList.toggle("is-active", !!k && a.dataset.k === k));
+    };
+    if (!animate || reduced) return apply();
+    grid.classList.add("is-swapping");
+    setTimeout(() => { apply(); requestAnimationFrame(() => grid.classList.remove("is-swapping")); }, 200);
+  };
+  if (filter) {
+    const start = new URLSearchParams(location.search).get("k") || "";
+    if (start) setFilter(start, false);
+    filter.addEventListener("click", (e) => {
+      const a = e.target.closest("a");
+      if (!a) return;
+      e.preventDefault();
+      const cur = new URLSearchParams(location.search).get("k") || "";
+      const k = a.dataset.k === cur ? "" : a.dataset.k; // clicking the active keyword again shows everything
+      history.replaceState(null, "", location.pathname + (k ? `?k=${k}` : ""));
+      setFilter(k, true);
+      if (window.scrollY > filter.offsetTop) window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+    });
+  }
+  const work = document.querySelector(".menu-work");
+  if (work && document.body.dataset.page === "index") {
+    work.addEventListener("click", (e) => {
+      e.preventDefault();
+      history.replaceState(null, "", location.pathname);
+      setFilter("", true);
+      window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+    });
+  }
+
   // ── name in the tab bar: on the landing page, glide back to the top instead of reloading
   const name = document.querySelector(".menu-name");
   if (name && document.body.dataset.page === "index") {

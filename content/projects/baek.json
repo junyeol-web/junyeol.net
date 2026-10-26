@@ -2,7 +2,9 @@
   "title": "BAEK 백",
   "summary": "Three dice that roll the Romanizations of the Korean surname 백 — each throw lands on one of six spellings, weighted by how often they are actually used.",
   "year": 2026,
-  "category": "Practice",
+  "keywords": [
+    "Artwork"
+  ],
   "discipline": "Object, Type Design",
   "client": "",
   "studio": "",

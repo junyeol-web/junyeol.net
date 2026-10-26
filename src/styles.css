@@ -90,9 +90,9 @@ img, video { display: block; max-width: 100%; }
 
 /* ───────── the grid
    Everything sits on one 12-column grid with a gutter of --g and the same outer margin.
-   Desktop: the tab bar and the landing tiles are 4 × 3 columns, so every tab starts where a column of work starts.
-   Project page: text and images use columns 1–9, the rail of all works columns 10–12 (under "Info").
-   Below 1000px: 2 tile columns; the tab bar becomes 6 parts (name = 3, each tab = 1), which lines up the same way. */
+   Desktop: the landing tiles are 4 × 3 columns; the tab bar uses the same four (name = 1–2, Work = 3, Info = 4).
+   Project page: text and images use columns 1–9, the rail of all works columns 10–12.
+   Below 1000px: 2 tile columns; the bar keeps its four parts, so Work starts on the second column. */
 
 /* ───────── tab bar */
 .menu {
@@ -121,11 +121,32 @@ img, video { display: block; max-width: 100%; }
 .menu a::after { content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: calc(var(--g) / -2); right: calc(var(--g) / -2); background: var(--ink); opacity: 0; transition: opacity 0.15s ease; }
 .menu a:first-child::after { left: calc(var(--g) * -1); }
 .menu a:last-child::after { right: calc(var(--g) * -1); }
-.menu .menu-name { font-weight: 500; }
+.menu .menu-name { font-weight: 500; grid-column: span 2; }
 .menu .n { color: var(--mute); }
 @media (hover: hover) { .menu a:hover { color: var(--bg); } .menu a:hover::after { opacity: 1; } }
 .menu a:active { color: var(--bg); }
 .menu a:active::after { opacity: 1; }
+
+/* ───────── keyword filter: one quiet line under the bar, stays while you scroll the work */
+.filter {
+  position: sticky;
+  top: var(--bar-h);
+  z-index: 19;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 18px;
+  padding: 9px var(--g) 0;
+  background: var(--bg);
+}
+.filter a { padding-bottom: 9px; transition: opacity 0.3s ease, filter 0.3s ease, color 0.3s ease; }
+/* once a keyword is picked, the others step back */
+.filter.is-on a:not(.is-active) { color: var(--mute); }
+@media (hover: hover) { .filter a:hover { opacity: 0.35; filter: blur(2px); } }
+.grid { transition: opacity 0.2s ease; }
+.grid.is-swapping { opacity: 0; }
+.tile[hidden] { display: none; }
+.keys a { transition: opacity 0.3s ease, filter 0.3s ease; }
+@media (hover: hover) { .keys a:hover { opacity: 0.35; filter: blur(2px); } }
 
 /* ───────── grid */
 .grid-section { padding: var(--g) var(--g) 40px; }
@@ -311,7 +332,7 @@ body[data-page="project"] main {
 .rail a[aria-current="page"] { color: var(--ink); }
 .rail a[aria-current="page"] .rail-plate { outline-color: var(--ink); }
 
-/* ───────── info: columns 1–6 (under the name and Work P) */
+/* ───────── info: columns 1–6 (under the name) */
 body[data-page="info"] main { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); padding: 0 var(--g); }
 .info { grid-column: 1 / 7; display: flex; flex-direction: column; gap: var(--g); padding: var(--g) 0; }
 .info .bio { padding: 6px var(--g) 8px; font-size: 14px; line-height: 1.4; }
@@ -323,13 +344,11 @@ body[data-page="info"] main { display: grid; grid-template-columns: repeat(12, m
 .notfound { padding: 30vh var(--g); }
 .notfound a { text-decoration: underline; }
 
-/* ───────── below 1000px: two columns of work; the bar splits 3 + 1 + 1 + 1 of six */
+/* ───────── below 1000px: two columns of work */
 @media (max-width: 999px) {
   :root { --cols: 2; }
   .tile-hero { grid-column: 1 / -1; }
   .tile-hero .plate { aspect-ratio: 8 / 5; }
-  .menu { grid-template-columns: repeat(6, minmax(0, 1fr)); }
-  .menu .menu-name { grid-column: span 3; }
   .menu .n { display: none; }
   body[data-page="project"] main, body[data-page="info"] main { display: block; }
   .project { display: block; }
@@ -354,6 +373,8 @@ body[data-page="info"] main { display: grid; grid-template-columns: repeat(12, m
   .cover-vid { inset: 9%; }
   .tag { font-size: 12px; }
   .menu { font-size: 12px; }
+  .filter { column-gap: 14px; font-size: 12px; padding-top: 8px; }
+  .filter a { padding-bottom: 8px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

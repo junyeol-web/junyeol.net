@@ -220,8 +220,14 @@ async function loadProjects() {
 
 let COUNTS = {};
 // ───────────────────────── templates
-const sectionOf = (p) => (String(p.category || "").toLowerCase().startsWith("comm") ? "commissions" : "practice");
-const labels = (site) => ({ practice: site.label_practice || "Work P", commissions: site.label_commissions || "Work C" });
+// keywords sort the work (Artwork, Identity, Publication…); the filter on the Work page lists them in this order
+const KEYWORDS = ["Artwork", "Identity", "Publication", "Poster", "Motion"];
+const kw = (p) => (Array.isArray(p.keywords) ? p.keywords : String(p.keywords || "").split(",")).map((k) => String(k).trim()).filter(Boolean);
+const kslug = (k) => k.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+const keywordsIn = (projects) => {
+  const used = [...new Set(projects.flatMap(kw))];
+  return [...KEYWORDS.filter((k) => used.includes(k)), ...used.filter((k) => !KEYWORDS.includes(k)).sort()];
+};
 const ratio = (m) => (m && m.width && m.height ? (m.width / m.height).toFixed(4) : "");
 const chip = (text, cls = "") => (text ? `<span class="chip${cls ? " " + cls : ""}">${esc(text)}</span>` : "");
 
@@ -236,8 +242,6 @@ function layout({ site, title, description, ogImage, body, page, canonical, coun
   const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.role}`;
   const desc = description || site.seo_description || site.role;
   const og = ogImage ? (SITE_URL ? SITE_URL + ogImage.replace(BASE, "/") : ogImage) : "";
-  const L = labels(site);
-  const home = page === "index" ? "" : url("");
   const theme = { light: "white", dark: "black" }[site.theme] || (["white", "grey", "black", "richblack"].includes(site.theme) ? site.theme : "white");
   return `<!doctype html>
 <html lang="en" data-theme="${theme}" data-plates="${site.plates ? "on" : "off"}">
@@ -262,8 +266,7 @@ ${og ? `<meta property="og:image" content="${og}">\n<meta name="twitter:card" co
 <body data-page="${page}">
 <nav class="menu" aria-label="Main">
   <a href="${url("")}" class="menu-name">${esc(site.name)}</a>
-  <a href="${url("practice/")}"${page === "practice" ? ' aria-current="page"' : ""}>${esc(L.practice)}</a>
-  <a href="${url("work/")}"${page === "commissions" ? ' aria-current="page"' : ""}>${esc(L.commissions)}</a>
+  <a href="${url("")}" class="menu-work"${page === "index" ? ' aria-current="page"' : ""}>Work</a>
   <a href="${url("info/")}"${page === "info" ? ' aria-current="page"' : ""}>Info</a>
 </nav>
 <main>
@@ -290,15 +293,19 @@ function coverVimeoTag(v) {
 
 function tile(p, n) {
   const sub = p.discipline || p.client || "";
-  return `<a class="tile${p.hero ? " tile-hero" : ""}" href="${url(`work/${p.slug}/`)}" id="${esc(p.slug)}">
+  return `<a class="tile${p.hero ? " tile-hero" : ""}" href="${url(`work/${p.slug}/`)}" id="${esc(p.slug)}" data-k="${esc(kw(p).map(kslug).join(" "))}">
   <span class="plate${p.coverVimeo ? " has-vid" : ""}">${coverPoster(p, n)}${p.coverVimeo ? coverVimeoTag(p.coverVimeo) : ""}</span>
   <span class="tag"><span class="t-t">${esc(p.title)}</span><span class="t-s">${esc(sub)}</span><span class="t-y">${esc(p.year || "")}</span></span>
 </a>`;
 }
 
-// one grid, every work in a single order; Work P / Work C are their own pages with the same grid, filtered
+// one grid, every work in a single order, with keyword filters above it (?k=artwork links straight to one)
 function indexPage(site, projects) {
-  return `<section class="grid-section">
+  const keys = keywordsIn(projects);
+  const filter = keys.length
+    ? `<nav class="filter" aria-label="Keywords"><a href="${url("")}" data-k="">All</a>${keys.map((k) => `<a href="${url("")}?k=${kslug(k)}" data-k="${kslug(k)}">${esc(k)}</a>`).join("")}</nav>`
+    : "";
+  return `${filter}<section class="grid-section">
   <div class="grid">
 ${projects.map((p, i) => tile(p, i + 1)).join("\n")}
   </div>
@@ -306,9 +313,8 @@ ${projects.map((p, i) => tile(p, i + 1)).join("\n")}
 }
 
 function projectPage(site, p, prev, next, all = []) {
-  const L = labels(site);
+  const keys = kw(p).map((k) => `<a href="${url("")}?k=${kslug(k)}">${esc(k)}</a>`).join(", ");
   const meta = [
-    ["Section", L[sectionOf(p)]],
     ["Year", p.year],
     ["Client", p.client],
     ["Studio", p.studio],
@@ -341,6 +347,7 @@ function projectPage(site, p, prev, next, all = []) {
     <div class="panel">
       <h1 class="row">${esc(p.title)}</h1>
       ${meta.map(([k, v]) => `<div class="row"><span class="k">${k}</span><span>${esc(v)}</span></div>`).join("\n      ")}
+      ${keys ? `<div class="row"><span class="k">Keywords</span><span class="keys">${keys}</span></div>` : ""}
       ${credits.length ? `<div class="row"><span class="k">Credits</span><span>${credits.map(linkify).join("<br>")}</span></div>` : ""}
     </div>
     ${p.summary || p.description ? `<div class="panel text">${p.summary ? `<p>${linkify(p.summary)}</p>` : ""}${md(p.description)}</div>` : ""}
@@ -360,13 +367,9 @@ ${rail(site, p, all)}`;
 // every work as a small plate down the right edge (along the bottom on phones): jump between works without going back
 function rail(site, current, all) {
   if (all.length < 2) return "";
-  const L = labels(site);
-  let last = "";
   const items = all
     .map((q) => {
-      const sec = sectionOf(q);
       const head = "";
-      last = sec;
       const m = q.coverImg;
       const thumb = m && m.kind === "image" && m.sources ? `<img src="${m.small}" alt="" loading="lazy" decoding="async" width="${m.width}" height="${m.height}">` : "";
       const cur = q.slug === current.slug;
@@ -413,21 +416,14 @@ async function main() {
 
   const site = await readJSON(path.join(CONTENT, "site.json"));
   const all = await loadProjects();
-  // feed order: practice first, then commissions; prev/next follows the same order
-  const projects = all; // one order everywhere: the Order field, then year
-  const counts = { practice: projects.filter((p) => sectionOf(p) === "practice").length, commissions: projects.filter((p) => sectionOf(p) === "commissions").length };
-  COUNTS = counts;
+  const projects = all; // one order everywhere: the Order field, then year; prev/next follows it
+  const counts = {};
   const siteOg = projects.find((p) => p.featured && p.coverImg?.og)?.coverImg.og || projects.find((p) => p.coverImg?.og)?.coverImg.og;
 
   await write("index.html", layout({ site, page: "index", body: indexPage(site, projects), ogImage: siteOg, canonical: "/", counts }));
-  const L = labels(site);
-  // section pages: /practice/ and /work/ (client work). Old /commissions/ links forward to /work/.
-  const PATHS = { practice: "practice", commissions: "work" };
-  for (const key of ["practice", "commissions"]) {
-    const list = projects.filter((p) => sectionOf(p) === key);
-    await write(`${PATHS[key]}/index.html`, layout({ site, page: key, title: L[key], body: indexPage(site, list), ogImage: siteOg, canonical: `/${PATHS[key]}/` }));
-  }
-  await write("commissions/index.html", `<!doctype html><meta charset="utf-8"><title>Work</title><link rel="canonical" href="${url("work/")}"><meta http-equiv="refresh" content="0; url=${url("work/")}">`);
+  // Work is the landing page; the old section addresses forward to it
+  for (const old of ["work", "practice", "commissions"])
+    await write(`${old}/index.html`, `<!doctype html><meta charset="utf-8"><title>Work</title><link rel="canonical" href="${url("")}"><meta http-equiv="refresh" content="0; url=${url("")}">`);
   await write("info/index.html", layout({ site, page: "info", title: "Info", body: infoPage(site), ogImage: siteOg, canonical: "/info/" }));
   for (let i = 0; i < projects.length; i++) {
     const p = projects[i];
@@ -468,7 +464,7 @@ async function main() {
     }
   }
   if (SITE_URL) {
-    const urls = ["/", "/practice/", "/work/", "/info/", ...projects.map((p) => `/work/${p.slug}/`)];
+    const urls = ["/", "/info/", ...projects.map((p) => `/work/${p.slug}/`)];
     await write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map((u) => `<url><loc>${SITE_URL}${u}</loc></url>`).join("")}</urlset>\n`);
   }
   await write("robots.txt", `User-agent: *\nAllow: /\n${SITE_URL ? `Sitemap: ${SITE_URL}/sitemap.xml\n` : ""}`);
