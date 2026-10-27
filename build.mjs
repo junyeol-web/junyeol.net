@@ -314,6 +314,12 @@ ${projects.map((p, i) => tile(p, i + 1)).join("\n")}
 </section>`;
 }
 
+// "Photography: [Dohyun Park](…)" → the role in grey, then the names
+const creditLine = (l) => {
+  const m = l.match(/^([^:\[\]]{1,40}):\s*(.+)$/) || l.match(/^(Published by|Thanks to|Designed by|Edited by|Photographed by)\s+(.+)$/i);
+  return m ? `<li><span class="k">${esc(m[1])}</span> ${linkify(m[2])}</li>` : `<li>${linkify(l)}</li>`;
+};
+
 function projectPage(site, p, prev, next, all = []) {
   const keys = kw(p).map((k) => `<a href="${url("")}?k=${kslug(k)}">${esc(k)}</a>`).join(", ");
   const meta = [
@@ -350,7 +356,7 @@ function projectPage(site, p, prev, next, all = []) {
       <h1 class="row">${esc(p.title)}</h1>
       ${meta.map(([k, v]) => `<div class="row"><span class="k">${k}</span><span>${esc(v)}</span></div>`).join("\n      ")}
       ${keys ? `<div class="row"><span class="k">Keywords</span><span class="keys">${keys}</span></div>` : ""}
-      ${credits.length ? `<div class="row"><span class="k">Credits</span><span>${credits.map(linkify).join("<br>")}</span></div>` : ""}
+      ${credits.length ? `<div class="row credits"><span class="k">Credits</span><ul>${credits.map(creditLine).join("")}</ul></div>` : ""}
     </div>
     ${p.summary || p.description ? `<div class="panel text">${p.summary ? `<p>${linkify(p.summary)}</p>` : ""}${md(p.description)}</div>` : ""}
   </header>

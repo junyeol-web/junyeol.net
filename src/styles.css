@@ -242,6 +242,11 @@ img, video { display: block; max-width: 100%; }
 .panel { background: var(--plate); }
 .panel .row { display: flex; justify-content: space-between; gap: 12px; padding: 6px var(--g) 5px; }
 .panel .row + .row { border-top: 1px solid var(--line); }
+.panel .row > .k { flex: none; white-space: nowrap; } /* labels never break */
+/* credits: the label on its own line, then one credit per line, left-aligned */
+.panel .row.credits { display: block; }
+.credits ul { list-style: none; margin: 4px 0 2px; padding: 0; }
+.credits li { padding: 1px 0; }
 .k { color: var(--mute); }
 .chip {
   display: inline-block;
