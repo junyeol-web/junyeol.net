@@ -8,8 +8,8 @@
   "discipline": "Exhibition Graphic Design",
   "format": "",
   "client": "The Museum of Silhak",
-  "role": "Exhibition graphic design",
-  "credits": "Artists: Kang Byungin, Kim Hyunjin, Yang-Jang, Hahm Jieun, DDBBMM\nExhibition Graphic Design: Junyeol Baek",
+  "role": "Design",
+  "credits": "Artists: Kang Byungin, Kim Hyunjin, Yang-Jang, Hahm Jieun, DDBBMM\nDirector: [Jaewon Seok](https://www.instagram.com/jaewonseok/)\nDesign: [Sorim Lee](https://www.instagram.com/soriimlee/), Junyeol Baek\nPhotography: [Dohyun Park](https://www.instagram.com/dhyvnpark/)",
   "description": "Kim Jeong-hui (1786–1856), known as Chusa, is read here as a typographer before the word existed. Five contemporary designers answer his work, and the graphics carry that meeting through the room: introduction walls in Korean and English, a floor plan with the artists' biographies, and labels that set each new work beside the piece of Chusa's it responds to.\n\nThe Museum of Silhak, 30 April – 26 October 2025.",
   "cover": "/media/chusa-revisited/chusa-01-intro-en.jpg",
   "media": [
@@ -46,5 +46,6 @@
   ],
   "featured": false,
   "order": 9,
-  "draft": false
+  "draft": false,
+  "studio": "AABB"
 }
