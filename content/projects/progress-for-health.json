@@ -12,7 +12,7 @@
   "role": "Design",
   "format": "",
   "credits": "Designed by AABB.INC\nDirector: [Jaewon Seok](https://www.instagram.com/jaewonseok/)\nDesign: Junyeol Baek\nAssistant: Minji Baek\nClient: Hyundai Motor Group\nProject Management: Deukgyu Lee, Youngkyeong Woo",
-  "description": "",
+  "description": "A family of pictograms of everyday movement — running, stretching, lifting, cycling, swimming — turns the stairwells into a place to exercise. At full scale the figures stride across doors and walls, and lit numbers mark every floor.",
   "cover": "/media/progress-for-health/pfh-01-pictogram.jpg",
   "media": [
     {
@@ -27,9 +27,49 @@
       "layout": "full"
     },
     {
+      "image": "/media/progress-for-health/pfh-03-signage.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/progress-for-health/pfh-04-poster.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/progress-for-health/pfh-05-pictogram-set.jpg",
+      "caption": "",
+      "layout": "full"
+    },
+    {
+      "image": "/media/progress-for-health/pfh-06-stair-diagram.jpg",
+      "caption": "",
+      "layout": "full"
+    },
+    {
+      "image": "/media/progress-for-health/pfh-07-stair-stretch.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/progress-for-health/pfh-08-stair-run.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
       "image": "/media/progress-for-health/pfh-01-pictogram.jpg",
       "caption": "",
       "layout": "inset"
+    },
+    {
+      "image": "/media/progress-for-health/pfh-09-install-door.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/progress-for-health/pfh-10-install-floor.jpg",
+      "caption": "",
+      "layout": "half"
     }
   ],
   "featured": true,
