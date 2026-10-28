@@ -1,0 +1,46 @@
+{
+  "title": "BBUL (Publication)",
+  "summary": "A publication for BBUL: each of the 16 artists answers two questions on a sheet of their own, shown as stacks to take away and as a row on the wall.",
+  "year": "2025",
+  "keywords": [
+    "Publication",
+    "Space"
+  ],
+  "discipline": "Publication, Exhibition",
+  "format": "",
+  "client": "",
+  "role": "",
+  "credits": "Artists: GuNa, Camelostrich, Cho Leesop, Chae Soojin, Choi Heewon, Han Goeun, Hong Yejin, Jeong Duldol, Jiiho, Kim Dohyeon, Kim Jane Kyuwon, Kim Haerri, Lee Yujin, Lee Yewon, Na Junheum, Noh Hyejin\nGraphic Design: Junyeol Baek",
+  "description": "Every artist in the relay was asked the same two questions — what is the 'BBUL' growing inside you, and what does drawing it mean to you. Each answer is printed on a grey sheet with the date and hour of their turn, a debossed triangle and a short text on their practice. On the wall, the sheets hang in drawing order, each marked with a black wooden triangle bearing the artist's name.",
+  "cover": "/media/bbul-publication/bbulp-01-plates.jpg",
+  "media": [
+    {
+      "image": "/media/bbul-publication/bbulp-02-wall.jpg",
+      "caption": "",
+      "layout": "full"
+    },
+    {
+      "image": "/media/bbul-publication/bbulp-01-plates.jpg",
+      "caption": "",
+      "layout": "full"
+    },
+    {
+      "image": "/media/bbul-publication/bbulp-03-stacks.jpg",
+      "caption": "",
+      "layout": "full"
+    },
+    {
+      "image": "/media/bbul-publication/bbulp-04-sheet.jpg",
+      "caption": "",
+      "layout": "inset"
+    },
+    {
+      "image": "/media/bbul-publication/bbulp-05-wall-stacks.jpg",
+      "caption": "",
+      "layout": "full"
+    }
+  ],
+  "featured": false,
+  "order": 7.5,
+  "draft": false
+}
