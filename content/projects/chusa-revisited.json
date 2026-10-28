@@ -1,0 +1,50 @@
+{
+  "title": "Chusa, Revisited",
+  "summary": "Exhibition graphics for Chusa, Revisited, the Museum of Silhak's 2025 joint exhibition where the art of Kim Jeong-hui meets contemporary typography.",
+  "year": "2025",
+  "keywords": [
+    "Space"
+  ],
+  "discipline": "Exhibition Graphic Design",
+  "format": "",
+  "client": "The Museum of Silhak",
+  "role": "Exhibition graphic design",
+  "credits": "Artists: Kang Byungin, Kim Hyunjin, Yang-Jang, Hahm Jieun, DDBBMM\nExhibition Graphic Design: Junyeol Baek",
+  "description": "Kim Jeong-hui (1786–1856), known as Chusa, is read here as a typographer before the word existed. Five contemporary designers answer his work, and the graphics carry that meeting through the room: introduction walls in Korean and English, a floor plan with the artists' biographies, and labels that set each new work beside the piece of Chusa's it responds to.\n\nThe Museum of Silhak, 30 April – 26 October 2025.",
+  "cover": "/media/chusa-revisited/chusa-01-intro-en.jpg",
+  "media": [
+    {
+      "image": "/media/chusa-revisited/chusa-01-intro-en.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/chusa-revisited/chusa-02-intro-ko.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/chusa-revisited/chusa-03-map-wall.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/chusa-revisited/chusa-04-label.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/chusa-revisited/chusa-05-sculptures.jpg",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "image": "/media/chusa-revisited/chusa-06-label.jpg",
+      "caption": "",
+      "layout": "half"
+    }
+  ],
+  "featured": false,
+  "order": 9,
+  "draft": false
+}
