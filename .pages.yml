@@ -110,6 +110,13 @@ content:
             default: loop
             options:
               values: [loop, player]
+          - name: rotate
+            label: Turn the Vimeo video
+            description: -90 = a quarter turn to the left, 90 = to the right. For clips filmed sideways.
+            type: select
+            default: "0"
+            options:
+              values: ["0", "-90", "90"]
           - name: video
             label: Video file (optional, short mp4 only)
             description: For very short clips. Longer videos belong on Vimeo.

@@ -26,6 +26,13 @@
       "layout": "full"
     },
     {
+      "vimeo": "https://vimeo.com/1144292231",
+      "vimeo_mode": "loop",
+      "rotate": "-90",
+      "caption": "",
+      "layout": "full"
+    },
+    {
       "image": "/media/cc2/cc2-03-shelf.jpg",
       "vimeo_mode": "loop",
       "layout": "half"

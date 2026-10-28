@@ -182,7 +182,8 @@ function vimeoTag(v, { loop = true, title = "" } = {}) {
   if (loop) { q.set("background", "1"); q.set("autoplay", "1"); q.set("loop", "1"); q.set("muted", "1"); }
   const src = `https://player.vimeo.com/video/${v.id}?${q}`;
   // the iframe loads only when it comes near the screen (main.js) and fades in once loaded — no thumbnail flash
-  return `<span class="vimeo${loop ? " is-loop" : ""}"><iframe data-src="${esc(src)}" title="${esc(title || v.title || "Video")}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></span>`;
+  const turn = v.rot ? ` style="--rot:${v.rot}deg;--vr:${v.vr.toFixed(4)}"` : "";
+  return `<span class="vimeo${loop ? " is-loop" : ""}${v.rot ? " is-turned" : ""}"${turn}><iframe data-src="${esc(src)}" title="${esc(title || v.title || "Video")}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></span>`;
 }
 
 // ───────────────────────── content
@@ -211,7 +212,11 @@ async function loadProjects() {
     }
     p.mediaItems = [];
     for (const m of p.media || []) {
-      const processed = m.vimeo ? await vimeoInfo(m.vimeo) : await processMedia(m.video || m.image);
+      let processed = m.vimeo ? await vimeoInfo(m.vimeo) : await processMedia(m.video || m.image);
+      // a Vimeo video can be turned a quarter (e.g. a phone clip filmed sideways): the frame takes the turned shape
+      const rot = Number(m.rotate) || 0;
+      if (processed && processed.kind === "vimeo" && Math.abs(rot) === 90)
+        processed = { ...processed, rot, vr: processed.width / processed.height, width: processed.height, height: processed.width };
       if (processed) p.mediaItems.push({ ...m, img: processed });
     }
   }
