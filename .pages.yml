@@ -38,7 +38,7 @@ content:
         type: select
         options:
           multiple: true
-          values: [Artwork, Identity, Publication, Poster, Motion]
+          values: [Artwork, Identity, Publication, Poster, Space, Motion]
       - name: format
         label: Format / specs
         description: Shown under the images in the feed, e.g. "Poster series, 594 × 841 mm, risograph"

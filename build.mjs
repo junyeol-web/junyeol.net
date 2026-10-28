@@ -221,7 +221,7 @@ async function loadProjects() {
 let COUNTS = {};
 // ───────────────────────── templates
 // keywords sort the work (Artwork, Identity, Publication…); the filter on the Work page lists them in this order
-const KEYWORDS = ["Artwork", "Identity", "Publication", "Poster", "Motion"];
+const KEYWORDS = ["Artwork", "Identity", "Publication", "Poster", "Space", "Motion"];
 const kw = (p) => (Array.isArray(p.keywords) ? p.keywords : String(p.keywords || "").split(",")).map((k) => String(k).trim()).filter(Boolean);
 const kslug = (k) => k.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 const keywordsIn = (projects) => {
