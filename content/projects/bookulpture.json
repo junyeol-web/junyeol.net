@@ -7,7 +7,7 @@
     "Publication"
   ],
   "discipline": "Publication, Installation",
-  "credits": "Thanks to Jaewon Seok",
+  "credits": "Thanks to [Jaewon Seok](http://jaewonseok.com/)",
   "description": "Graphic design, once confined to flat surfaces, now spreads across screens and into three-dimensional space. Bookulpture combines the two into a single form: its pages are read as a book and assembled as a sculpture.",
   "cover": "/media/bookulpture/bookulpture-01-exhibition.jpg",
   "cover_vimeo_start": 0,
@@ -17,6 +17,12 @@
     {
       "image": "/media/bookulpture/bookulpture-01-exhibition.jpg",
       "vimeo_mode": "loop",
+      "layout": "full"
+    },
+    {
+      "vimeo": "https://vimeo.com/1144274766",
+      "vimeo_mode": "loop",
+      "caption": "",
       "layout": "full"
     },
     {
@@ -33,6 +39,12 @@
       "image": "/media/bookulpture/bookulpture-04-tower.jpg",
       "vimeo_mode": "loop",
       "layout": "half"
+    },
+    {
+      "vimeo": "https://vimeo.com/1144274236",
+      "vimeo_mode": "loop",
+      "caption": "",
+      "layout": "full"
     },
     {
       "image": "/media/bookulpture/bookulpture-05-book.gif",

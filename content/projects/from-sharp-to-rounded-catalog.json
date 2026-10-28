@@ -15,6 +15,12 @@
   "cover": "/media/from-sharp-to-rounded-catalog/fstr-catalog-01-text.jpg",
   "media": [
     {
+      "vimeo": "https://vimeo.com/1144431609",
+      "vimeo_mode": "loop",
+      "caption": "",
+      "layout": "full"
+    },
+    {
       "image": "/media/from-sharp-to-rounded-catalog/fstr-catalog-01-text.jpg",
       "caption": "",
       "layout": "half"
