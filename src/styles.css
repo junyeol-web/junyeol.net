@@ -243,10 +243,10 @@ img, video { display: block; max-width: 100%; }
 .panel .row { display: flex; justify-content: space-between; gap: 12px; padding: 6px var(--g) 5px; }
 .panel .row + .row { border-top: 1px solid var(--line); }
 .panel .row > .k { flex: none; white-space: nowrap; } /* labels never break */
-/* credits: the label on its own line, then one credit per line, left-aligned */
-.panel .row.credits { display: block; }
-.credits ul { list-style: none; margin: 4px 0 2px; padding: 0; }
-.credits li { padding: 1px 0; }
+/* project info: labels in one column, every value starting on the same left edge (credits included) */
+.project-head .panel:first-child .row:not(h1) { display: grid; grid-template-columns: 6.2em minmax(0, 1fr); column-gap: 12px; }
+.credits ul { list-style: none; margin: 0; padding: 0; }
+.credits li + li { margin-top: 2px; }
 .k { color: var(--mute); }
 .chip {
   display: inline-block;
