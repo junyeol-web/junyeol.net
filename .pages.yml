@@ -185,6 +185,10 @@ content:
         type: file
         options:
           extensions: [pdf]
+      - name: home_image
+        label: Front page image
+        description: The one image on the front page. Leave empty to show the work marked "Centre of the landing page" instead.
+        type: image
       - name: pronunciation
         label: Name pronunciation (audio)
         description: A short recording of you saying your name (m4a, mp3 or wav). A small button appears under the name.

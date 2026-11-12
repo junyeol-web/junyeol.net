@@ -321,8 +321,10 @@ function filterNav(projects) {
     : "";
 }
 
-// the front page: one work, not all of them (the one marked "Centre of the landing page", else the first selected work)
+// the front page: one image chosen in Information & settings, else one work
+// (the one marked "Centre of the landing page", else the first selected work)
 function homePage(site, projects) {
+  if (site.homeImg) return `<section class="home"><figure class="home-img">${img(site.homeImg, { sizes: "100vw", alt: site.name, eager: true })}</figure></section>`;
   const p = projects.find((q) => q.hero) || projects.find((q) => q.featured) || projects[0];
   return p ? `<section class="home">${tile({ ...p, hero: false }, 1)}</section>` : "";
 }
@@ -445,6 +447,7 @@ async function main() {
   await fs.mkdir(DIST, { recursive: true });
 
   const site = await readJSON(path.join(CONTENT, "site.json"));
+  if (site.home_image) site.homeImg = await processMedia(site.home_image);
   const all = await loadProjects();
   const projects = all; // one order everywhere: the Order field, then year; prev/next follows it
   const counts = {};
