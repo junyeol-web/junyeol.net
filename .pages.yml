@@ -185,6 +185,12 @@ content:
         type: file
         options:
           extensions: [pdf]
+      - name: pronunciation
+        label: Name pronunciation (audio)
+        description: A short recording of you saying your name (m4a, mp3 or wav). A small button appears under the name.
+        type: file
+        options:
+          extensions: [m4a, mp3, wav, aac, ogg]
       - name: theme
         label: Theme
         type: select

@@ -145,6 +145,22 @@
     });
   }
 
+  // ── the name, said out loud
+  const say = document.querySelector(".say");
+  if (say) {
+    let audio;
+    say.addEventListener("click", () => {
+      if (!audio) {
+        audio = new Audio(say.dataset.src);
+        audio.addEventListener("ended", () => say.classList.remove("is-playing"));
+        audio.addEventListener("pause", () => say.classList.remove("is-playing"));
+      }
+      if (!audio.paused) return audio.pause();
+      audio.currentTime = 0;
+      audio.play().then(() => say.classList.add("is-playing")).catch(() => {});
+    });
+  }
+
   // ── name in the tab bar: on the landing page, glide back to the top instead of reloading
   // ── Info: the name in the bar opens it as a layer over the blurred page, from anywhere; the name turns into Close
   const name = document.querySelector(".menu-info");
