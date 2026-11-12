@@ -136,7 +136,7 @@
     });
   }
   const work = document.querySelector(".menu-work");
-  if (work && document.body.dataset.page === "index") {
+  if (work && document.body.dataset.page === "work") {
     work.addEventListener("click", (e) => {
       e.preventDefault();
       history.replaceState(null, "", location.pathname);
@@ -147,8 +147,13 @@
 
   // ── name in the tab bar: on the landing page, glide back to the top instead of reloading
   // ── Info: the name in the bar opens it as a layer over the blurred page, from anywhere; the name turns into Close
-  const name = document.querySelector(".menu-name");
+  const name = document.querySelector(".menu-info");
   const about = document.getElementById("about");
+  // the Info layer starts below the header (its height changes with the keyword list and the screen)
+  const head = document.querySelector(".menu");
+  const sizeHead = () => head && document.documentElement.style.setProperty("--head-h", head.offsetHeight + "px");
+  sizeHead();
+  addEventListener("resize", sizeHead);
   const setAbout = (open) => {
     if (!about) return;
     about.classList.toggle("is-open", open);
@@ -158,6 +163,7 @@
     if (open) about.scrollTop = 0;
     // leaving /info/ itself: the address goes back to the Work page underneath
     if (!open && /\/info\/$/.test(location.pathname)) history.replaceState(null, "", location.pathname.replace(/info\/$/, ""));
+    if (open) sizeHead();
   };
   if (name && about) {
     name.addEventListener("click", (e) => {

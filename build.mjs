@@ -243,7 +243,7 @@ function mediaTag(m, { sizes, alt = "", eager = false } = {}) {
   return img(m, { sizes, alt, eager });
 }
 
-function layout({ site, title, description, ogImage, body, page, canonical, counts = COUNTS }) {
+function layout({ site, title, description, ogImage, body, page, canonical, counts = COUNTS, aside = "" }) {
   const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.role}`;
   const desc = description || site.seo_description || site.role;
   const og = ogImage ? (SITE_URL ? SITE_URL + ogImage.replace(BASE, "/") : ogImage) : "";
@@ -269,10 +269,14 @@ ${og ? `<meta property="og:image" content="${og}">\n<meta name="twitter:card" co
 <script type="speculationrules">{"prefetch":[{"where":{"href_matches":"${BASE}*"},"eagerness":"moderate"}]}</script>
 </head>
 <body data-page="${page === "info" ? "index" : page}"${page === "info" ? ' class="about-open"' : ""}>
-<nav class="menu" aria-label="Main">
-  <a href="${url("info/")}" class="menu-name" aria-controls="about" aria-expanded="${page === "info"}"><span class="nm">${esc(site.name)}</span><span class="cl" aria-hidden="true">Close</span></a>
-  <a href="${url("")}" class="menu-work">Work</a>
-</nav>
+<header class="menu">
+  <a href="${url("")}" class="menu-name">${esc(site.name)}</a>
+  <nav class="menu-nav" aria-label="Main">
+    <a href="${url("work/")}" class="menu-work"${page === "work" ? ' aria-current="page"' : ""}>Work</a>
+    <a href="${url("info/")}" class="menu-info" aria-controls="about" aria-expanded="${page === "info"}"><span class="nm">Info</span><span class="cl" aria-hidden="true">Close</span></a>
+  </nav>
+  ${aside}
+</header>
 <div class="about${page === "info" ? " is-open" : ""}" id="about" role="dialog" aria-label="Info"${page === "info" ? "" : " inert"}>
 ${infoPage(site)}
 </div>
@@ -306,13 +310,23 @@ function tile(p, n) {
 </a>`;
 }
 
-// one grid, every work in a single order, with keyword filters above it (?k=artwork links straight to one)
-function indexPage(site, projects) {
+// the keywords sit in the header, next to Work and Info (?k=artwork links straight to one)
+function filterNav(projects) {
   const keys = keywordsIn(projects);
-  const filter = keys.length
-    ? `<nav class="filter" aria-label="Keywords"><a href="${url("")}" data-k="">All</a>${keys.map((k) => `<a href="${url("")}?k=${kslug(k)}" data-k="${kslug(k)}">${esc(k)}</a>`).join("")}</nav>`
+  return keys.length
+    ? `<nav class="filter" aria-label="Keywords"><a href="${url("work/")}" data-k="">All</a>${keys.map((k) => `<a href="${url("work/")}?k=${kslug(k)}" data-k="${kslug(k)}">${esc(k)}</a>`).join("")}</nav>`
     : "";
-  return `${filter}<section class="grid-section">
+}
+
+// the front page: one work, not all of them (the one marked "Centre of the landing page", else the first selected work)
+function homePage(site, projects) {
+  const p = projects.find((q) => q.hero) || projects.find((q) => q.featured) || projects[0];
+  return p ? `<section class="home">${tile({ ...p, hero: false }, 1)}</section>` : "";
+}
+
+// Work: every work in a single order
+function indexPage(site, projects) {
+  return `<section class="grid-section">
   <div class="grid">
 ${projects.map((p, i) => tile(p, i + 1)).join("\n")}
   </div>
@@ -326,7 +340,7 @@ const creditLine = (l) => {
 };
 
 function projectPage(site, p, prev, next, all = []) {
-  const keys = kw(p).map((k) => `<a href="${url("")}?k=${kslug(k)}">${esc(k)}</a>`).join(", ");
+  const keys = kw(p).map((k) => `<a href="${url("work/")}?k=${kslug(k)}">${esc(k)}</a>`).join(", ");
   const meta = [
     ["Year", p.year],
     ["Client", p.client],
@@ -433,12 +447,13 @@ async function main() {
   const counts = {};
   const siteOg = projects.find((p) => p.featured && p.coverImg?.og)?.coverImg.og || projects.find((p) => p.coverImg?.og)?.coverImg.og;
 
-  await write("index.html", layout({ site, page: "index", body: indexPage(site, projects), ogImage: siteOg, canonical: "/", counts }));
-  // Work is the landing page; the old section addresses forward to it
-  for (const old of ["work", "practice", "commissions"])
-    await write(`${old}/index.html`, `<!doctype html><meta charset="utf-8"><title>Work</title><link rel="canonical" href="${url("")}"><meta http-equiv="refresh" content="0; url=${url("")}">`);
-  // /info/ is the Work page with the Info layer already open (the name in the bar opens it from anywhere)
-  await write("info/index.html", layout({ site, page: "info", title: "Info", body: indexPage(site, projects), ogImage: siteOg, canonical: "/info/" }));
+  await write("index.html", layout({ site, page: "index", body: homePage(site, projects), ogImage: siteOg, canonical: "/", counts }));
+  await write("work/index.html", layout({ site, page: "work", title: "Work", body: indexPage(site, projects), aside: filterNav(projects), ogImage: siteOg, canonical: "/work/" }));
+  // the old section addresses forward to Work
+  for (const old of ["practice", "commissions"])
+    await write(`${old}/index.html`, `<!doctype html><meta charset="utf-8"><title>Work</title><link rel="canonical" href="${url("work/")}"><meta http-equiv="refresh" content="0; url=${url("work/")}">`);
+  // /info/ is the front page with the Info layer already open (Info in the header opens it from anywhere)
+  await write("info/index.html", layout({ site, page: "info", title: "Info", body: homePage(site, projects), ogImage: siteOg, canonical: "/info/" }));
   for (let i = 0; i < projects.length; i++) {
     const p = projects[i];
     await write(
