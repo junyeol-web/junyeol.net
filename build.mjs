@@ -379,7 +379,6 @@ function projectPage(site, p, prev, next, all = []) {
     <div class="panel">
       <h1 class="row">${esc(p.title)}</h1>
       ${meta.map(([k, v]) => `<div class="row"><span class="k">${k}</span><span>${esc(v)}</span></div>`).join("\n      ")}
-      ${keys ? `<div class="row"><span class="k">Keywords</span><span class="keys">${keys}</span></div>` : ""}
       ${credits.length ? `<div class="row credits"><span class="k">Credits</span><ul>${credits.map(creditLine).join("")}</ul></div>` : ""}
     </div>
     ${p.summary || p.description ? `<div class="panel text">${p.summary ? `<p>${linkify(p.summary)}</p>` : ""}${md(p.description)}</div>` : ""}
@@ -454,7 +453,7 @@ async function main() {
   const siteOg = projects.find((p) => p.featured && p.coverImg?.og)?.coverImg.og || projects.find((p) => p.coverImg?.og)?.coverImg.og;
 
   await write("index.html", layout({ site, page: "index", body: homePage(site, projects), ogImage: siteOg, canonical: "/", counts }));
-  await write("work/index.html", layout({ site, page: "work", title: "Work", body: indexPage(site, projects), aside: filterNav(projects), ogImage: siteOg, canonical: "/work/" }));
+  await write("work/index.html", layout({ site, page: "work", title: "Work", body: indexPage(site, projects), ogImage: siteOg, canonical: "/work/" }));
   // the old section addresses forward to Work
   for (const old of ["practice", "commissions"])
     await write(`${old}/index.html`, `<!doctype html><meta charset="utf-8"><title>Work</title><link rel="canonical" href="${url("work/")}"><meta http-equiv="refresh" content="0; url=${url("work/")}">`);
