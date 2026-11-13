@@ -12,8 +12,8 @@
   --line: #e3e3e3;
   --shadow: 0 1px 1px rgba(0, 0, 0, 0.05), 0 10px 28px -8px rgba(0, 0, 0, 0.2);
   --shadow-lift: 0 2px 2px rgba(0, 0, 0, 0.05), 0 18px 36px -10px rgba(0, 0, 0, 0.28);
-  --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --fs: 15px;
+  --sans: "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --fs: 14px;
   --g: 10px;              /* gutter */
   --bar-h: 0px;
   --cols: 4;
@@ -395,7 +395,7 @@ body[data-page="project"] main {
 
 /* ───────── phone */
 @media (max-width: 760px) {
-  :root { --g: 8px; --fs: 14px; }
+  :root { --g: 8px; --fs: 13px; }
   .grid { gap: 20px var(--g); }
   .plate { padding: 9%; }
   .cover-vid { inset: 9%; }
