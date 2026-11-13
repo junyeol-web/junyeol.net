@@ -264,7 +264,7 @@ ${og ? `<meta property="og:image" content="${og}">\n<meta name="twitter:card" co
 <link rel="icon" href="${url("favicon.svg")}" type="image/svg+xml">
 <link rel="icon" href="${url("favicon-32.png")}" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="${url("apple-touch-icon.png")}">
-<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&display=swap">\n<link rel="stylesheet" href="${url("assets/styles.css")}?v=${BUILD_ID}">
+<link rel="stylesheet" href="${url("assets/styles.css")}?v=${BUILD_ID}">
 <script>document.documentElement.classList.add("js")</script>
 <script type="speculationrules">{"prefetch":[{"where":{"href_matches":"${BASE}*"},"eagerness":"moderate"}]}</script>
 </head>
