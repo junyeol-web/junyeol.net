@@ -432,7 +432,7 @@ function infoPage(site) {
   ${list("Experience", site.experience)}
   ${list("Education", site.education)}
   ${list("Clients", site.clients)}
-  ${list("Awards", site.recognition)}
+  ${list("Awards &amp; Grants", site.recognition)}
   ${links.length ? `<section class="panel"><h2 class="row k">Contact</h2>${links.map((l) => `<div class="row">${l}</div>`).join("")}</section>` : ""}
 </section>`;
 }

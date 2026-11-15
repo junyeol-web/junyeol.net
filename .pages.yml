@@ -230,7 +230,7 @@ content:
         type: string
         list: true
       - name: recognition
-        label: Awards
+        label: Awards & Grants
         description: "Title, Awarding body — e.g. Fulbright Scholar, U.S. Department of State"
         type: object
         list: true
