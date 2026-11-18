@@ -187,7 +187,8 @@
       e.preventDefault();
       setAbout(!about.classList.contains("is-open"));
     });
-    document.addEventListener("keydown", (e) => e.key === "Escape" && about.classList.contains("is-open") && setAbout(false));
+    // Esc closes Info first; a work open underneath stays open
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && about.classList.contains("is-open")) { e.preventDefault(); setAbout(false); } });
     // a click on the blurred page around the text closes it too
     about.addEventListener("click", (e) => !e.target.closest(".panel") && setAbout(false));
     // Work in the bar always closes it
@@ -274,7 +275,7 @@
     sheet.querySelector(".sheet-x").addEventListener("click", close);
     // a click on the blurred page around the card closes it too
     sheet.addEventListener("click", (e) => { if (e.target === sheet || e.target.classList.contains("sheet-bar")) close(); });
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && open && !document.body.classList.contains("about-open")) close(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && open && !e.defaultPrevented && !document.body.classList.contains("about-open")) close(); });
     addEventListener("popstate", (e) => {
       if (e.state && e.state.sheet) { pushed = true; show(e.state.sheet, false); }
       else { pushed = false; hide(); }
