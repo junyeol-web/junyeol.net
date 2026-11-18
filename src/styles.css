@@ -311,32 +311,52 @@ body[data-page="project"] main {
   position: fixed;
   inset: var(--head-h) 0 0 0;
   z-index: 35;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  background: color-mix(in srgb, var(--bg) 94%, transparent);
-  -webkit-backdrop-filter: blur(28px);
-  backdrop-filter: blur(28px);
+  padding: 18px 28px 28px;
+  /* the same frosted veil as Info, so the card clearly sits on top of the page */
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0s linear 0.3s;
 }
 .sheet.is-open { opacity: 1; visibility: visible; transition: opacity 0.3s ease, visibility 0s; }
-.sheet-body { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); padding: 0 var(--g) 40px; transform: translateY(10px); transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1); }
-.sheet.is-open .sheet-body { transform: none; }
+.sheet-card {
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--bg);
+  border-radius: 18px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 24px 60px -12px rgb(0 0 0 / 0.25);
+  scrollbar-width: thin;
+  transform: translateY(16px) scale(0.985);
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.sheet.is-open .sheet-card { transform: none; }
+.sheet-body { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); padding: 26px 20px 40px; }
+/* × sits on the page grid, on the same line as Info in the header */
+.sheet-bar {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--g);
+  padding: 28px var(--g) 0;
+  pointer-events: none;
+}
 .sheet-x {
   all: unset;
-  position: sticky;
-  top: 0;
-  float: right;
-  z-index: 2;
-  margin: 10px var(--g) -60px 0;
-  font-size: calc(var(--nav-fs) * 1.3);
-  line-height: 1;
+  grid-column: 4;
+  width: fit-content;
+  font-size: var(--nav-fs);
+  line-height: 1.1;
   cursor: pointer;
+  pointer-events: auto;
   transition: opacity 0.3s ease, filter 0.3s ease;
 }
 @media (hover: hover) { .sheet-x:hover { opacity: 0.35; filter: blur(2px); } }
-.sheet-x:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
+.sheet-x:focus-visible { outline: 1px solid var(--ink); outline-offset: 3px; }
 .sheet-open { overflow: hidden; }
 
 /* ───────── rail: every work, three to a row, in columns 10–12 */
@@ -419,7 +439,11 @@ body[data-page="project"] main {
   .tile-hero .plate { aspect-ratio: 8 / 5; }
   .menu .n { display: none; }
   body[data-page="project"] main { display: block; }
-  .sheet-body { display: block; }
+  .sheet { padding: 12px 8px 0; }
+  .sheet-card { border-radius: 14px 14px 0 0; }
+  .sheet-body { display: block; padding: 48px 12px 40px; }
+  .sheet-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); padding-top: 22px; }
+  .sheet-x { grid-column: 2; justify-self: end; }
   .info { grid-column: 1 / -1; }
   .project { display: block; }
   .project-head { display: flex; flex-direction: column; gap: var(--g); }

@@ -212,9 +212,10 @@
     sheet.setAttribute("role", "dialog");
     sheet.setAttribute("aria-modal", "true");
     sheet.inert = true;
-    sheet.innerHTML = '<button type="button" class="sheet-x" aria-label="Close">×</button><div class="sheet-body"></div>';
+    sheet.innerHTML = '<div class="sheet-bar"><button type="button" class="sheet-x" aria-label="Close">×</button></div><div class="sheet-card"><div class="sheet-body"></div></div>';
     document.body.append(sheet);
     const body = sheet.querySelector(".sheet-body");
+    const card = sheet.querySelector(".sheet-card");
     const homeURL = location.pathname + location.search;
     const homeTitle = document.title;
     let open = false, pushed = false, opener = null;
@@ -237,7 +238,7 @@
       // one history entry for the open layer: Back (or ×) always returns to the grid
       if (push === "replace") history.replaceState({ sheet: href }, "", href);
       else if (push) { history.pushState({ sheet: href }, "", href); pushed = true; }
-      sheet.scrollTop = 0;
+      card.scrollTop = 0;
       if (!open) {
         open = true;
         sheet.inert = false;
@@ -271,6 +272,8 @@
       a.addEventListener("touchstart", warm, { once: true, passive: true });
     });
     sheet.querySelector(".sheet-x").addEventListener("click", close);
+    // a click on the blurred page around the card closes it too
+    sheet.addEventListener("click", (e) => { if (e.target === sheet || e.target.classList.contains("sheet-bar")) close(); });
     document.addEventListener("keydown", (e) => { if (e.key === "Escape" && open && !document.body.classList.contains("about-open")) close(); });
     addEventListener("popstate", (e) => {
       if (e.state && e.state.sheet) { pushed = true; show(e.state.sheet, false); }
