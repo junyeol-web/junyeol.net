@@ -170,6 +170,7 @@
   const sizeHead = () => head && document.documentElement.style.setProperty("--head-h", head.offsetHeight + "px");
   sizeHead();
   addEventListener("resize", sizeHead);
+  document.fonts?.ready.then(sizeHead);
   const setAbout = (open) => {
     if (!about) return;
     about.classList.toggle("is-open", open);

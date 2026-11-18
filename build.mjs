@@ -270,14 +270,10 @@ ${og ? `<meta property="og:image" content="${og}">\n<meta name="twitter:card" co
 </head>
 <body data-page="${page === "info" ? "index" : page}"${page === "info" ? ' class="about-open"' : ""}>
 <header class="menu">
-  <div class="menu-id">
-    <a href="${url("")}" class="menu-name">${esc(site.name)}</a>
-    ${site.pronunciation ? `<button type="button" class="say" data-src="${esc(url(String(site.pronunciation).replace(/^\//, "")))}" aria-label="Hear how ${esc(site.name)} is pronounced"><span class="say-i" aria-hidden="true"></span>Listen</button>` : ""}
-  </div>
-  <nav class="menu-nav" aria-label="Main">
-    <a href="${url("work/")}" class="menu-work"${page === "work" ? ' aria-current="page"' : ""}>Work</a>
-    <a href="${url("info/")}" class="menu-info" aria-controls="about" aria-expanded="${page === "info"}"><span class="nm">Info</span><span class="cl" aria-hidden="true">Close</span></a>
-  </nav>
+  <a href="${url("")}" class="menu-name">${esc(site.name)}</a>
+  ${site.pronunciation ? `<button type="button" class="say" data-src="${esc(url(String(site.pronunciation).replace(/^\//, "")))}" aria-label="Hear how ${esc(site.name)} is pronounced"><span class="say-i" aria-hidden="true"></span><span class="say-t">Listen</span></button>` : ""}
+  <a href="${url("work/")}" class="menu-work"${page === "work" ? ' aria-current="page"' : ""}>Work</a>
+  <a href="${url("info/")}" class="menu-info" aria-controls="about" aria-expanded="${page === "info"}"><span class="nm">Info</span><span class="cl" aria-hidden="true">Close</span></a>
   ${aside}
 </header>
 <div class="about${page === "info" ? " is-open" : ""}" id="about" role="dialog" aria-label="Info"${page === "info" ? "" : " inert"}>
