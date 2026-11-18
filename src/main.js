@@ -194,6 +194,90 @@
     document.querySelector(".menu-work")?.addEventListener("click", () => setAbout(false), true);
   }
 
+  // ── Work page: a work opens over the grid instead of on its own page; × (or Esc, or Back) closes it.
+  // The address becomes the work's own page, so it can be shared and opens as a full page from a link.
+  const onWork = document.body.dataset.page === "work" || document.body.dataset.page === "index";
+  if (onWork && document.querySelector(".tile")) {
+    const cache = new Map();
+    const fetchDoc = (href) => {
+      if (!cache.has(href))
+        cache.set(href, fetch(href, { credentials: "same-origin" })
+          .then((r) => (r.ok ? r.text() : Promise.reject(r.status)))
+          .then((html) => new DOMParser().parseFromString(html, "text/html"))
+          .catch((err) => { cache.delete(href); throw err; }));
+      return cache.get(href);
+    };
+    const sheet = document.createElement("div");
+    sheet.className = "sheet";
+    sheet.setAttribute("role", "dialog");
+    sheet.setAttribute("aria-modal", "true");
+    sheet.inert = true;
+    sheet.innerHTML = '<button type="button" class="sheet-x" aria-label="Close">×</button><div class="sheet-body"></div>';
+    document.body.append(sheet);
+    const body = sheet.querySelector(".sheet-body");
+    const homeURL = location.pathname + location.search;
+    const homeTitle = document.title;
+    let open = false, pushed = false, opener = null;
+
+    const isWorkLink = (a) => a && a.origin === location.origin && /\/work\/[^/]+\/?$/.test(a.pathname);
+    const show = async (href, push) => {
+      let doc;
+      try { doc = await fetchDoc(href); } catch { location.href = href; return; }
+      const art = doc.querySelector("article.project");
+      if (!art) { location.href = href; return; }
+      const fresh = document.importNode(art, true);
+      body.replaceChildren(fresh);
+      watchImages(fresh);
+      watchVideos(fresh);
+      fresh.querySelectorAll("a").forEach((a) => {
+        if (isWorkLink(a)) a.addEventListener("click", (e) => { if (plain(e)) { e.preventDefault(); show(a.href, "replace"); } });
+        else if (/\/work\/?$/.test(a.pathname) && a.origin === location.origin) a.addEventListener("click", (e) => { if (plain(e)) { e.preventDefault(); close(); } });
+      });
+      document.title = doc.title;
+      // one history entry for the open layer: Back (or ×) always returns to the grid
+      if (push === "replace") history.replaceState({ sheet: href }, "", href);
+      else if (push) { history.pushState({ sheet: href }, "", href); pushed = true; }
+      sheet.scrollTop = 0;
+      if (!open) {
+        open = true;
+        sheet.inert = false;
+        document.body.classList.add("sheet-open");
+        requestAnimationFrame(() => sheet.classList.add("is-open"));
+        sheet.querySelector(".sheet-x").focus({ preventScroll: true });
+      }
+    };
+    const hide = () => {
+      if (!open) return;
+      open = false;
+      sheet.classList.remove("is-open");
+      sheet.inert = true;
+      document.body.classList.remove("sheet-open");
+      document.title = homeTitle;
+      setTimeout(() => { if (!open) body.replaceChildren(); }, 400);
+      opener?.focus({ preventScroll: true });
+    };
+    const close = () => {
+      if (!open) return;
+      if (pushed) { pushed = false; history.back(); } // popstate hides it
+      else { history.replaceState(null, "", homeURL); hide(); }
+    };
+    const plain = (e) => !(e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey);
+
+    document.querySelectorAll("a.tile").forEach((a) => {
+      if (!isWorkLink(a)) return;
+      a.addEventListener("click", (e) => { if (!plain(e)) return; e.preventDefault(); opener = a; history.replaceState({ grid: true }, "", homeURL); show(a.href, true); });
+      const warm = () => fetchDoc(a.href).catch(() => {});
+      a.addEventListener("pointerenter", warm, { once: true });
+      a.addEventListener("touchstart", warm, { once: true, passive: true });
+    });
+    sheet.querySelector(".sheet-x").addEventListener("click", close);
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && open && !document.body.classList.contains("about-open")) close(); });
+    addEventListener("popstate", (e) => {
+      if (e.state && e.state.sheet) { pushed = true; show(e.state.sheet, false); }
+      else { pushed = false; hide(); }
+    });
+  }
+
   // ── project page: the rail
   const rail = document.querySelector(".rail");
   if (!rail) return;

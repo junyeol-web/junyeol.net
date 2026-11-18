@@ -384,7 +384,7 @@ ${media}
   </div>
   <nav class="project-nav">
     ${prev ? `<a class="chip" href="${url(`work/${prev.slug}/`)}">← ${esc(prev.title)}</a>` : "<span></span>"}
-    <a class="chip" href="${url("")}#${esc(p.slug)}">All work</a>
+    <a class="chip" href="${url("work/")}#${esc(p.slug)}">All work</a>
     ${next ? `<a class="chip" href="${url(`work/${next.slug}/`)}">${esc(next.title)} →</a>` : "<span></span>"}
   </nav>
 </article>
