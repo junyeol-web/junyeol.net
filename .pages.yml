@@ -105,11 +105,11 @@ content:
             type: string
           - name: vimeo_mode
             label: Vimeo playback
-            description: loop = plays silently on repeat like a moving image; player = normal player with sound and controls.
+            description: loop = plays silently on repeat like a moving image; autoplay = starts by itself (muted) with controls, so viewers can turn the sound on and scrub; player = waits for a click, with sound and controls.
             type: select
             default: loop
             options:
-              values: [loop, player]
+              values: [loop, autoplay, player]
           - name: rotate
             label: Turn the Vimeo video
             description: -90 = a quarter turn to the left, 90 = to the right. For clips filmed sideways.

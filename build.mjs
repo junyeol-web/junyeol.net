@@ -176,10 +176,12 @@ async function vimeoPoster(v) {
   return processMedia("/media/" + rel);
 }
 
-function vimeoTag(v, { loop = true, title = "" } = {}) {
+function vimeoTag(v, { loop = true, autoplay = false, title = "" } = {}) {
   const q = new URLSearchParams({ dnt: "1", title: "0", byline: "0", portrait: "0" });
   if (v.hash) q.set("h", v.hash);
   if (loop) { q.set("background", "1"); q.set("autoplay", "1"); q.set("loop", "1"); q.set("muted", "1"); }
+  // "autoplay": starts by itself (muted — browsers only allow that), with the player's controls for sound and scrubbing
+  else if (autoplay) { q.set("autoplay", "1"); q.set("muted", "1"); q.set("loop", "1"); q.set("autopause", "0"); }
   const src = `https://player.vimeo.com/video/${v.id}?${q}`;
   // the iframe loads only when it comes near the screen (main.js) and fades in once loaded — no thumbnail flash
   const turn = v.rot ? ` style="--rot:${v.rot}deg;--vr:${v.vr.toFixed(4)}"` : "";
@@ -357,7 +359,7 @@ function projectPage(site, p, prev, next, all = []) {
     const r = m.img.width && m.img.height ? m.img.width / m.img.height : 1.5;
     const cls = lay === "full" && r < 1 ? "inset" : lay;
     const sizes = cls === "full" ? "(min-width: 1000px) 75vw, 100vw" : "(min-width: 1000px) 38vw, 100vw";
-    return `<figure class="m m-${cls}"${ratio(m.img) ? ` style="--r:${ratio(m.img)}"` : ""}><span class="mw">${m.img.kind === "vimeo" ? vimeoTag(m.img, { loop: m.vimeo_mode !== "player", title: m.caption || p.title }) : mediaTag(m.img, { sizes, alt: m.caption || p.title, eager: i < 2 })}${m.caption ? `<figcaption>${chip(m.caption)}</figcaption>` : ""}</span></figure>`;
+    return `<figure class="m m-${cls}"${ratio(m.img) ? ` style="--r:${ratio(m.img)}"` : ""}><span class="mw">${m.img.kind === "vimeo" ? vimeoTag(m.img, { loop: !["player", "autoplay"].includes(m.vimeo_mode), autoplay: m.vimeo_mode === "autoplay", title: m.caption || p.title }) : mediaTag(m.img, { sizes, alt: m.caption || p.title, eager: i < 2 })}${m.caption ? `<figcaption>${chip(m.caption)}</figcaption>` : ""}</span></figure>`;
   };
   const items = p.mediaItems;
   const out = [];

@@ -13,8 +13,13 @@
   "role": "Design",
   "credits": "Exhibition Identity: Junyeol Baek, [Lee Richardson](https://www.instagram.com/leerichardsonnz/)\nClient: Yale School of Art\nLocation: Green Hall Gallery, Yale School of Art",
   "description": "The identity speaks in the language of karaoke: the show's details appear as lyrics on screen, filling with colour word by word — come on in, come on in, to the first-year MFA show.\n\nGreen Hall Gallery, Yale School of Art, 14 November – 6 December 2026.",
-  "cover": "/media/undercurrent/undercurrent-01-projection.gif",
   "media": [
+    {
+      "vimeo": "https://vimeo.com/1248175877",
+      "vimeo_mode": "autoplay",
+      "caption": "",
+      "layout": "inset"
+    },
     {
       "image": "/media/undercurrent/undercurrent-01-projection.gif",
       "caption": "",
@@ -23,5 +28,8 @@
   ],
   "featured": true,
   "order": 2,
-  "draft": false
+  "draft": false,
+  "cover_vimeo": "https://vimeo.com/1248175877",
+  "cover_vimeo_start": 15,
+  "cover_vimeo_end": 25
 }
