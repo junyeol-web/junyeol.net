@@ -289,6 +289,9 @@ body[data-page="project"] main {
 .m-inset { grid-column: 3 / span 5; margin: 40px 0; }       /* the middle five of nine */
 .pair { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--g); align-items: start; }
 .quad { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--g); row-gap: var(--g); align-items: end; }
+/* fewer than four: keep them together in the middle of the row */
+.quad > .m:first-child:nth-last-child(2) { grid-column: 2; }
+.quad > .m:first-child:nth-last-child(1) { grid-column: 2 / span 2; }
 .mw { position: relative; display: block; width: 100%; }
 .m img, .m video { width: 100%; height: auto; background: var(--plate); }
 .m figcaption { position: absolute; left: var(--g); bottom: var(--g); right: var(--g); }
@@ -458,6 +461,8 @@ body[data-page="project"] main {
   .m-inset { margin: 24px 0; }
   .pair { grid-template-columns: 1fr; row-gap: var(--g); }
   .quad { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .quad > .m:first-child:nth-last-child(2) { grid-column: 1; }
+  .quad > .m:first-child:nth-last-child(1) { grid-column: 1 / -1; }
   .project-nav { padding-top: 56px; }
   /* rail becomes a strip you swipe, at the end of the project */
   .rail { position: static; max-height: none; overflow-x: auto; overflow-y: hidden; border-top: 1px solid var(--line); margin-top: var(--g); }
