@@ -131,7 +131,7 @@ content:
             type: select
             default: full
             options:
-              values: [full, half, inset]
+              values: [full, half, inset, quarter]
       - name: hero
         label: Centre of the landing page
         description: Shown wide in the middle of the first row. Use for one work at a time.

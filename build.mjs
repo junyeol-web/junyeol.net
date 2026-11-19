@@ -358,13 +358,21 @@ function projectPage(site, p, prev, next, all = []) {
   const fig = (m, i, lay) => {
     const r = m.img.width && m.img.height ? m.img.width / m.img.height : 1.5;
     const cls = lay === "full" && r < 1 ? "inset" : lay;
-    const sizes = cls === "full" ? "(min-width: 1000px) 75vw, 100vw" : "(min-width: 1000px) 38vw, 100vw";
+    const sizes = cls === "full" ? "(min-width: 1000px) 75vw, 100vw" : cls === "quarter" ? "(min-width: 1000px) 19vw, 50vw" : "(min-width: 1000px) 38vw, 100vw";
     return `<figure class="m m-${cls}"${ratio(m.img) ? ` style="--r:${ratio(m.img)}"` : ""}><span class="mw">${m.img.kind === "vimeo" ? vimeoTag(m.img, { loop: !["player", "autoplay"].includes(m.vimeo_mode), autoplay: m.vimeo_mode === "autoplay", title: m.caption || p.title }) : mediaTag(m.img, { sizes, alt: m.caption || p.title, eager: i < 2 })}${m.caption ? `<figcaption>${chip(m.caption)}</figcaption>` : ""}</span></figure>`;
   };
   const items = p.mediaItems;
   const out = [];
   for (let i = 0; i < items.length; i++) {
-    const lay = ["full", "half", "inset"].includes(items[i].layout) ? items[i].layout : "full";
+    const lay = ["full", "half", "inset", "quarter"].includes(items[i].layout) ? items[i].layout : "full";
+    // consecutive quarters sit side by side, four to a row (e.g. a set of stories playing together)
+    if (lay === "quarter") {
+      let j = i;
+      while (items[j] && items[j].layout === "quarter") j++;
+      out.push(`<div class="quad">${items.slice(i, j).map((m, k) => fig(m, i + k, "quarter")).join("")}</div>`);
+      i = j - 1;
+      continue;
+    }
     if (lay === "half" && items[i + 1] && items[i + 1].layout === "half") {
       out.push(`<div class="pair">${fig(items[i], i, "half")}${fig(items[i + 1], i + 1, "half")}</div>`);
       i++;

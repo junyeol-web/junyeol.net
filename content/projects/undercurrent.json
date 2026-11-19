@@ -21,6 +21,30 @@
       "layout": "inset"
     },
     {
+      "vimeo": "https://vimeo.com/1248189318",
+      "vimeo_mode": "loop",
+      "caption": "",
+      "layout": "quarter"
+    },
+    {
+      "vimeo": "https://vimeo.com/1248189319",
+      "vimeo_mode": "loop",
+      "caption": "",
+      "layout": "quarter"
+    },
+    {
+      "vimeo": "https://vimeo.com/1248189316",
+      "vimeo_mode": "loop",
+      "caption": "",
+      "layout": "quarter"
+    },
+    {
+      "vimeo": "https://vimeo.com/1248189314",
+      "vimeo_mode": "loop",
+      "caption": "",
+      "layout": "quarter"
+    },
+    {
       "image": "/media/undercurrent/undercurrent-01-projection.gif",
       "caption": "",
       "layout": "inset"
