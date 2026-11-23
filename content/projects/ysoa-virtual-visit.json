@@ -1,0 +1,57 @@
+{
+  "title": "Virtual Visit",
+  "summary": "Motion identity for the Yale School of Art 2027 MFA Admission Virtual Visit.",
+  "year": "2026",
+  "keywords": [
+    "Identity",
+    "Motion"
+  ],
+  "discipline": "Motion Graphics, Visual Identity",
+  "format": "",
+  "client": "Yale School of Art",
+  "studio": "",
+  "role": "Design",
+  "credits": "Design: Junyeol Baek\nClient: Yale School of Art",
+  "description": "Announcements for the school's online open day, one for each channel — event page, Instagram post and story — and one for each programme: Graphic Design, Painting/Printmaking, Photography and Sculpture. A cursor moves across the title and lights up its letters one by one; the date drops in as a calendar tab.\n\nDecember 10, 2026, 12pm EST, online via Zoom.",
+  "cover": "/media/ysoa-virtual-visit/vv-02-post.mp4",
+  "media": [
+    {
+      "video": "/media/ysoa-virtual-visit/vv-01-event.mp4",
+      "caption": "",
+      "layout": "full"
+    },
+    {
+      "video": "/media/ysoa-virtual-visit/vv-02-post.mp4",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "video": "/media/ysoa-virtual-visit/vv-03-story.mp4",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "video": "/media/ysoa-virtual-visit/vv-04-graphic-design.mp4",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "video": "/media/ysoa-virtual-visit/vv-05-painting-printmaking.mp4",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "video": "/media/ysoa-virtual-visit/vv-06-photography.mp4",
+      "caption": "",
+      "layout": "half"
+    },
+    {
+      "video": "/media/ysoa-virtual-visit/vv-07-sculpture.mp4",
+      "caption": "",
+      "layout": "half"
+    }
+  ],
+  "featured": true,
+  "order": 1.5,
+  "draft": false
+}

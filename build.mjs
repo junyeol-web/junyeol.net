@@ -66,6 +66,13 @@ async function processMedia(ref) {
     await fs.mkdir(path.dirname(path.join(DIST, "media", rel)), { recursive: true });
     await fs.copyFile(input, path.join(DIST, "media", rel));
     result = { kind: VIDEO.has(ext) ? "video" : "image", src: url("media/" + rel), sources: null };
+    // a video can bring a still beside it (name.poster.jpg): it gives the video its size before it loads,
+    // shows while it loads, and is the link-preview image when the video is a cover
+    const still = VIDEO.has(ext) && ["jpg", "jpeg", "png", "webp"].map((e) => `${stem}.poster.${e}`).find((f) => existsSync(path.join(MEDIA_IN, f)));
+    if (still) {
+      const p = await processMedia("/media/" + still);
+      if (p) Object.assign(result, { width: p.width, height: p.height, poster: p.sources?.[Math.min(1, p.sources.length - 1)]?.src || p.src, og: p.og });
+    }
   } else {
     const buf = await fs.readFile(input);
     const hash = crypto.createHash("sha1").update(buf).digest("hex").slice(0, 10);
@@ -121,7 +128,7 @@ async function processMedia(ref) {
 function img(m, { sizes = "100vw", alt = "", cls = "", eager = false } = {}) {
   if (!m) return "";
   if (m.kind === "video")
-    return `<video class="${cls}" src="${m.src}" autoplay muted loop playsinline preload="metadata"></video>`;
+    return `<video class="${cls}" src="${m.src}"${vAttrs(m)} autoplay muted loop playsinline preload="metadata"></video>`;
   if (!m.sources) return `<img class="${cls}" src="${m.src}" alt="${esc(alt)}" loading="${eager ? "eager" : "lazy"}">`;
   const srcset = m.sources.map((s) => `${s.src} ${s.w}w`).join(", ");
   return `<img class="${cls}" src="${m.src}" srcset="${srcset}" sizes="${sizes}" width="${m.width}" height="${m.height}" alt="${esc(alt)}" loading="${eager ? "eager" : "lazy"}" decoding="async">`;
@@ -235,13 +242,14 @@ const keywordsIn = (projects) => {
   const used = [...new Set(projects.flatMap(kw))];
   return [...KEYWORDS.filter((k) => used.includes(k)), ...used.filter((k) => !KEYWORDS.includes(k)).sort()];
 };
+const vAttrs = (m) => (m.width ? ` width="${m.width}" height="${m.height}"` : "") + (m.poster ? ` poster="${m.poster}"` : "");
 const ratio = (m) => (m && m.width && m.height ? (m.width / m.height).toFixed(4) : "");
 const chip = (text, cls = "") => (text ? `<span class="chip${cls ? " " + cls : ""}">${esc(text)}</span>` : "");
 
 function mediaTag(m, { sizes, alt = "", eager = false } = {}) {
   if (!m) return "";
   // videos only load and play while on screen (main.js) — this is what keeps the grid light
-  if (m.kind === "video") return `<video data-src="${m.src}" muted loop playsinline preload="none"></video>`;
+  if (m.kind === "video") return `<video data-src="${m.src}"${vAttrs(m)} muted loop playsinline preload="none"></video>`;
   return img(m, { sizes, alt, eager });
 }
 
