@@ -434,7 +434,7 @@ function infoPage(site) {
     site.cv && `<a href="${url(String(site.cv).replace(/^\//, ""))}">CV</a>`,
   ].filter(Boolean);
   return `<section class="info">
-  <div class="panel bio">${md(site.bio)}</div>
+  <div class="panel bio">${site.bio ? marked.parse(String(site.bio), { breaks: true }) : ""}</div>
   ${list("Experience", site.experience)}
   ${list("Education", site.education)}
   ${list("Clients", site.clients)}
