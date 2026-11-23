@@ -2,7 +2,7 @@
   "name": "Junyeol Baek",
   "role": "Graphic designer",
   "location": "New Haven, CT",
-  "bio": "Junyeol Baek is a graphic designer interested in the physical presence of graphics.",
+  "bio": "Junyeol Baek is a graphic designer interested in the physical presence of graphics. Currently based in New Haven and New York.",
   "email": "junyeol.baek@icloud.com",
   "instagram": "instagram.com/junyeol.baek",
   "theme": "white",
@@ -15,12 +15,6 @@
     },
     {
       "label": "BFA Visual Communication Design, Hongik University"
-    },
-    {
-      "label": "Exchange Program, Communication Design, The Hong Kong Polytechnic University"
-    },
-    {
-      "label": "Major in Sculpture, Seoul Art High School"
     }
   ],
   "experience": [
