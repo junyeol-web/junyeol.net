@@ -452,8 +452,9 @@ body[data-page="project"] main {
   .sheet { padding: 12px 8px 0; }
   .sheet-card { border-radius: 14px 14px 0 0; }
   .sheet-body { display: block; padding: 48px 12px 40px; }
-  .sheet-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); padding-top: 22px; }
-  .sheet-x { grid-column: 2; justify-self: end; }
+  /* × inside the card's corner, on the same edge as the text below it */
+  .sheet-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 22px 20px 0; }
+  .sheet-x { grid-column: 2; justify-self: end; padding: 6px; margin: -6px; }
   .info { grid-column: 1 / -1; }
   .project { display: block; }
   .project-head { display: flex; flex-direction: column; gap: var(--g); }
